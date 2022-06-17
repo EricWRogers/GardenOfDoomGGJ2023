@@ -1,0 +1,3 @@
+[submodule "external/canis"]
+	path = external/canis
+	url = https://github.com/EricWRogers/canis.git
