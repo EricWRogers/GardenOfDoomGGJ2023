@@ -1,1 +1,1 @@
-# canis-template
+# canis-testing

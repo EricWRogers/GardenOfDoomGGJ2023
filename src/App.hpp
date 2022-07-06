@@ -1,4 +1,7 @@
 #include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 #include <SDL.h>
 #include <math.h>
 #include <chrono>
@@ -6,6 +9,11 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtx/string_cast.hpp>
+
+#ifdef __ANDROID__
+    #include <android/log.h>
+    #define LOGW(...) __android_log_print(ANDROID_LOG_WARN,__VA_ARGS__)
+#endif
 
 #include <Canis/Canis.hpp>
 #include <Canis/Debug.hpp>
@@ -16,12 +24,15 @@
 #include <Canis/Camera.hpp>
 #include <Canis/IOManager.hpp>
 #include <Canis/InputManager.hpp>
+#include <Canis/Scene.hpp>
+#include <Canis/SceneManager.hpp>
 #include <Canis/Data/GLTexture.hpp>
 #include <Canis/Data/Vertex.hpp>
 #include <Canis/External/entt.hpp>
 #include <Canis/GameHelper/AStar.hpp>
 
 #include <Canis/ECS/Systems/RenderMeshSystem.hpp>
+#include <Canis/ECS/Systems/RenderSkyboxSystem.hpp>
 #include <Canis/ECS/Systems/RenderTextSystem.hpp>
 
 #include <Canis/ECS/Components/TransformComponent.hpp>
@@ -29,14 +40,9 @@
 #include <Canis/ECS/Components/RectTransformComponent.hpp>
 #include <Canis/ECS/Components/TextComponent.hpp>
 #include <Canis/ECS/Components/MeshComponent.hpp>
+#include <Canis/ECS/Components/SphereColliderComponent.hpp>
 
-#ifdef __linux__
-using namespace std::chrono::_V2;
-#elif _WIN32
-using namespace std::chrono;
-#else
-
-#endif
+#include "Scenes/MainScene.hpp"
 
 
 enum AppState
@@ -64,41 +70,31 @@ private:
 
     void LoadECS();
 
+    Canis::SceneManager sceneManager;
+
     AppState appState = AppState::OFF;
 
-    entt::registry entity_registry;
+    
 
     Canis::Window window;
-
-    Canis::Shader shader;
 
     Canis::Time time;
 
     Canis::InputManager inputManager;
 
-    Canis::Camera camera = Canis::Camera(glm::vec3(0.0f, 3.0f, 3.0f),glm::vec3(0.0f, 1.0f, 0.0f),Canis::YAW-90.0f,Canis::PITCH-45.0f);
-
-    // move out to external class
-    unsigned int whiteCubeVAO, whiteCubeVBO;
-
-    int whiteCubeSize;
-
-    Canis::GLTexture texture1 = {};
-    Canis::GLTexture texture2 = {};
-
-    Canis::GLTexture diffuseColorPaletteTexture = {};
-    Canis::GLTexture specularColorPaletteTexture = {};
+    Canis::Camera camera = Canis::Camera(glm::vec3(0.0f, 0.15f, -0.3f),glm::vec3(0.0f, 1.0f, 0.0f),Canis::YAW+90.0f,Canis::PITCH+0.0f);
 
     float lastXMousePos;
     float lastYMousePos;
     
-    bool firstMouseMove = true;
-    bool mouseLock = false;
+   
 
     high_resolution_clock::time_point currentTime;
     high_resolution_clock::time_point previousTime;
     double deltaTime;
 
     Canis::AStar aStar;
+
+    unsigned int seed;
     
 };
