@@ -55,6 +55,7 @@ class MainScene : public Canis::Scene
         bool mouseLock = false;
 
         int cubeModelId = 0;
+        int antonioFontId = 0;
 
         Canis::GLTexture diffuseColorPaletteTexture = {};
         Canis::GLTexture specularColorPaletteTexture = {};
@@ -86,15 +87,18 @@ class MainScene : public Canis::Scene
             shader.Link();
 
             // Load color palette
-            diffuseColorPaletteTexture = Canis::AssetManager::GetInstance().Get<Canis::Texture>(
+            diffuseColorPaletteTexture = Canis::AssetManager::GetInstance().Get<Canis::TextureAsset>(
                 Canis::AssetManager::GetInstance().LoadTexture("assets/textures/palette/diffuse.png")
             )->GetTexture();
-            specularColorPaletteTexture = Canis::AssetManager::GetInstance().Get<Canis::Texture>(
+            specularColorPaletteTexture = Canis::AssetManager::GetInstance().Get<Canis::TextureAsset>(
                 Canis::AssetManager::GetInstance().LoadTexture("assets/textures/palette/specular.png")
             )->GetTexture();
 
             // load model
             cubeModelId = Canis::AssetManager::GetInstance().LoadModel("assets/models/white_block.obj");
+
+            // load font
+            antonioFontId = Canis::AssetManager::GetInstance().LoadText("assets/fonts/Antonio-Bold.ttf", 48);
 
 
             renderSkyboxSystem = new Canis::RenderSkyboxSystem();
@@ -143,13 +147,28 @@ class MainScene : public Canis::Scene
             );
             entity_registry.emplace<Canis::MeshComponent>(cube_entity,
                 cubeModelId,
-                Canis::AssetManager::GetInstance().Get<Canis::Model>(cubeModelId)->GetVAO(),
-                Canis::AssetManager::GetInstance().Get<Canis::Model>(cubeModelId)->GetSize()
+                Canis::AssetManager::GetInstance().Get<Canis::ModelAsset>(cubeModelId)->GetVAO(),
+                Canis::AssetManager::GetInstance().Get<Canis::ModelAsset>(cubeModelId)->GetSize()
             );
             entity_registry.emplace<Canis::SphereColliderComponent>(cube_entity,
                 glm::vec3(0.0f),
                 1.0f
             );
+
+            entt::entity healthText = entity_registry.create();
+            entity_registry.emplace<Canis::RectTransformComponent>(healthText,
+                true, // active
+                glm::vec2(25.0f, window->GetScreenHeight() - 65.0f), // position
+                glm::vec2(0.0f, 0.0f), // rotation
+                1.0f // scale
+            );
+            entity_registry.emplace<Canis::ColorComponent>(healthText,
+                glm::vec4(1.0f, 1.0f, 1.0f, 1.0f) // #26854c
+            );
+            entity_registry.emplace<Canis::TextComponent>(healthText,
+                Canis::AssetManager::GetInstance().LoadText("assets/fonts/Antonio-Bold.ttf", 48),
+                new std::string("New Text") // text
+        );
         }
 
         void UnLoad()
