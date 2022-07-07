@@ -24,8 +24,8 @@
 #include <Canis/InputManager.hpp>
 #include <Canis/Scene.hpp>
 #include <Canis/SceneManager.hpp>
+#include <Canis/AssetManager.hpp>
 #include <Canis/Data/GLTexture.hpp>
-#include <Canis/Data/Vertex.hpp>
 #include <Canis/External/entt.hpp>
 #include <Canis/GameHelper/AStar.hpp>
 
@@ -51,15 +51,10 @@ class MainScene : public Canis::Scene
         Canis::RenderSkyboxSystem *renderSkyboxSystem;
         Canis::RenderTextSystem *renderTextSystem;
 
-         bool firstMouseMove = true;
+        bool firstMouseMove = true;
         bool mouseLock = false;
 
-        // move out to external class
-        unsigned int whiteCubeVAO, whiteCubeVBO;
-
-        int whiteCubeSize;
-
-        Canis::GLTexture texture = {};
+        int cubeModelId = 0;
 
         Canis::GLTexture diffuseColorPaletteTexture = {};
         Canis::GLTexture specularColorPaletteTexture = {};
@@ -91,52 +86,15 @@ class MainScene : public Canis::Scene
             shader.Link();
 
             // Load color palette
-            diffuseColorPaletteTexture = Canis::LoadImageToGLTexture("assets/textures/palette/diffuse.png", GL_RGBA, GL_RGBA);
-            specularColorPaletteTexture = Canis::LoadImageToGLTexture("assets/textures/palette/specular.png", GL_RGBA, GL_RGBA);
+            diffuseColorPaletteTexture = Canis::AssetManager::GetInstance().Get<Canis::Texture>(
+                Canis::AssetManager::GetInstance().LoadTexture("assets/textures/palette/diffuse.png")
+            )->GetTexture();
+            specularColorPaletteTexture = Canis::AssetManager::GetInstance().Get<Canis::Texture>(
+                Canis::AssetManager::GetInstance().LoadTexture("assets/textures/palette/specular.png")
+            )->GetTexture();
 
-            std::vector<glm::vec3> vertices;
-            std::vector<glm::vec2> uvs;
-            std::vector<glm::vec3> normals;
-
-            std::vector<Canis::Vertex> vecVertex;
-
-            bool res = Canis::LoadOBJ("assets/models/white_block.obj", vertices, uvs, normals);
-
-            for(int i = 0; i < vertices.size(); i++)
-            {
-                Canis::Vertex v = {};
-                v.Position = vertices[i];
-                v.Normal = normals[i];
-                v.TexCoords = uvs[i];
-                vecVertex.push_back(v);
-            }
-
-            whiteCubeSize = vecVertex.size();
-            Canis::Log("s " + std::to_string(vecVertex.size()));
-
-            glGenVertexArrays(1, &whiteCubeVAO);
-            glGenBuffers(1, &whiteCubeVBO);
-
-            // bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
-            glBindVertexArray(whiteCubeVAO);
-
-            glBindBuffer(GL_ARRAY_BUFFER, whiteCubeVBO);
-            glBufferData(GL_ARRAY_BUFFER, vecVertex.size() * sizeof(Canis::Vertex), &vecVertex[0], GL_STATIC_DRAW);
-
-            // position attribute
-            glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
-            glEnableVertexAttribArray(0);
-            // normal attribute
-            glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
-            glEnableVertexAttribArray(1);
-            // texture coords
-            glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
-            glEnableVertexAttribArray(2);
-
-            // note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
-            glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-            glBindVertexArray(0);
+            // load model
+            cubeModelId = Canis::AssetManager::GetInstance().LoadModel("assets/models/white_block.obj");
 
 
             renderSkyboxSystem = new Canis::RenderSkyboxSystem();
@@ -184,8 +142,9 @@ class MainScene : public Canis::Scene
                 glm::vec4(1.0f)
             );
             entity_registry.emplace<Canis::MeshComponent>(cube_entity,
-                whiteCubeVAO,
-                whiteCubeSize
+                cubeModelId,
+                Canis::AssetManager::GetInstance().Get<Canis::Model>(cubeModelId)->GetVAO(),
+                Canis::AssetManager::GetInstance().Get<Canis::Model>(cubeModelId)->GetSize()
             );
             entity_registry.emplace<Canis::SphereColliderComponent>(cube_entity,
                 glm::vec3(0.0f),
@@ -208,7 +167,6 @@ class MainScene : public Canis::Scene
         {
             if (inputManager->isKeyPressed(SDLK_w) && mouseLock)
             {
-                Canis::Log("W");
                 camera->ProcessKeyboard(Canis::Camera_Movement::FORWARD, deltaTime);
             }
 
