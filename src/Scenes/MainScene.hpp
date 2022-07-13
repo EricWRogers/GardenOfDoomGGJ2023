@@ -125,10 +125,10 @@ class MainScene : public Canis::Scene
 
         void Load()
         {            
-            camera->Position = glm::vec3(0.0f,0.15f,-0.3f);
+            camera->Position = glm::vec3(20.0f,20.0f,-20.0f);
             camera->WorldUp = glm::vec3(0.0f, 1.0f, 0.0f);
-            camera->Pitch = Canis::PITCH+0.0f;
-            camera->Yaw = Canis::YAW+90.0f;
+            camera->Pitch = Canis::PITCH-35.0f;
+            camera->Yaw = Canis::YAW+135.0f;
             camera->override_camera = false;
             camera->UpdateCameraVectors();
 
@@ -155,6 +155,26 @@ class MainScene : public Canis::Scene
                 1.0f
             );
 
+            entt::entity ground_entity = entity_registry.create();
+            entity_registry.emplace<Canis::TransformComponent>(ground_entity,
+                true, // active
+                glm::vec3(0.0f, -1.0f, 0.0f), // position
+                glm::vec3(0.0f, 0.0f, 0.0f), // rotation
+                glm::vec3(20.0f, 0.1f, 20.0f) // scale
+            );
+            entity_registry.emplace<Canis::ColorComponent>(ground_entity,
+                glm::vec4(1.0f)
+            );
+            entity_registry.emplace<Canis::MeshComponent>(ground_entity,
+                cubeModelId,
+                Canis::AssetManager::GetInstance().Get<Canis::ModelAsset>(cubeModelId)->GetVAO(),
+                Canis::AssetManager::GetInstance().Get<Canis::ModelAsset>(cubeModelId)->GetSize()
+            );
+            entity_registry.emplace<Canis::SphereColliderComponent>(ground_entity,
+                glm::vec3(0.0f),
+                1.0f
+            );
+
             entt::entity healthText = entity_registry.create();
             entity_registry.emplace<Canis::RectTransformComponent>(healthText,
                 true, // active
@@ -167,7 +187,7 @@ class MainScene : public Canis::Scene
             );
             entity_registry.emplace<Canis::TextComponent>(healthText,
                 Canis::AssetManager::GetInstance().LoadText("assets/fonts/Antonio-Bold.ttf", 48),
-                new std::string("New Text") // text
+                new std::string("Asset Manager Demo") // text
         );
         }
 
@@ -184,22 +204,24 @@ class MainScene : public Canis::Scene
 
         void LateUpdate()
         {
-            if (inputManager->isKeyPressed(SDLK_w) && mouseLock)
+            const Uint8 *keystate = SDL_GetKeyboardState(NULL);
+
+            if (keystate[SDL_SCANCODE_W] && mouseLock)
             {
                 camera->ProcessKeyboard(Canis::Camera_Movement::FORWARD, deltaTime);
             }
 
-            if (inputManager->isKeyPressed(SDLK_s) && mouseLock)
+            if (keystate[SDL_SCANCODE_S] && mouseLock)
             {
                 camera->ProcessKeyboard(Canis::Camera_Movement::BACKWARD, deltaTime);
             }
 
-            if (inputManager->isKeyPressed(SDLK_a) && mouseLock)
+            if (keystate[SDL_SCANCODE_A] && mouseLock)
             {
                 camera->ProcessKeyboard(Canis::Camera_Movement::LEFT, deltaTime);
             }
 
-            if (inputManager->isKeyPressed(SDLK_d) && mouseLock)
+            if (keystate[SDL_SCANCODE_D] && mouseLock)
             {
                 camera->ProcessKeyboard(Canis::Camera_Movement::RIGHT, deltaTime);
             }
