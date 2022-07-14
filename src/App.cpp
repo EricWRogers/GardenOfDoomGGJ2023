@@ -65,13 +65,13 @@ void App::Run()
 
 	unsigned int windowFlags = 0;
 
-	//windowFlags |= Canis::WindowFlags::FULLSCREEN;
+	// windowFlags |= Canis::WindowFlags::FULLSCREEN;
 
 	// windowFlags |= Canis::WindowFlags::BORDERLESS;
 
 	window.Create("Canis", 1280, 720, windowFlags);
 
-	time.init(1000);
+	time.init(10000);
 
 	camera.override_camera = false;
 

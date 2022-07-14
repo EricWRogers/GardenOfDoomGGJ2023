@@ -131,10 +131,10 @@ class MainScene : public Canis::Scene
             camera->Yaw = Canis::YAW+135.0f;
             camera->override_camera = false;
             camera->UpdateCameraVectors();
-
+            mouseLock = true;
             window->MouseLock(mouseLock);
 
-            // this is a hack need to sort object by distance to camera from render
+            { // cube
             entt::entity cube_entity = entity_registry.create();
             entity_registry.emplace<Canis::TransformComponent>(cube_entity,
                 true, // active
@@ -154,7 +154,9 @@ class MainScene : public Canis::Scene
                 glm::vec3(0.0f),
                 1.0f
             );
+            }
 
+            { // ground
             entt::entity ground_entity = entity_registry.create();
             entity_registry.emplace<Canis::TransformComponent>(ground_entity,
                 true, // active
@@ -174,7 +176,9 @@ class MainScene : public Canis::Scene
                 glm::vec3(0.0f),
                 1.0f
             );
+            }
 
+            { // health text
             entt::entity healthText = entity_registry.create();
             entity_registry.emplace<Canis::RectTransformComponent>(healthText,
                 true, // active
@@ -188,7 +192,8 @@ class MainScene : public Canis::Scene
             entity_registry.emplace<Canis::TextComponent>(healthText,
                 Canis::AssetManager::GetInstance().LoadText("assets/fonts/Antonio-Bold.ttf", 48),
                 new std::string("Asset Manager Demo") // text
-        );
+            );
+            }
         }
 
         void UnLoad()
@@ -237,7 +242,7 @@ class MainScene : public Canis::Scene
             if (inputManager->justPressedKey(SDLK_F5))
             {
                 Canis::Log("Load Scene");
-                ((Canis::SceneManager*)sceneManager)->Load("GameLoop");
+                ((Canis::SceneManager*)sceneManager)->Load("MainScene");
             }
         }
 
