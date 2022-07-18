@@ -46,6 +46,7 @@ class MainScene : public Canis::Scene
         entt::registry entity_registry;
 
         Canis::Shader shader;
+        Canis::Shader shadowMapShader;
 
         Canis::RenderMeshSystem *renderMeshSystem;
         Canis::RenderSkyboxSystem *renderSkyboxSystem;
@@ -80,11 +81,18 @@ class MainScene : public Canis::Scene
             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); 
             // glEnable(GL_CULL_FACE);
             // build and compile our shader program
-            shader.Compile("assets/shaders/lighting.vs", "assets/shaders/lighting.fs");
+            shader.Compile("assets/shaders/shadow_mapping.vs", "assets/shaders/shadow_mapping.fs");
             shader.AddAttribute("aPos");
             shader.AddAttribute("aNormal");
             shader.AddAttribute("aTexcoords");
             shader.Link();
+
+            shadowMapShader.Compile(
+                "assets/shaders/shadow_mapping_depth.vs",
+                "assets/shaders/shadow_mapping_depth.fs"
+            );
+            shadowMapShader.AddAttribute("aPos");
+            shadowMapShader.Link();
 
             // Load color palette
             diffuseColorPaletteTexture = Canis::AssetManager::GetInstance().Get<Canis::TextureAsset>(
@@ -113,7 +121,8 @@ class MainScene : public Canis::Scene
             renderTextSystem->window = window;
             renderTextSystem->Init();
 
-            renderMeshSystem->shader = &shader;
+            renderMeshSystem->shadow_mapping_shader = &shader;
+            renderMeshSystem->shadow_mapping_depth_shader = &shadowMapShader;
             renderMeshSystem->camera = camera;
             renderMeshSystem->window = window;
             renderMeshSystem->diffuseColorPaletteTexture = &diffuseColorPaletteTexture;
@@ -134,6 +143,29 @@ class MainScene : public Canis::Scene
             mouseLock = true;
             window->MouseLock(mouseLock);
 
+            { // light
+            entt::entity light_entity = entity_registry.create();
+            entity_registry.emplace<Canis::TransformComponent>(light_entity,
+                true, // active
+                glm::vec3(-5.0f, 10.0f, -5.0f), // position
+                glm::vec3(0.0f, 0.0f, 0.0f), // rotation
+                glm::vec3(1, 1, 1) // scale
+            );
+            entity_registry.emplace<Canis::ColorComponent>(light_entity,
+                glm::vec4(1.0f)
+            );
+            entity_registry.emplace<Canis::MeshComponent>(light_entity,
+                cubeModelId,
+                Canis::AssetManager::GetInstance().Get<Canis::ModelAsset>(cubeModelId)->GetVAO(),
+                Canis::AssetManager::GetInstance().Get<Canis::ModelAsset>(cubeModelId)->GetSize(),
+                false
+            );
+            entity_registry.emplace<Canis::SphereColliderComponent>(light_entity,
+                glm::vec3(0.0f),
+                1.0f
+            );
+            }
+
             { // cube
             entt::entity cube_entity = entity_registry.create();
             entity_registry.emplace<Canis::TransformComponent>(cube_entity,
@@ -148,7 +180,8 @@ class MainScene : public Canis::Scene
             entity_registry.emplace<Canis::MeshComponent>(cube_entity,
                 cubeModelId,
                 Canis::AssetManager::GetInstance().Get<Canis::ModelAsset>(cubeModelId)->GetVAO(),
-                Canis::AssetManager::GetInstance().Get<Canis::ModelAsset>(cubeModelId)->GetSize()
+                Canis::AssetManager::GetInstance().Get<Canis::ModelAsset>(cubeModelId)->GetSize(),
+                true
             );
             entity_registry.emplace<Canis::SphereColliderComponent>(cube_entity,
                 glm::vec3(0.0f),
@@ -160,7 +193,7 @@ class MainScene : public Canis::Scene
             entt::entity ground_entity = entity_registry.create();
             entity_registry.emplace<Canis::TransformComponent>(ground_entity,
                 true, // active
-                glm::vec3(0.0f, -1.0f, 0.0f), // position
+                glm::vec3(0.0f, -0.5f, 0.0f), // position
                 glm::vec3(0.0f, 0.0f, 0.0f), // rotation
                 glm::vec3(20.0f, 0.1f, 20.0f) // scale
             );
@@ -170,7 +203,8 @@ class MainScene : public Canis::Scene
             entity_registry.emplace<Canis::MeshComponent>(ground_entity,
                 cubeModelId,
                 Canis::AssetManager::GetInstance().Get<Canis::ModelAsset>(cubeModelId)->GetVAO(),
-                Canis::AssetManager::GetInstance().Get<Canis::ModelAsset>(cubeModelId)->GetSize()
+                Canis::AssetManager::GetInstance().Get<Canis::ModelAsset>(cubeModelId)->GetSize(),
+                true
             );
             entity_registry.emplace<Canis::SphereColliderComponent>(ground_entity,
                 glm::vec3(0.0f),
