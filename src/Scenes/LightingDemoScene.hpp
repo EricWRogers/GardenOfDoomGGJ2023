@@ -41,11 +41,16 @@
 #include <Canis/ECS/Components/MeshComponent.hpp>
 #include <Canis/ECS/Components/SphereColliderComponent.hpp>
 #include <Canis/ECS/Components/Sprite2DComponent.hpp>
+#include <Canis/ECS/Components/DirectionalLightComponent.hpp>
+#include <Canis/ECS/Components/SpotLightComponent.hpp>
+#include <Canis/ECS/Components/PointLightComponent.hpp>
 
 class LightingDemoScene : public Canis::Scene
 {
     private:
         entt::registry entity_registry;
+
+        entt::entity directionalLight, spotLight, pointLight0, pointLight1;
 
         Canis::Shader shader;
         Canis::Shader spriteShader;
@@ -158,26 +163,76 @@ class LightingDemoScene : public Canis::Scene
             mouseLock = true;
             window->MouseLock(mouseLock);
 
-            { // light
-            entt::entity light_entity = entity_registry.create();
-            entity_registry.emplace<Canis::TransformComponent>(light_entity,
-                true, // active
+            { // direction light
+            directionalLight = entity_registry.create();
+            entity_registry.emplace<Canis::TransformComponent>(directionalLight,
+                false, // active
                 glm::vec3(-5.0f, 10.0f, -5.0f), // position
-                glm::vec3(0.0f, 0.0f, 0.0f), // rotation
+                glm::vec3(-0.2f, -1.0f, -0.3f), // rotation
                 glm::vec3(1, 1, 1) // scale
             );
-            entity_registry.emplace<Canis::ColorComponent>(light_entity,
-                glm::vec4(1.0f)
+            entity_registry.emplace<Canis::DirectionalLightComponent>(directionalLight,
+                glm::vec3(0.05f, 0.05f, 0.05f), // ambient
+                glm::vec3(0.8f, 0.8f, 0.8f), // diffuse
+                glm::vec3(0.5f, 0.5f, 0.5f) // specular
             );
-            entity_registry.emplace<Canis::MeshComponent>(light_entity,
-                cubeModelId,
-                Canis::AssetManager::GetInstance().Get<Canis::ModelAsset>(cubeModelId)->GetVAO(),
-                Canis::AssetManager::GetInstance().Get<Canis::ModelAsset>(cubeModelId)->GetSize(),
-                false
+            }
+
+            { // point light 0
+            pointLight0 = entity_registry.create();
+            entity_registry.emplace<Canis::TransformComponent>(pointLight0,
+                true, // active
+                glm::vec3(5.0f, 2.0f, 0.0f), // position
+                glm::vec3(0.0f,0.0f,0.0f), // rotation
+                glm::vec3(1, 1, 1) // scale
             );
-            entity_registry.emplace<Canis::SphereColliderComponent>(light_entity,
-                glm::vec3(0.0f),
-                1.0f
+            entity_registry.emplace<Canis::PointLightComponent>(pointLight0,
+                1.0f,                           // constant
+                0.09f,                          // linear
+                0.032f,                         // quadratic
+                glm::vec3(0.0f, 0.05f, 0.05f), // ambient
+                glm::vec3(0.0f, 0.8f, 0.8f),    // diffuse
+                glm::vec3(0.0f, 1.0f, 1.0f)    // specular
+            );
+            }
+
+            { // point light 1
+            pointLight1 = entity_registry.create();
+            entity_registry.emplace<Canis::TransformComponent>(pointLight1,
+                true, // active
+                glm::vec3(-5.0f, 2.0f, 0.0f), // position
+                glm::vec3(0.0f,0.0f,0.0f), // rotation
+                glm::vec3(1, 1, 1) // scale
+            );
+            entity_registry.emplace<Canis::PointLightComponent>(pointLight1,
+                1.0f,                           // constant
+                0.09f,                          // linear
+                0.032f,                         // quadratic
+                glm::vec3(0.05f, 0.05f, 0.0f), // ambient
+                glm::vec3(0.8f, 0.8f, 0.0f),    // diffuse
+                glm::vec3(1.0f, 1.0f, 0.0f)    // specular
+            );
+            }
+
+            { // spot light
+            spotLight = entity_registry.create();
+            entity_registry.emplace<Canis::TransformComponent>(spotLight,
+                true, // active
+                camera->Position, // position
+                camera->Front, // rotation
+                glm::vec3(1, 1, 1) // scale
+            );
+            float cutOff = glm::cos(glm::radians(12.5f));
+            float outerCutOff = glm::cos(glm::radians(15.0f));
+            entity_registry.emplace<Canis::SpotLightComponent>(spotLight,
+                cutOff,                         // cutOff
+                outerCutOff,                    // outerCutOff
+                1.0f,                           // constant
+                0.09f,                          // linear
+                0.032f,                         // quadratic
+                glm::vec3(0.05f, 0.05f, 0.0f),  // ambient
+                glm::vec3(0.8f, 0.8f, 0.0f),    // diffuse
+                glm::vec3(1.0f, 1.0f, 0.0f)     // specular
             );
             }
 
@@ -333,6 +388,10 @@ class LightingDemoScene : public Canis::Scene
                 Canis::Log("Load Scene");
                 ((Canis::SceneManager*)sceneManager)->Load("MainScene");
             }
+
+            auto [transform, spotlight] = entity_registry.get<Canis::TransformComponent, Canis::SpotLightComponent>(spotLight);
+            transform.position = camera->Position;
+            transform.rotation = camera->Front;
         }
 
         void Draw()

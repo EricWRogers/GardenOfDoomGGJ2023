@@ -55,7 +55,7 @@ uniform int numPointLights;
 uniform int numSpotLights;
 uniform DirLight dirLight;
 uniform PointLight pointLights[4];
-uniform SpotLight spotLight;
+uniform SpotLight spotLight[4];
 uniform Material material;
 
 // function prototypes
@@ -77,13 +77,19 @@ void main()
     // == =====================================================
     // phase 1: directional lighting
 
-    vec3 result = CalcDirLight(dirLight, norm, viewDir);
+    vec3 dirResult;
+    if (numDirLights > 0)
+        dirResult = CalcDirLight(dirLight, norm, viewDir);
     // phase 2: point lights
+    vec3 pointResult;
     for(int i = 0; i < numPointLights; i++)
-        result += CalcPointLight(pointLights[i], norm, FragPos, viewDir);    
+        pointResult += CalcPointLight(pointLights[i], norm, FragPos, viewDir);    
     // phase 3: spot light
-    if(numSpotLights != 0)
-        result += CalcSpotLight(spotLight, norm, FragPos, viewDir);
+    vec3 spotResult;
+    for(int i = 0; i < numSpotLights; i++)
+        spotResult += CalcSpotLight(spotLight[i], norm, FragPos, viewDir);
+
+    vec3 result = dirResult + pointResult + spotResult;
 
     float alpha = min(color.a, texture(material.diffuse, TexCoords).a);
     
