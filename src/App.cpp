@@ -80,6 +80,9 @@ void App::Run()
 	Canis::Log("seed : " + std::to_string(seed));
 
 	sceneManager.Add(new MainScene("MainScene"));
+	sceneManager.Add(new ShadowDemoScene("ShadowDemoScene"));
+	sceneManager.Add(new LightingDemoScene("LightingDemoScene"));
+
 	sceneManager.PreLoad(
 		&window,
 		&inputManager,
@@ -97,7 +100,9 @@ void App::Run()
 }
 void App::Load()
 {
-	sceneManager.Load("MainScene");
+	//sceneManager.Load("MainScene");
+	//sceneManager.Load("ShadowDemoScene");
+	sceneManager.Load("LightingDemoScene");
 
 	// start timer
 	previousTime = high_resolution_clock::now();

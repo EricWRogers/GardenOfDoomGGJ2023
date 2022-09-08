@@ -29,7 +29,7 @@
 #include <Canis/External/entt.hpp>
 #include <Canis/GameHelper/AStar.hpp>
 
-#include <Canis/ECS/Systems/RenderMeshSystem.hpp>
+#include <Canis/ECS/Systems/RenderMeshWithShadowSystem.hpp>
 #include <Canis/ECS/Systems/RenderSkyboxSystem.hpp>
 #include <Canis/ECS/Systems/RenderTextSystem.hpp>
 #include <Canis/ECS/Systems/SpriteRenderer2DSystem.hpp>
@@ -42,15 +42,16 @@
 #include <Canis/ECS/Components/SphereColliderComponent.hpp>
 #include <Canis/ECS/Components/Sprite2DComponent.hpp>
 
-class MainScene : public Canis::Scene
+class ShadowDemoScene : public Canis::Scene
 {
     private:
         entt::registry entity_registry;
 
         Canis::Shader shader;
+        Canis::Shader shadowMapShader;
         Canis::Shader spriteShader;
 
-        Canis::RenderMeshSystem *renderMeshSystem;
+        Canis::RenderMeshWithShadowSystem *renderMeshWithShadowSystem;
         Canis::RenderSkyboxSystem *renderSkyboxSystem;
         Canis::RenderTextSystem *renderTextSystem;
         Canis::SpriteRenderer2DSystem *spriteRenderer2DSystem;
@@ -66,11 +67,11 @@ class MainScene : public Canis::Scene
         Canis::GLTexture supperPupStudioLogoTexture = {};
 
     public:
-        MainScene(std::string _name) : Canis::Scene(_name) {}
-        ~MainScene()
+        ShadowDemoScene(std::string _name) : Canis::Scene(_name) {}
+        ~ShadowDemoScene()
         {
             delete renderSkyboxSystem;
-            delete renderMeshSystem;
+            delete renderMeshWithShadowSystem;
             delete renderTextSystem;
             delete spriteRenderer2DSystem;
         }
@@ -86,11 +87,18 @@ class MainScene : public Canis::Scene
             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); 
             // glEnable(GL_CULL_FACE);
             // build and compile our shader program
-            shader.Compile("assets/shaders/lighting.vs", "assets/shaders/lighting.fs");
+            shader.Compile("assets/shaders/shadow_mapping.vs", "assets/shaders/shadow_mapping.fs");
             shader.AddAttribute("aPos");
             shader.AddAttribute("aNormal");
             shader.AddAttribute("aTexcoords");
             shader.Link();
+
+            shadowMapShader.Compile(
+                "assets/shaders/shadow_mapping_depth.vs",
+                "assets/shaders/shadow_mapping_depth.fs"
+            );
+            shadowMapShader.AddAttribute("aPos");
+            shadowMapShader.Link();
 
             spriteShader.Compile(
                 "assets/shaders/sprite.vs",
@@ -122,7 +130,7 @@ class MainScene : public Canis::Scene
 
 
             renderSkyboxSystem = new Canis::RenderSkyboxSystem();
-            renderMeshSystem = new Canis::RenderMeshSystem();
+            renderMeshWithShadowSystem = new Canis::RenderMeshWithShadowSystem();
             renderTextSystem = new Canis::RenderTextSystem();
             spriteRenderer2DSystem = new Canis::SpriteRenderer2DSystem();
 
@@ -134,11 +142,12 @@ class MainScene : public Canis::Scene
             renderTextSystem->window = window;
             renderTextSystem->Init();
 
-            renderMeshSystem->shader = &shader;
-            renderMeshSystem->camera = camera;
-            renderMeshSystem->window = window;
-            renderMeshSystem->diffuseColorPaletteTexture = &diffuseColorPaletteTexture;
-            renderMeshSystem->specularColorPaletteTexture = &specularColorPaletteTexture;
+            renderMeshWithShadowSystem->shadow_mapping_shader = &shader;
+            renderMeshWithShadowSystem->shadow_mapping_depth_shader = &shadowMapShader;
+            renderMeshWithShadowSystem->camera = camera;
+            renderMeshWithShadowSystem->window = window;
+            renderMeshWithShadowSystem->diffuseColorPaletteTexture = &diffuseColorPaletteTexture;
+            renderMeshWithShadowSystem->specularColorPaletteTexture = &specularColorPaletteTexture;
 
             spriteRenderer2DSystem->window = window;
             spriteRenderer2DSystem->Init(Canis::GlyphSortType::TEXTURE, &spriteShader);
@@ -342,7 +351,7 @@ class MainScene : public Canis::Scene
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // also clear the depth buffer now!
 
             renderSkyboxSystem->UpdateComponents(deltaTime, entity_registry);
-            renderMeshSystem->UpdateComponents(deltaTime, entity_registry);
+            renderMeshWithShadowSystem->UpdateComponents(deltaTime, entity_registry);
             renderTextSystem->UpdateComponents(deltaTime, entity_registry);
             spriteRenderer2DSystem->UpdateComponents(deltaTime, entity_registry);
             
@@ -350,7 +359,7 @@ class MainScene : public Canis::Scene
             window->SetWindowName("Canis : Template | fps : " + std::to_string(int(window->fps))
             + " deltaTime : " + std::to_string(deltaTime)
             + " Enitity : " + std::to_string(entity_registry.size())
-            + " Rendered : " + std::to_string(renderMeshSystem->entities_rendered));
+            + " Rendered : " + std::to_string(renderMeshWithShadowSystem->entities_rendered));
         }
 
         void InputUpdate()

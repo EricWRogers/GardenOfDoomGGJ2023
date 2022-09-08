@@ -42,7 +42,7 @@
 #include <Canis/ECS/Components/SphereColliderComponent.hpp>
 #include <Canis/ECS/Components/Sprite2DComponent.hpp>
 
-class MainScene : public Canis::Scene
+class LightingDemoScene : public Canis::Scene
 {
     private:
         entt::registry entity_registry;
@@ -66,8 +66,8 @@ class MainScene : public Canis::Scene
         Canis::GLTexture supperPupStudioLogoTexture = {};
 
     public:
-        MainScene(std::string _name) : Canis::Scene(_name) {}
-        ~MainScene()
+        LightingDemoScene(std::string _name) : Canis::Scene(_name) {}
+        ~LightingDemoScene()
         {
             delete renderSkyboxSystem;
             delete renderMeshSystem;

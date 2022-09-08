@@ -43,6 +43,8 @@
 #include <Canis/ECS/Components/SphereColliderComponent.hpp>
 
 #include "Scenes/MainScene.hpp"
+#include "Scenes/ShadowDemoScene.hpp"
+#include "Scenes/LightingDemoScene.hpp"
 
 
 enum AppState
