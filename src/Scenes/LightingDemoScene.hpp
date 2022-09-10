@@ -29,6 +29,7 @@
 #include <Canis/External/entt.hpp>
 #include <Canis/GameHelper/AStar.hpp>
 
+#include <Canis/ECS/Systems/RenderHDRSystem.hpp>
 #include <Canis/ECS/Systems/RenderMeshSystem.hpp>
 #include <Canis/ECS/Systems/RenderSkyboxSystem.hpp>
 #include <Canis/ECS/Systems/RenderTextSystem.hpp>
@@ -55,6 +56,7 @@ class LightingDemoScene : public Canis::Scene
         Canis::Shader shader;
         Canis::Shader spriteShader;
 
+        Canis::RenderHDRSystem *renderHDRSystem;
         Canis::RenderMeshSystem *renderMeshSystem;
         Canis::RenderSkyboxSystem *renderSkyboxSystem;
         Canis::RenderTextSystem *renderTextSystem;
@@ -74,6 +76,7 @@ class LightingDemoScene : public Canis::Scene
         LightingDemoScene(std::string _name) : Canis::Scene(_name) {}
         ~LightingDemoScene()
         {
+            delete renderHDRSystem;
             delete renderSkyboxSystem;
             delete renderMeshSystem;
             delete renderTextSystem;
@@ -125,11 +128,14 @@ class LightingDemoScene : public Canis::Scene
             // load font
             antonioFontId = Canis::AssetManager::GetInstance().LoadText("assets/fonts/Antonio-Bold.ttf", 48);
 
-
+            renderHDRSystem = new Canis::RenderHDRSystem(window);
             renderSkyboxSystem = new Canis::RenderSkyboxSystem();
             renderMeshSystem = new Canis::RenderMeshSystem();
             renderTextSystem = new Canis::RenderTextSystem();
             spriteRenderer2DSystem = new Canis::SpriteRenderer2DSystem();
+
+            renderHDRSystem->renderMeshSystem = renderMeshSystem;
+            renderHDRSystem->renderSkyboxSystem = renderSkyboxSystem;
 
             renderSkyboxSystem->window = window;
             renderSkyboxSystem->camera = camera;
@@ -399,9 +405,12 @@ class LightingDemoScene : public Canis::Scene
             glDepthFunc(GL_LESS);
             glClearColor(0.05f, 0.05f, 0.05f, 1.0f);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // also clear the depth buffer now!
-
-            renderSkyboxSystem->UpdateComponents(deltaTime, entity_registry);
-            renderMeshSystem->UpdateComponents(deltaTime, entity_registry);
+            
+            // render hdr will call these two
+            //renderSkyboxSystem->UpdateComponents(deltaTime, entity_registry);
+            //renderMeshSystem->UpdateComponents(deltaTime, entity_registry);
+            
+            renderHDRSystem->UpdateComponents(deltaTime, entity_registry);
             renderTextSystem->UpdateComponents(deltaTime, entity_registry);
             spriteRenderer2DSystem->UpdateComponents(deltaTime, entity_registry);
             
