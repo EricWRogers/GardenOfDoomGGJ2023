@@ -101,8 +101,8 @@ void App::Run()
 void App::Load()
 {
 	//sceneManager.Load("MainScene");
-	//sceneManager.Load("ShadowDemoScene");
-	sceneManager.Load("LightingDemoScene");
+	sceneManager.Load("ShadowDemoScene");
+	//sceneManager.Load("LightingDemoScene");
 
 	// start timer
 	previousTime = high_resolution_clock::now();

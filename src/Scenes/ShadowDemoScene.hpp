@@ -217,9 +217,9 @@ class ShadowDemoScene : public Canis::Scene
             entt::entity ground_entity = entity_registry.create();
             entity_registry.emplace<Canis::TransformComponent>(ground_entity,
                 true, // active
-                glm::vec3(0.0f, -0.5f, 0.0f), // position
+                glm::vec3(0.0f, -0.55f, 0.0f), // position
                 glm::vec3(0.0f, 0.0f, 0.0f), // rotation
-                glm::vec3(20.0f, 0.1f, 20.0f) // scale
+                glm::vec3(20.0f, 0.2f, 20.0f) // scale
             );
             entity_registry.emplace<Canis::ColorComponent>(ground_entity,
                 glm::vec4(1.0f)
@@ -228,7 +228,7 @@ class ShadowDemoScene : public Canis::Scene
                 cubeModelId,
                 Canis::AssetManager::GetInstance().Get<Canis::ModelAsset>(cubeModelId)->GetVAO(),
                 Canis::AssetManager::GetInstance().Get<Canis::ModelAsset>(cubeModelId)->GetSize(),
-                true
+                false
             );
             entity_registry.emplace<Canis::SphereColliderComponent>(ground_entity,
                 glm::vec3(0.0f),
