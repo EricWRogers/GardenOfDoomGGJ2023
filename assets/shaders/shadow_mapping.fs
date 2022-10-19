@@ -1,6 +1,20 @@
 #version 330 core
 out vec4 FragColor;
 
+struct Material {
+    sampler2D specular;
+    sampler2D diffuse;
+    float shininess;
+}; 
+
+struct DirLight {
+    vec3 direction;
+	
+    vec3 ambient;
+    vec3 diffuse;
+    vec3 specular;
+};
+
 in VS_OUT {
     vec3 FragPos;
     vec3 Normal;
@@ -13,6 +27,35 @@ uniform sampler2D shadowMap;
 
 uniform vec3 lightPos;
 uniform vec3 viewPos;
+uniform vec4 color;
+uniform int numDirLights;
+uniform DirLight dirLight;
+uniform Material material;
+
+
+
+float ShadowCalculation(vec4 fragPosLightSpace);
+vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir);
+
+void main()
+{           
+    // properties
+    vec3 norm = normalize(fs_in.Normal);
+    vec3 viewDir = normalize(viewPos - fs_in.FragPos);
+
+    vec3 dirResult;
+    if (numDirLights > 0)
+        dirResult = CalcDirLight(dirLight, norm, viewDir);
+    
+    vec3 result = dirResult;
+    float gamma = 2.2;
+    result = pow(result, vec3(1.0/gamma));
+
+    // alpha
+    float alpha = min(color.a, texture(material.diffuse, fs_in.TexCoords).a);
+    
+    FragColor = vec4(result, alpha);
+}
 
 float ShadowCalculation(vec4 fragPosLightSpace)
 {
@@ -51,27 +94,25 @@ float ShadowCalculation(vec4 fragPosLightSpace)
     return shadow;
 }
 
-void main()
-{           
-    vec3 color = texture(diffuseTexture, fs_in.TexCoords).rgb;
-    vec3 normal = normalize(fs_in.Normal);
-    vec3 lightColor = vec3(0.3);
-    // ambient
-    vec3 ambient = 0.3 * lightColor;
-    // diffuse
-    vec3 lightDir = normalize(lightPos - fs_in.FragPos);
-    float diff = max(dot(lightDir, normal), 0.0);
-    vec3 diffuse = diff * lightColor;
-    // specular
-    vec3 viewDir = normalize(viewPos - fs_in.FragPos);
+// calculates the color when using a directional light.
+vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir)
+{
+    vec3 lightDir = normalize(-light.direction);
+    // diffuse shading
+    float diff = max(dot(normal, lightDir), 0.0);
+    // specular shading
     vec3 reflectDir = reflect(-lightDir, normal);
-    float spec = 0.0;
-    vec3 halfwayDir = normalize(lightDir + viewDir);  
-    spec = pow(max(dot(normal, halfwayDir), 0.0), 64.0);
-    vec3 specular = spec * lightColor;    
-    // calculate shadow
-    float shadow = ShadowCalculation(fs_in.FragPosLightSpace);                      
-    vec3 lighting = (ambient + (1.0 - shadow) * (diffuse + specular)) * color;    
-    
-    FragColor = vec4(lighting, 1.0);
+    float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
+    // combine results
+    vec3 ambient = light.ambient * (vec3(color) * vec3(texture(material.diffuse, fs_in.TexCoords)));
+    //vec3 ambient = light.ambient * material.diffuse;
+    vec3 diffuse = light.diffuse * diff * (vec3(color) * vec3(texture(material.diffuse, fs_in.TexCoords)));
+    //vec3 diffuse = light.diffuse * diff * material.diffuse;
+    vec3 specular = light.specular * spec * vec3(texture(material.specular, fs_in.TexCoords));
+    //vec3 specular = light.specular * spec * material.specular;
+
+    float shadow = ShadowCalculation(fs_in.FragPosLightSpace);
+
+    return (ambient + (1.0 - shadow) * (diffuse + specular));
+    //return (ambient + diffuse + specular);
 }

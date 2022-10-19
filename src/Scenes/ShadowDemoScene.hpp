@@ -167,7 +167,7 @@ class ShadowDemoScene : public Canis::Scene
             mouseLock = true;
             window->MouseLock(mouseLock);
 
-            { // light
+            { // light cube
             entt::entity light_entity = entity_registry.create();
             entity_registry.emplace<Canis::TransformComponent>(light_entity,
                 true, // active
@@ -176,7 +176,7 @@ class ShadowDemoScene : public Canis::Scene
                 glm::vec3(1, 1, 1) // scale
             );
             entity_registry.emplace<Canis::ColorComponent>(light_entity,
-                glm::vec4(1.0f)
+                glm::vec4(1.0f,0.0f,0.0f,1.0f)
             );
             entity_registry.emplace<Canis::MeshComponent>(light_entity,
                 cubeModelId,
@@ -190,6 +190,22 @@ class ShadowDemoScene : public Canis::Scene
             );
             }
 
+            { // direction light
+            glm::vec3 dir = -glm::normalize(glm::vec3(-5.0f, 10.0f, -5.0f));
+            entt::entity directionalLight = entity_registry.create();
+            entity_registry.emplace<Canis::TransformComponent>(directionalLight,
+                true, // active
+                glm::vec3(-5.0f, 10.0f, -5.0f), // position
+                dir, // rotation
+                glm::vec3(1, 1, 1) // scale
+            );
+            entity_registry.emplace<Canis::DirectionalLightComponent>(directionalLight,
+                glm::vec3(0.05f, 0.05f, 0.05f), // ambient
+                glm::vec3(0.8f, 0.8f, 0.8f), // diffuse
+                glm::vec3(0.5f, 0.5f, 0.5f) // specular
+            );
+            }
+
             { // cube
             entt::entity cube_entity = entity_registry.create();
             entity_registry.emplace<Canis::TransformComponent>(cube_entity,
@@ -199,7 +215,7 @@ class ShadowDemoScene : public Canis::Scene
                 glm::vec3(1, 1, 1) // scale
             );
             entity_registry.emplace<Canis::ColorComponent>(cube_entity,
-                glm::vec4(1.0f)
+                glm::vec4(0.0f,0.0f,1.0f,1.0f)
             );
             entity_registry.emplace<Canis::MeshComponent>(cube_entity,
                 cubeModelId,
@@ -222,7 +238,7 @@ class ShadowDemoScene : public Canis::Scene
                 glm::vec3(20.0f, 0.2f, 20.0f) // scale
             );
             entity_registry.emplace<Canis::ColorComponent>(ground_entity,
-                glm::vec4(1.0f)
+                glm::vec4(0.0f,1.0f,0.0f,1.0f)
             );
             entity_registry.emplace<Canis::MeshComponent>(ground_entity,
                 cubeModelId,
