@@ -29,18 +29,6 @@
 #include <Canis/Data/GLTexture.hpp>
 #include <Canis/Data/Vertex.hpp>
 #include <Canis/External/entt.hpp>
-#include <Canis/GameHelper/AStar.hpp>
-
-#include <Canis/ECS/Systems/RenderMeshSystem.hpp>
-#include <Canis/ECS/Systems/RenderSkyboxSystem.hpp>
-#include <Canis/ECS/Systems/RenderTextSystem.hpp>
-
-#include <Canis/ECS/Components/TransformComponent.hpp>
-#include <Canis/ECS/Components/ColorComponent.hpp>
-#include <Canis/ECS/Components/RectTransformComponent.hpp>
-#include <Canis/ECS/Components/TextComponent.hpp>
-#include <Canis/ECS/Components/MeshComponent.hpp>
-#include <Canis/ECS/Components/SphereColliderComponent.hpp>
 
 #include "Scenes/MainScene.hpp"
 #include "Scenes/ShadowDemoScene.hpp"
@@ -98,5 +86,4 @@ private:
     Canis::AStar aStar;
 
     unsigned int seed;
-    
 };
