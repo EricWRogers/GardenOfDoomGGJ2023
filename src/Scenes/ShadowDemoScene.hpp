@@ -269,7 +269,8 @@ class ShadowDemoScene : public Canis::Scene
                 true, // active
                 glm::vec2(25.0f, window->GetScreenHeight() - 65.0f), // position
                 glm::vec2(0.0f,0.0f), // size
-                glm::vec2(0.0f, 0.0f), // rotation
+                glm::vec2(0.0f),
+                0.0f, // rotation
                 1.0f, // scale
                 0.0f // depth
             );
@@ -288,7 +289,8 @@ class ShadowDemoScene : public Canis::Scene
                 true, // active
                 glm::vec2(0.0f, 0.0f), // position
                 glm::vec2(supperPupStudioLogoTexture.width/4,supperPupStudioLogoTexture.height/4), // size
-                glm::vec2(0.0f, 0.0f), // rotation
+                glm::vec2(0.0f),
+                0.0f, // rotation
                 1.0f, // scale
                 0.0f // depth
             );
@@ -307,7 +309,7 @@ class ShadowDemoScene : public Canis::Scene
                 true, // active
                 glm::vec2(100.0f, 400.0f), // position
                 glm::vec2(diffuseColorPaletteTexture.width/4,diffuseColorPaletteTexture.height/4), // size
-                glm::vec2(0.0f, 0.0f), // rotation
+                0.0f, // rotation
                 1.0f, // scale
                 0.0f // depth
             );

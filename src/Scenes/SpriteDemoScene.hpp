@@ -156,7 +156,8 @@ class SpriteDemoScene : public Canis::Scene
                 true, // active
                 glm::vec2(25.0f, window->GetScreenHeight() - 65.0f), // position
                 glm::vec2(0.0f,0.0f), // size
-                glm::vec2(0.0f, 0.0f), // rotation
+                glm::vec2(0.0f),
+                0.0f, // rotation
                 1.0f, // scale
                 0.0f // depth
             );
@@ -169,13 +170,14 @@ class SpriteDemoScene : public Canis::Scene
             );
             }
 
-            { // sprite test supperPupStudioLogoTexture
+            { // ui image test supperPupStudioLogoTexture
             entt::entity spriteEntity = entity_registry.create();
             entity_registry.emplace<Canis::RectTransformComponent>(spriteEntity,
                 true, // active
                 glm::vec2(0.0f), // position
                 glm::vec2(supperPupStudioLogoTexture.width/4,supperPupStudioLogoTexture.height/4), // size
-                glm::vec2(0.0f, 0.0f), // rotation
+                glm::vec2(0.0f),
+                0.0f, // rotation
                 1.0f, // scale
                 0.0f // depth
             );
@@ -189,12 +191,14 @@ class SpriteDemoScene : public Canis::Scene
             }
 
             { // sprite test supperPupStudioLogoTexture
+            glm::vec2 size = glm::vec2(supperPupStudioLogoTexture.width/4,supperPupStudioLogoTexture.height/4);
             entt::entity spriteEntity = entity_registry.create();
             entity_registry.emplace<Canis::RectTransformComponent>(spriteEntity,
                 true, // active
-                glm::vec2(-supperPupStudioLogoTexture.width/8, -supperPupStudioLogoTexture.height/8), // position
-                glm::vec2(supperPupStudioLogoTexture.width/4,supperPupStudioLogoTexture.height/4), // size
-                glm::vec2(0.0f, 0.0f), // rotation
+                glm::vec2(0.0f,0.0f), // position
+                size, // size
+                glm::vec2(-size.x/2.0f,-size.y/2.0f),
+                0.0f, // rotation
                 1.0f, // scale
                 0.0f // depth
             );
@@ -226,18 +230,12 @@ class SpriteDemoScene : public Canis::Scene
 
             const Uint8 *keystate = SDL_GetKeyboardState(NULL);
 
-            //auto camera2D = entity_registry.get<Canis::Camera2DComponent>(camera2DEntt);
-
-            //Canis::Log("Camera Entt X : " + std::to_string(camera2D.position.x) +
-            //        " Y : " + std::to_string(camera2D.position.y) +
-            //       " S : " + std::to_string(camera2D.scale));
-
             auto cam = entity_registry.view<Canis::Camera2DComponent>();
             for(auto[entity, camera2D] : cam.each()) {
 
-                Canis::Log("Camera Entt X : " + std::to_string(camera2D.position.x) +
-                    " Y : " + std::to_string(camera2D.position.y) +
-                   " S : " + std::to_string(camera2D.scale));
+                //Canis::Log("Camera Entt X : " + std::to_string(camera2D.position.x) +
+                //    " Y : " + std::to_string(camera2D.position.y) +
+                //   " S : " + std::to_string(camera2D.scale));
 
                 if (keystate[SDL_SCANCODE_W] && mouseLock)
                 {
