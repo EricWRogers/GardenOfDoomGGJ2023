@@ -33,6 +33,7 @@
 #include <Canis/ECS/Systems/RenderSkyboxSystem.hpp>
 #include <Canis/ECS/Systems/RenderTextSystem.hpp>
 #include <Canis/ECS/Systems/SpriteRenderer2DSystem.hpp>
+#include <Canis/ECS/Systems/RenderHUDSystem.hpp>
 
 #include <Canis/ECS/Components/TransformComponent.hpp>
 #include <Canis/ECS/Components/ColorComponent.hpp>
@@ -41,6 +42,7 @@
 #include <Canis/ECS/Components/MeshComponent.hpp>
 #include <Canis/ECS/Components/SphereColliderComponent.hpp>
 #include <Canis/ECS/Components/Sprite2DComponent.hpp>
+#include <Canis/ECS/Components/UIImageComponent.hpp>
 
 class ShadowDemoScene : public Canis::Scene
 {
@@ -55,6 +57,7 @@ class ShadowDemoScene : public Canis::Scene
         Canis::RenderSkyboxSystem *renderSkyboxSystem;
         Canis::RenderTextSystem *renderTextSystem;
         Canis::SpriteRenderer2DSystem *spriteRenderer2DSystem;
+        Canis::RenderHUDSystem *renderHUDSystem;
 
         bool firstMouseMove = true;
         bool mouseLock = false;
@@ -74,6 +77,7 @@ class ShadowDemoScene : public Canis::Scene
             delete renderMeshWithShadowSystem;
             delete renderTextSystem;
             delete spriteRenderer2DSystem;
+            delete renderHUDSystem;
         }
         
         void PreLoad()
@@ -109,6 +113,11 @@ class ShadowDemoScene : public Canis::Scene
             spriteShader.AddAttribute("vertexUV");
             spriteShader.Link();
 
+            // load icon
+            supperPupStudioLogoTexture = Canis::AssetManager::GetInstance().Get<Canis::TextureAsset>(
+                Canis::AssetManager::GetInstance().LoadTexture("assets/textures/SupperPupStudioLogo.png")
+            )->GetTexture();
+
             // Load color palette
             diffuseColorPaletteTexture = Canis::AssetManager::GetInstance().Get<Canis::TextureAsset>(
                 Canis::AssetManager::GetInstance().LoadTexture("assets/textures/palette/diffuse.png")
@@ -117,10 +126,7 @@ class ShadowDemoScene : public Canis::Scene
                 Canis::AssetManager::GetInstance().LoadTexture("assets/textures/palette/specular.png")
             )->GetTexture();
 
-            // load icon
-            supperPupStudioLogoTexture = Canis::AssetManager::GetInstance().Get<Canis::TextureAsset>(
-                Canis::AssetManager::GetInstance().LoadTexture("assets/textures/SupperPupStudioLogo.png")
-            )->GetTexture();
+            
 
             // load model
             cubeModelId = Canis::AssetManager::GetInstance().LoadModel("assets/models/white_block.obj");
@@ -133,6 +139,7 @@ class ShadowDemoScene : public Canis::Scene
             renderMeshWithShadowSystem = new Canis::RenderMeshWithShadowSystem();
             renderTextSystem = new Canis::RenderTextSystem();
             spriteRenderer2DSystem = new Canis::SpriteRenderer2DSystem();
+            renderHUDSystem = new Canis::RenderHUDSystem();
 
             renderSkyboxSystem->window = window;
             renderSkyboxSystem->camera = camera;
@@ -151,6 +158,10 @@ class ShadowDemoScene : public Canis::Scene
 
             spriteRenderer2DSystem->window = window;
             spriteRenderer2DSystem->Init(Canis::GlyphSortType::TEXTURE, &spriteShader);
+
+            renderHUDSystem->window = window;
+            renderHUDSystem->Init(Canis::GlyphSortType::TEXTURE, &spriteShader);
+
 
             // Draw mode
             // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -284,13 +295,13 @@ class ShadowDemoScene : public Canis::Scene
             entity_registry.emplace<Canis::ColorComponent>(spriteEntity,
                 glm::vec4(1.0f, 1.0f, 1.0f, 1.0f)
             );
-            entity_registry.emplace<Canis::Sprite2DComponent>(spriteEntity,
+            entity_registry.emplace<Canis::UIImageComponent>(spriteEntity,//Sprite2DComponent>(spriteEntity,
                 glm::vec4(0.0f, 0.0f, 1.0f, 1.0f), // uv
                 supperPupStudioLogoTexture // texture
             );// test
             }
 
-            { // sprite test supperPupStudioLogoTexture
+            /*{ // sprite test diffuse
             entt::entity spriteEntity = entity_registry.create();
             entity_registry.emplace<Canis::RectTransformComponent>(spriteEntity,
                 true, // active
@@ -303,11 +314,11 @@ class ShadowDemoScene : public Canis::Scene
             entity_registry.emplace<Canis::ColorComponent>(spriteEntity,
                 glm::vec4(1.0f, 1.0f, 1.0f, 1.0f)
             );
-            entity_registry.emplace<Canis::Sprite2DComponent>(spriteEntity,
+            entity_registry.emplace<Canis::UIImageComponent>(spriteEntity,
                 glm::vec4(0.0f, 0.0f, 1.0f, 1.0f), // uv
                 diffuseColorPaletteTexture // texture
             );// test
-            }
+            }*/
         }
 
         void UnLoad()
@@ -368,8 +379,8 @@ class ShadowDemoScene : public Canis::Scene
 
             renderSkyboxSystem->UpdateComponents(deltaTime, entity_registry);
             renderMeshWithShadowSystem->UpdateComponents(deltaTime, entity_registry);
+            renderHUDSystem->UpdateComponents(deltaTime, entity_registry);
             renderTextSystem->UpdateComponents(deltaTime, entity_registry);
-            spriteRenderer2DSystem->UpdateComponents(deltaTime, entity_registry);
             
 
             window->SetWindowName("Canis : Template | fps : " + std::to_string(int(window->fps))

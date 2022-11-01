@@ -20,7 +20,7 @@ void App::Run()
 
 	window.Create("Canis", 1280, 720, windowFlags);
 
-	time.init(10000);
+	time.init(30);
 
 	camera.override_camera = false;
 
@@ -32,6 +32,7 @@ void App::Run()
 	sceneManager.Add(new MainScene("MainScene"));
 	sceneManager.Add(new ShadowDemoScene("ShadowDemoScene"));
 	sceneManager.Add(new LightingDemoScene("LightingDemoScene"));
+	sceneManager.Add(new SpriteDemoScene("SpriteDemoScene"));
 
 	sceneManager.PreLoad(
 		&window,
@@ -51,8 +52,9 @@ void App::Run()
 void App::Load()
 {
 	//sceneManager.Load("MainScene");
-	sceneManager.Load("ShadowDemoScene");
+	//sceneManager.Load("ShadowDemoScene");
 	//sceneManager.Load("LightingDemoScene");
+	sceneManager.Load("SpriteDemoScene");
 
 	// start timer
 	previousTime = high_resolution_clock::now();

@@ -34,6 +34,7 @@
 #include <Canis/ECS/Systems/RenderSkyboxSystem.hpp>
 #include <Canis/ECS/Systems/RenderTextSystem.hpp>
 #include <Canis/ECS/Systems/SpriteRenderer2DSystem.hpp>
+#include <Canis/ECS/Systems/RenderHUDSystem.hpp>
 
 #include <Canis/ECS/Components/TransformComponent.hpp>
 #include <Canis/ECS/Components/ColorComponent.hpp>
@@ -45,6 +46,7 @@
 #include <Canis/ECS/Components/DirectionalLightComponent.hpp>
 #include <Canis/ECS/Components/SpotLightComponent.hpp>
 #include <Canis/ECS/Components/PointLightComponent.hpp>
+#include <Canis/ECS/Components/UIImageComponent.hpp>
 
 class LightingDemoScene : public Canis::Scene
 {
@@ -61,6 +63,7 @@ class LightingDemoScene : public Canis::Scene
         Canis::RenderSkyboxSystem *renderSkyboxSystem;
         Canis::RenderTextSystem *renderTextSystem;
         Canis::SpriteRenderer2DSystem *spriteRenderer2DSystem;
+        Canis::RenderHUDSystem *renderHUDSystem;
 
         bool firstMouseMove = true;
         bool mouseLock = false;
@@ -81,6 +84,7 @@ class LightingDemoScene : public Canis::Scene
             delete renderMeshSystem;
             delete renderTextSystem;
             delete spriteRenderer2DSystem;
+            delete renderHUDSystem;
         }
         
         void PreLoad()
@@ -133,6 +137,7 @@ class LightingDemoScene : public Canis::Scene
             renderMeshSystem = new Canis::RenderMeshSystem();
             renderTextSystem = new Canis::RenderTextSystem();
             spriteRenderer2DSystem = new Canis::SpriteRenderer2DSystem();
+            renderHUDSystem = new Canis::RenderHUDSystem();
 
             renderHDRSystem->renderMeshSystem = renderMeshSystem;
             renderHDRSystem->renderSkyboxSystem = renderSkyboxSystem;
@@ -153,6 +158,9 @@ class LightingDemoScene : public Canis::Scene
 
             spriteRenderer2DSystem->window = window;
             spriteRenderer2DSystem->Init(Canis::GlyphSortType::TEXTURE, &spriteShader);
+
+            renderHUDSystem->window = window;
+            renderHUDSystem->Init(Canis::GlyphSortType::TEXTURE, &spriteShader);
 
             // Draw mode
             // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -288,7 +296,7 @@ class LightingDemoScene : public Canis::Scene
             );
             }
 
-            { // health text
+            { // text
             entt::entity healthText = entity_registry.create();
             entity_registry.emplace<Canis::RectTransformComponent>(healthText,
                 true, // active
@@ -303,7 +311,7 @@ class LightingDemoScene : public Canis::Scene
             );
             entity_registry.emplace<Canis::TextComponent>(healthText,
                 Canis::AssetManager::GetInstance().LoadText("assets/fonts/Antonio-Bold.ttf", 48),
-                new std::string("Asset Manager Demo") // text
+                new std::string("Lighting Demo") // text
             );
             }
 
@@ -320,7 +328,7 @@ class LightingDemoScene : public Canis::Scene
             entity_registry.emplace<Canis::ColorComponent>(spriteEntity,
                 glm::vec4(1.0f, 1.0f, 1.0f, 1.0f)
             );
-            entity_registry.emplace<Canis::Sprite2DComponent>(spriteEntity,
+            entity_registry.emplace<Canis::UIImageComponent>(spriteEntity,
                 glm::vec4(0.0f, 0.0f, 1.0f, 1.0f), // uv
                 supperPupStudioLogoTexture // texture
             );// test
@@ -339,7 +347,7 @@ class LightingDemoScene : public Canis::Scene
             entity_registry.emplace<Canis::ColorComponent>(spriteEntity,
                 glm::vec4(1.0f, 1.0f, 1.0f, 1.0f)
             );
-            entity_registry.emplace<Canis::Sprite2DComponent>(spriteEntity,
+            entity_registry.emplace<Canis::UIImageComponent>(spriteEntity,
                 glm::vec4(0.0f, 0.0f, 1.0f, 1.0f), // uv
                 diffuseColorPaletteTexture // texture
             );// test
@@ -411,6 +419,7 @@ class LightingDemoScene : public Canis::Scene
             //renderMeshSystem->UpdateComponents(deltaTime, entity_registry);
             
             renderHDRSystem->UpdateComponents(deltaTime, entity_registry);
+            renderHUDSystem->UpdateComponents(deltaTime, entity_registry);
             renderTextSystem->UpdateComponents(deltaTime, entity_registry);
             spriteRenderer2DSystem->UpdateComponents(deltaTime, entity_registry);
             
