@@ -170,26 +170,6 @@ class SpriteDemoScene : public Canis::Scene
             );
             }
 
-            { // ui image test supperPupStudioLogoTexture
-            entt::entity spriteEntity = entity_registry.create();
-            entity_registry.emplace<Canis::RectTransformComponent>(spriteEntity,
-                true, // active
-                glm::vec2(0.0f), // position
-                glm::vec2(supperPupStudioLogoTexture.width/4,supperPupStudioLogoTexture.height/4), // size
-                glm::vec2(0.0f),
-                0.0f, // rotation
-                1.0f, // scale
-                0.0f // depth
-            );
-            entity_registry.emplace<Canis::ColorComponent>(spriteEntity,
-                glm::vec4(1.0f, 1.0f, 1.0f, 1.0f)
-            );
-            entity_registry.emplace<Canis::UIImageComponent>(spriteEntity,
-                glm::vec4(0.0f, 0.0f, 1.0f, 1.0f), // uv
-                supperPupStudioLogoTexture // texture
-            );// test
-            }
-
             { // sprite test supperPupStudioLogoTexture
             glm::vec2 size = glm::vec2(supperPupStudioLogoTexture.width/4,supperPupStudioLogoTexture.height/4);
             entt::entity spriteEntity = entity_registry.create();
@@ -197,7 +177,7 @@ class SpriteDemoScene : public Canis::Scene
                 true, // active
                 glm::vec2(0.0f,0.0f), // position
                 size, // size
-                glm::vec2(-size.x/2.0f,-size.y/2.0f),
+                glm::vec2(0.0f,0.0f), // origin
                 0.0f, // rotation
                 1.0f, // scale
                 0.0f // depth
