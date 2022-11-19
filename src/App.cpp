@@ -31,7 +31,6 @@ void App::Run()
 
 	sceneManager.Add(new MainScene("MainScene"));
 	sceneManager.Add(new ShadowDemoScene("ShadowDemoScene"));
-	sceneManager.Add(new LightingDemoScene("LightingDemoScene"));
 	sceneManager.Add(new SpriteDemoScene("SpriteDemoScene"));
 
 	sceneManager.PreLoad(
@@ -53,7 +52,6 @@ void App::Load()
 {
 	sceneManager.Load("MainScene");
 	//sceneManager.Load("ShadowDemoScene");
-	//sceneManager.Load("LightingDemoScene");
 	//sceneManager.Load("SpriteDemoScene");
 
 	// start timer
