@@ -35,15 +35,6 @@
 #include <Canis/ECS/Systems/SpriteRenderer2DSystem.hpp>
 #include <Canis/ECS/Systems/RenderHUDSystem.hpp>
 
-#include <Canis/ECS/Components/TransformComponent.hpp>
-#include <Canis/ECS/Components/ColorComponent.hpp>
-#include <Canis/ECS/Components/RectTransformComponent.hpp>
-#include <Canis/ECS/Components/TextComponent.hpp>
-#include <Canis/ECS/Components/MeshComponent.hpp>
-#include <Canis/ECS/Components/SphereColliderComponent.hpp>
-#include <Canis/ECS/Components/Sprite2DComponent.hpp>
-#include <Canis/ECS/Components/UIImageComponent.hpp>
-
 class ShadowDemoScene : public Canis::Scene
 {
     private:
@@ -379,10 +370,14 @@ class ShadowDemoScene : public Canis::Scene
             glClearColor(0.05f, 0.05f, 0.05f, 1.0f);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // also clear the depth buffer now!
 
-            renderSkyboxSystem->UpdateComponents(deltaTime, entity_registry);
+            // First Render Models
             renderMeshWithShadowSystem->UpdateComponents(deltaTime, entity_registry);
+            // Second Render Skybox
+            renderSkyboxSystem->UpdateComponents(deltaTime, entity_registry);
+            // Third Draw UI
             renderHUDSystem->UpdateComponents(deltaTime, entity_registry);
             renderTextSystem->UpdateComponents(deltaTime, entity_registry);
+            
             
 
             window->SetWindowName("Canis : Template | fps : " + std::to_string(int(window->fps))

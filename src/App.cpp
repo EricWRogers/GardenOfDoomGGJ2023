@@ -52,9 +52,9 @@ void App::Run()
 void App::Load()
 {
 	//sceneManager.Load("MainScene");
-	//sceneManager.Load("ShadowDemoScene");
+	sceneManager.Load("ShadowDemoScene");
 	//sceneManager.Load("LightingDemoScene");
-	sceneManager.Load("SpriteDemoScene");
+	//sceneManager.Load("SpriteDemoScene");
 
 	// start timer
 	previousTime = high_resolution_clock::now();
