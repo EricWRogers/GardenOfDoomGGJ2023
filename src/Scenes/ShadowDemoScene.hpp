@@ -152,10 +152,6 @@ class ShadowDemoScene : public Canis::Scene
 
             renderHUDSystem->window = window;
             renderHUDSystem->Init(Canis::GlyphSortType::TEXTURE, &spriteShader);
-
-
-            // Draw mode
-            // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
         }
 
         void Load()
@@ -377,7 +373,6 @@ class ShadowDemoScene : public Canis::Scene
             // Third Draw UI
             renderHUDSystem->UpdateComponents(deltaTime, entity_registry);
             renderTextSystem->UpdateComponents(deltaTime, entity_registry);
-            
             
 
             window->SetWindowName("Canis : Template | fps : " + std::to_string(int(window->fps))

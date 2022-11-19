@@ -35,15 +35,6 @@
 #include <Canis/ECS/Systems/SpriteRenderer2DSystem.hpp>
 #include <Canis/ECS/Systems/RenderHUDSystem.hpp>
 
-#include <Canis/ECS/Components/TransformComponent.hpp>
-#include <Canis/ECS/Components/ColorComponent.hpp>
-#include <Canis/ECS/Components/RectTransformComponent.hpp>
-#include <Canis/ECS/Components/TextComponent.hpp>
-#include <Canis/ECS/Components/MeshComponent.hpp>
-#include <Canis/ECS/Components/SphereColliderComponent.hpp>
-#include <Canis/ECS/Components/Sprite2DComponent.hpp>
-#include <Canis/ECS/Components/UIImageComponent.hpp>
-
 class MainScene : public Canis::Scene
 {
     private:
@@ -163,7 +154,7 @@ class MainScene : public Canis::Scene
             camera->Yaw = Canis::YAW+135.0f;
             camera->override_camera = false;
             camera->UpdateCameraVectors();
-            mouseLock = true;
+            mouseLock = false;
             window->MouseLock(mouseLock);
 
             { // light
@@ -186,6 +177,22 @@ class MainScene : public Canis::Scene
             entity_registry.emplace<Canis::SphereColliderComponent>(light_entity,
                 glm::vec3(0.0f),
                 1.0f
+            );
+            }
+
+            { // direction light
+            glm::vec3 dir = -glm::normalize(glm::vec3(-5.0f, 10.0f, -5.0f));
+            entt::entity directionalLight = entity_registry.create();
+            entity_registry.emplace<Canis::TransformComponent>(directionalLight,
+                true, // active
+                glm::vec3(-5.0f, 10.0f, -5.0f), // position
+                dir, // rotation
+                glm::vec3(1, 1, 1) // scale
+            );
+            entity_registry.emplace<Canis::DirectionalLightComponent>(directionalLight,
+                glm::vec3(0.05f, 0.05f, 0.05f), // ambient
+                glm::vec3(0.8f, 0.8f, 0.8f), // diffuse
+                glm::vec3(0.5f, 0.5f, 0.5f) // specular
             );
             }
 

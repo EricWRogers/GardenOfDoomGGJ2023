@@ -51,8 +51,8 @@ void App::Run()
 }
 void App::Load()
 {
-	//sceneManager.Load("MainScene");
-	sceneManager.Load("ShadowDemoScene");
+	sceneManager.Load("MainScene");
+	//sceneManager.Load("ShadowDemoScene");
 	//sceneManager.Load("LightingDemoScene");
 	//sceneManager.Load("SpriteDemoScene");
 
