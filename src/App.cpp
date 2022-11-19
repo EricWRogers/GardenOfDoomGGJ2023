@@ -51,9 +51,9 @@ void App::Run()
 }
 void App::Load()
 {
-	sceneManager.Load("MainScene");
+	//sceneManager.Load("MainScene");
 	//sceneManager.Load("ShadowDemoScene");
-	//sceneManager.Load("LightingDemoScene");
+	sceneManager.Load("LightingDemoScene");
 	//sceneManager.Load("SpriteDemoScene");
 
 	// start timer

@@ -180,7 +180,7 @@ class LightingDemoScene : public Canis::Scene
             { // direction light
             directionalLight = entity_registry.create();
             entity_registry.emplace<Canis::TransformComponent>(directionalLight,
-                false, // active
+                true, // active
                 glm::vec3(-5.0f, 10.0f, -5.0f), // position
                 glm::vec3(-0.2f, -1.0f, -0.3f), // rotation
                 glm::vec3(1, 1, 1) // scale
@@ -192,7 +192,7 @@ class LightingDemoScene : public Canis::Scene
             );
             }
 
-            { // point light 0
+            /*{ // point light 0
             pointLight0 = entity_registry.create();
             entity_registry.emplace<Canis::TransformComponent>(pointLight0,
                 true, // active
@@ -231,7 +231,7 @@ class LightingDemoScene : public Canis::Scene
             { // spot light
             spotLight = entity_registry.create();
             entity_registry.emplace<Canis::TransformComponent>(spotLight,
-                true, // active
+                false, // active
                 camera->Position, // position
                 camera->Front, // rotation
                 glm::vec3(1, 1, 1) // scale
@@ -248,7 +248,7 @@ class LightingDemoScene : public Canis::Scene
                 glm::vec3(0.8f, 0.8f, 0.0f),    // diffuse
                 glm::vec3(1.0f, 1.0f, 0.0f)     // specular
             );
-            }
+            }*/
 
             { // cube
             entt::entity cube_entity = entity_registry.create();
@@ -328,7 +328,7 @@ class LightingDemoScene : public Canis::Scene
                 0.0f // depth
             );
             entity_registry.emplace<Canis::ColorComponent>(spriteEntity,
-                glm::vec4(1.0f, 1.0f, 1.0f, 1.0f)
+                glm::vec4(1.0f, 0.0f, 0.0f, 1.0f)
             );
             entity_registry.emplace<Canis::UIImageComponent>(spriteEntity,
                 glm::vec4(0.0f, 0.0f, 1.0f, 1.0f), // uv
@@ -406,9 +406,9 @@ class LightingDemoScene : public Canis::Scene
                 ((Canis::SceneManager*)sceneManager)->Load("MainScene");
             }
 
-            auto [transform, spotlight] = entity_registry.get<Canis::TransformComponent, Canis::SpotLightComponent>(spotLight);
-            transform.position = camera->Position;
-            transform.rotation = camera->Front;
+            //auto [transform, spotlight] = entity_registry.get<Canis::TransformComponent, Canis::SpotLightComponent>(spotLight);
+            //transform.position = camera->Position;
+            //transform.rotation = camera->Front;
         }
 
         void Draw()
