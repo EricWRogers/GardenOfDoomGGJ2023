@@ -35,19 +35,21 @@
 #include <Canis/ECS/Systems/SpriteRenderer2DSystem.hpp>
 #include <Canis/ECS/Systems/RenderHUDSystem.hpp>
 
-class MainScene : public Canis::Scene
+using namespace Canis;
+
+class MainScene : public Scene
 {
     private:
         entt::registry entity_registry;
 
-        Canis::Shader shader;
-        Canis::Shader spriteShader;
+        Shader shader;
+        Shader spriteShader;
 
-        Canis::RenderMeshSystem *renderMeshSystem;
-        Canis::RenderSkyboxSystem *renderSkyboxSystem;
-        Canis::RenderTextSystem *renderTextSystem;
-        Canis::SpriteRenderer2DSystem *spriteRenderer2DSystem;
-        Canis::RenderHUDSystem *renderHUDSystem;
+        RenderMeshSystem *renderMeshSystem;
+        RenderSkyboxSystem *renderSkyboxSystem;
+        RenderTextSystem *renderTextSystem;
+        SpriteRenderer2DSystem *spriteRenderer2DSystem;
+        RenderHUDSystem *renderHUDSystem;
 
         bool firstMouseMove = true;
         bool mouseLock = false;
@@ -55,12 +57,12 @@ class MainScene : public Canis::Scene
         int cubeModelId = 0;
         int antonioFontId = 0;
 
-        Canis::GLTexture diffuseColorPaletteTexture = {};
-        Canis::GLTexture specularColorPaletteTexture = {};
-        Canis::GLTexture supperPupStudioLogoTexture = {};
+        GLTexture diffuseColorPaletteTexture = {};
+        GLTexture specularColorPaletteTexture = {};
+        GLTexture supperPupStudioLogoTexture = {};
 
     public:
-        MainScene(std::string _name) : Canis::Scene(_name) {}
+        MainScene(std::string _name) : Scene(_name) {}
         ~MainScene()
         {
             delete renderSkyboxSystem;
@@ -72,7 +74,7 @@ class MainScene : public Canis::Scene
         
         void PreLoad()
         {
-            Canis::Scene::PreLoad();
+            Scene::PreLoad();
 
             // configure global opengl state
             glEnable(GL_DEPTH_TEST);
@@ -97,50 +99,47 @@ class MainScene : public Canis::Scene
             spriteShader.Link();
 
             // Load color palette
-            diffuseColorPaletteTexture = Canis::AssetManager::GetInstance().Get<Canis::TextureAsset>(
-                Canis::AssetManager::GetInstance().LoadTexture("assets/textures/palette/diffuse.png")
+            diffuseColorPaletteTexture = assetManager->Get<TextureAsset>(
+                assetManager->LoadTexture("assets/textures/palette/diffuse.png")
             )->GetTexture();
-            specularColorPaletteTexture = Canis::AssetManager::GetInstance().Get<Canis::TextureAsset>(
-                Canis::AssetManager::GetInstance().LoadTexture("assets/textures/palette/specular.png")
+            specularColorPaletteTexture = assetManager->Get<TextureAsset>(
+                assetManager->LoadTexture("assets/textures/palette/specular.png")
             )->GetTexture();
 
             // load icon
-            supperPupStudioLogoTexture = Canis::AssetManager::GetInstance().Get<Canis::TextureAsset>(
-                Canis::AssetManager::GetInstance().LoadTexture("assets/textures/SupperPupStudioLogo.png")
+            supperPupStudioLogoTexture = assetManager->Get<TextureAsset>(
+                assetManager->LoadTexture("assets/textures/SupperPupStudioLogo.png")
             )->GetTexture();
 
             // load model
-            cubeModelId = Canis::AssetManager::GetInstance().LoadModel("assets/models/white_block.obj");
+            cubeModelId = assetManager->LoadModel("assets/models/white_block.obj");
 
             // load font
-            antonioFontId = Canis::AssetManager::GetInstance().LoadText("assets/fonts/Antonio-Bold.ttf", 48);
+            antonioFontId = assetManager->LoadText("assets/fonts/Antonio-Bold.ttf", 48);
 
+            renderSkyboxSystem = new RenderSkyboxSystem();
+            renderMeshSystem = new RenderMeshSystem();
+            renderTextSystem = new RenderTextSystem();
+            spriteRenderer2DSystem = new SpriteRenderer2DSystem();
+            renderHUDSystem = new RenderHUDSystem();
 
-            renderSkyboxSystem = new Canis::RenderSkyboxSystem();
-            renderMeshSystem = new Canis::RenderMeshSystem();
-            renderTextSystem = new Canis::RenderTextSystem();
-            spriteRenderer2DSystem = new Canis::SpriteRenderer2DSystem();
-            renderHUDSystem = new Canis::RenderHUDSystem();
-
-            renderSkyboxSystem->window = window;
-            renderSkyboxSystem->camera = camera;
+            ReadySystem(renderSkyboxSystem);
             renderSkyboxSystem->Init();
 
-            renderTextSystem->camera = camera;
-            renderTextSystem->window = window;
+            ReadySystem(renderTextSystem);
             renderTextSystem->Init();
 
             renderMeshSystem->shader = &shader;
-            renderMeshSystem->camera = camera;
-            renderMeshSystem->window = window;
+            ReadySystem(renderMeshSystem);
             renderMeshSystem->diffuseColorPaletteTexture = &diffuseColorPaletteTexture;
             renderMeshSystem->specularColorPaletteTexture = &specularColorPaletteTexture;
 
-            spriteRenderer2DSystem->window = window;
-            spriteRenderer2DSystem->Init(Canis::GlyphSortType::TEXTURE, &spriteShader);
+            ReadySystem(spriteRenderer2DSystem);
+            spriteRenderer2DSystem->Init(GlyphSortType::TEXTURE, &spriteShader);
 
-            renderHUDSystem->window = window;
-            renderHUDSystem->Init(Canis::GlyphSortType::TEXTURE, &spriteShader);
+            ReadySystem(renderHUDSystem);
+            renderHUDSystem->Init(GlyphSortType::TEXTURE, &spriteShader);
+
 
             // Draw mode
             // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -150,8 +149,8 @@ class MainScene : public Canis::Scene
         {            
             camera->Position = glm::vec3(20.0f,20.0f,-20.0f);
             camera->WorldUp = glm::vec3(0.0f, 1.0f, 0.0f);
-            camera->Pitch = Canis::PITCH-35.0f;
-            camera->Yaw = Canis::YAW+135.0f;
+            camera->Pitch = PITCH-35.0f;
+            camera->Yaw = YAW+135.0f;
             camera->override_camera = false;
             camera->UpdateCameraVectors();
             mouseLock = false;
@@ -159,22 +158,22 @@ class MainScene : public Canis::Scene
 
             { // light cube
             entt::entity light_entity = entity_registry.create();
-            entity_registry.emplace<Canis::TransformComponent>(light_entity,
+            entity_registry.emplace<TransformComponent>(light_entity,
                 true, // active
                 glm::vec3(-5.0f, 10.0f, -5.0f), // position
                 glm::vec3(0.0f, 0.0f, 0.0f), // rotation
                 glm::vec3(1, 1, 1) // scale
             );
-            entity_registry.emplace<Canis::ColorComponent>(light_entity,
+            entity_registry.emplace<ColorComponent>(light_entity,
                 glm::vec4(1.0f,0.0f,0.0f,1.0f)
             );
-            entity_registry.emplace<Canis::MeshComponent>(light_entity,
+            entity_registry.emplace<MeshComponent>(light_entity,
                 cubeModelId,
-                Canis::AssetManager::GetInstance().Get<Canis::ModelAsset>(cubeModelId)->GetVAO(),
-                Canis::AssetManager::GetInstance().Get<Canis::ModelAsset>(cubeModelId)->GetSize(),
+                assetManager->Get<ModelAsset>(cubeModelId)->GetVAO(),
+                assetManager->Get<ModelAsset>(cubeModelId)->GetSize(),
                 false
             );
-            entity_registry.emplace<Canis::SphereColliderComponent>(light_entity,
+            entity_registry.emplace<SphereColliderComponent>(light_entity,
                 glm::vec3(0.0f),
                 1.0f
             );
@@ -183,13 +182,13 @@ class MainScene : public Canis::Scene
             { // direction light
             glm::vec3 dir = -glm::normalize(glm::vec3(-5.0f, 10.0f, -5.0f));
             entt::entity directionalLight = entity_registry.create();
-            entity_registry.emplace<Canis::TransformComponent>(directionalLight,
+            entity_registry.emplace<TransformComponent>(directionalLight,
                 true, // active
                 glm::vec3(-5.0f, 10.0f, -5.0f), // position
                 dir, // rotation
                 glm::vec3(1, 1, 1) // scale
             );
-            entity_registry.emplace<Canis::DirectionalLightComponent>(directionalLight,
+            entity_registry.emplace<DirectionalLightComponent>(directionalLight,
                 glm::vec3(0.05f, 0.05f, 0.05f), // ambient
                 glm::vec3(0.8f, 0.8f, 0.8f), // diffuse
                 glm::vec3(0.5f, 0.5f, 0.5f) // specular
@@ -198,22 +197,22 @@ class MainScene : public Canis::Scene
 
             { // cube
             entt::entity cube_entity = entity_registry.create();
-            entity_registry.emplace<Canis::TransformComponent>(cube_entity,
+            entity_registry.emplace<TransformComponent>(cube_entity,
                 true, // active
                 glm::vec3(2.0f, 0.0f, 0.0f), // position
                 glm::vec3(0.0f, 0.0f, 0.0f), // rotation
                 glm::vec3(1, 1, 1) // scale
             );
-            entity_registry.emplace<Canis::ColorComponent>(cube_entity,
+            entity_registry.emplace<ColorComponent>(cube_entity,
                 glm::vec4(0.0f,0.0f,1.0f,1.0f)
             );
-            entity_registry.emplace<Canis::MeshComponent>(cube_entity,
+            entity_registry.emplace<MeshComponent>(cube_entity,
                 cubeModelId,
-                Canis::AssetManager::GetInstance().Get<Canis::ModelAsset>(cubeModelId)->GetVAO(),
-                Canis::AssetManager::GetInstance().Get<Canis::ModelAsset>(cubeModelId)->GetSize(),
+                assetManager->Get<ModelAsset>(cubeModelId)->GetVAO(),
+                assetManager->Get<ModelAsset>(cubeModelId)->GetSize(),
                 true
             );
-            entity_registry.emplace<Canis::SphereColliderComponent>(cube_entity,
+            entity_registry.emplace<SphereColliderComponent>(cube_entity,
                 glm::vec3(0.0f),
                 1.0f
             );
@@ -221,22 +220,22 @@ class MainScene : public Canis::Scene
 
             { // ground
             entt::entity ground_entity = entity_registry.create();
-            entity_registry.emplace<Canis::TransformComponent>(ground_entity,
+            entity_registry.emplace<TransformComponent>(ground_entity,
                 true, // active
                 glm::vec3(0.0f, -0.55f, 0.0f), // position
                 glm::vec3(0.0f, 0.0f, 0.0f), // rotation
                 glm::vec3(20.0f, 0.2f, 20.0f) // scale
             );
-            entity_registry.emplace<Canis::ColorComponent>(ground_entity,
+            entity_registry.emplace<ColorComponent>(ground_entity,
                 glm::vec4(0.0f,1.0f,0.0f,1.0f)
             );
-            entity_registry.emplace<Canis::MeshComponent>(ground_entity,
+            entity_registry.emplace<MeshComponent>(ground_entity,
                 cubeModelId,
-                Canis::AssetManager::GetInstance().Get<Canis::ModelAsset>(cubeModelId)->GetVAO(),
-                Canis::AssetManager::GetInstance().Get<Canis::ModelAsset>(cubeModelId)->GetSize(),
+                assetManager->Get<ModelAsset>(cubeModelId)->GetVAO(),
+                assetManager->Get<ModelAsset>(cubeModelId)->GetSize(),
                 false
             );
-            entity_registry.emplace<Canis::SphereColliderComponent>(ground_entity,
+            entity_registry.emplace<SphereColliderComponent>(ground_entity,
                 glm::vec3(0.0f),
                 1.0f
             );
@@ -244,7 +243,7 @@ class MainScene : public Canis::Scene
 
             { // health text
             entt::entity healthText = entity_registry.create();
-            entity_registry.emplace<Canis::RectTransformComponent>(healthText,
+            entity_registry.emplace<RectTransformComponent>(healthText,
                 true, // active
                 glm::vec2(25.0f, window->GetScreenHeight() - 65.0f), // position
                 glm::vec2(0.0f,0.0f), // size
@@ -253,18 +252,18 @@ class MainScene : public Canis::Scene
                 1.0f, // scale
                 0.0f // depth
             );
-            entity_registry.emplace<Canis::ColorComponent>(healthText,
+            entity_registry.emplace<ColorComponent>(healthText,
                 glm::vec4(1.0f, 1.0f, 1.0f, 1.0f) // #26854c
             );
-            entity_registry.emplace<Canis::TextComponent>(healthText,
-                Canis::AssetManager::GetInstance().LoadText("assets/fonts/Antonio-Bold.ttf", 48),
+            entity_registry.emplace<TextComponent>(healthText,
+                assetManager->LoadText("assets/fonts/Antonio-Bold.ttf", 48),
                 new std::string("Asset Manager Demo") // text
             );
             }
 
             { // sprite test supperPupStudioLogoTexture
             entt::entity spriteEntity = entity_registry.create();
-            entity_registry.emplace<Canis::RectTransformComponent>(spriteEntity,
+            entity_registry.emplace<RectTransformComponent>(spriteEntity,
                 true, // active
                 glm::vec2(0.0f, 0.0f), // position
                 glm::vec2(supperPupStudioLogoTexture.width/4,supperPupStudioLogoTexture.height/4), // size
@@ -273,10 +272,10 @@ class MainScene : public Canis::Scene
                 1.0f, // scale
                 0.0f // depth
             );
-            entity_registry.emplace<Canis::ColorComponent>(spriteEntity,
+            entity_registry.emplace<ColorComponent>(spriteEntity,
                 glm::vec4(1.0f, 1.0f, 1.0f, 1.0f)
             );
-            entity_registry.emplace<Canis::UIImageComponent>(spriteEntity,
+            entity_registry.emplace<UIImageComponent>(spriteEntity,
                 glm::vec4(0.0f, 0.0f, 1.0f, 1.0f), // uv
                 supperPupStudioLogoTexture // texture
             );// test
@@ -284,7 +283,7 @@ class MainScene : public Canis::Scene
 
             { // sprite test supperPupStudioLogoTexture
             entt::entity spriteEntity = entity_registry.create();
-            entity_registry.emplace<Canis::RectTransformComponent>(spriteEntity,
+            entity_registry.emplace<RectTransformComponent>(spriteEntity,
                 true, // active
                 glm::vec2(100.0f, 400.0f), // position
                 glm::vec2(diffuseColorPaletteTexture.width/4,diffuseColorPaletteTexture.height/4), // size
@@ -293,10 +292,10 @@ class MainScene : public Canis::Scene
                 1.0f, // scale
                 0.0f // depth
             );
-            entity_registry.emplace<Canis::ColorComponent>(spriteEntity,
+            entity_registry.emplace<ColorComponent>(spriteEntity,
                 glm::vec4(1.0f, 1.0f, 1.0f, 1.0f)
             );
-            entity_registry.emplace<Canis::UIImageComponent>(spriteEntity,
+            entity_registry.emplace<UIImageComponent>(spriteEntity,
                 glm::vec4(0.0f, 0.0f, 1.0f, 1.0f), // uv
                 diffuseColorPaletteTexture // texture
             );// test
@@ -305,7 +304,7 @@ class MainScene : public Canis::Scene
 
         void UnLoad()
         {
-            Canis::Log("Canis Clear");
+            Log("Canis Clear");
             entity_registry.clear();
         }
 
@@ -320,22 +319,22 @@ class MainScene : public Canis::Scene
 
             if (keystate[SDL_SCANCODE_W] && mouseLock)
             {
-                camera->ProcessKeyboard(Canis::Camera_Movement::FORWARD, deltaTime);
+                camera->ProcessKeyboard(Camera_Movement::FORWARD, deltaTime);
             }
 
             if (keystate[SDL_SCANCODE_S] && mouseLock)
             {
-                camera->ProcessKeyboard(Canis::Camera_Movement::BACKWARD, deltaTime);
+                camera->ProcessKeyboard(Camera_Movement::BACKWARD, deltaTime);
             }
 
             if (keystate[SDL_SCANCODE_A] && mouseLock)
             {
-                camera->ProcessKeyboard(Canis::Camera_Movement::LEFT, deltaTime);
+                camera->ProcessKeyboard(Camera_Movement::LEFT, deltaTime);
             }
 
             if (keystate[SDL_SCANCODE_D] && mouseLock)
             {
-                camera->ProcessKeyboard(Canis::Camera_Movement::RIGHT, deltaTime);
+                camera->ProcessKeyboard(Camera_Movement::RIGHT, deltaTime);
             }
 
             if (inputManager->justPressedKey(SDLK_ESCAPE))
@@ -348,8 +347,8 @@ class MainScene : public Canis::Scene
 
             if (inputManager->justPressedKey(SDLK_F5))
             {
-                Canis::Log("Load Scene");
-                ((Canis::SceneManager*)sceneManager)->Load("MainScene");
+                Log("Load Scene");
+                ((SceneManager*)sceneManager)->Load("MainScene");
             }
         }
 

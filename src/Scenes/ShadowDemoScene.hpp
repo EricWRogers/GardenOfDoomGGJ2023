@@ -105,25 +105,25 @@ class ShadowDemoScene : public Canis::Scene
             spriteShader.Link();
 
             // load icon
-            supperPupStudioLogoTexture = Canis::AssetManager::GetInstance().Get<Canis::TextureAsset>(
-                Canis::AssetManager::GetInstance().LoadTexture("assets/textures/SupperPupStudioLogo.png")
+            supperPupStudioLogoTexture = assetManager->Get<Canis::TextureAsset>(
+                assetManager->LoadTexture("assets/textures/SupperPupStudioLogo.png")
             )->GetTexture();
 
             // Load color palette
-            diffuseColorPaletteTexture = Canis::AssetManager::GetInstance().Get<Canis::TextureAsset>(
-                Canis::AssetManager::GetInstance().LoadTexture("assets/textures/palette/diffuse.png")
+            diffuseColorPaletteTexture = assetManager->Get<Canis::TextureAsset>(
+                assetManager->LoadTexture("assets/textures/palette/diffuse.png")
             )->GetTexture();
-            specularColorPaletteTexture = Canis::AssetManager::GetInstance().Get<Canis::TextureAsset>(
-                Canis::AssetManager::GetInstance().LoadTexture("assets/textures/palette/specular.png")
+            specularColorPaletteTexture = assetManager->Get<Canis::TextureAsset>(
+                assetManager->LoadTexture("assets/textures/palette/specular.png")
             )->GetTexture();
 
             
 
             // load model
-            cubeModelId = Canis::AssetManager::GetInstance().LoadModel("assets/models/white_block.obj");
+            cubeModelId = assetManager->LoadModel("assets/models/white_block.obj");
 
             // load font
-            antonioFontId = Canis::AssetManager::GetInstance().LoadText("assets/fonts/Antonio-Bold.ttf", 48);
+            antonioFontId = assetManager->LoadText("assets/fonts/Antonio-Bold.ttf", 48);
 
 
             renderSkyboxSystem = new Canis::RenderSkyboxSystem();
@@ -132,25 +132,22 @@ class ShadowDemoScene : public Canis::Scene
             spriteRenderer2DSystem = new Canis::SpriteRenderer2DSystem();
             renderHUDSystem = new Canis::RenderHUDSystem();
 
-            renderSkyboxSystem->window = window;
-            renderSkyboxSystem->camera = camera;
+            ReadySystem(renderSkyboxSystem);
             renderSkyboxSystem->Init();
 
-            renderTextSystem->camera = camera;
-            renderTextSystem->window = window;
+            ReadySystem(renderTextSystem);
             renderTextSystem->Init();
 
             renderMeshWithShadowSystem->shadow_mapping_shader = &shader;
             renderMeshWithShadowSystem->shadow_mapping_depth_shader = &shadowMapShader;
-            renderMeshWithShadowSystem->camera = camera;
-            renderMeshWithShadowSystem->window = window;
+            ReadySystem(renderMeshWithShadowSystem);
             renderMeshWithShadowSystem->diffuseColorPaletteTexture = &diffuseColorPaletteTexture;
             renderMeshWithShadowSystem->specularColorPaletteTexture = &specularColorPaletteTexture;
 
-            spriteRenderer2DSystem->window = window;
+            ReadySystem(spriteRenderer2DSystem);
             spriteRenderer2DSystem->Init(Canis::GlyphSortType::TEXTURE, &spriteShader);
 
-            renderHUDSystem->window = window;
+            ReadySystem(renderHUDSystem);
             renderHUDSystem->Init(Canis::GlyphSortType::TEXTURE, &spriteShader);
         }
 
@@ -178,8 +175,8 @@ class ShadowDemoScene : public Canis::Scene
             );
             entity_registry.emplace<Canis::MeshComponent>(light_entity,
                 cubeModelId,
-                Canis::AssetManager::GetInstance().Get<Canis::ModelAsset>(cubeModelId)->GetVAO(),
-                Canis::AssetManager::GetInstance().Get<Canis::ModelAsset>(cubeModelId)->GetSize(),
+                assetManager->Get<Canis::ModelAsset>(cubeModelId)->GetVAO(),
+                assetManager->Get<Canis::ModelAsset>(cubeModelId)->GetSize(),
                 false
             );
             entity_registry.emplace<Canis::SphereColliderComponent>(light_entity,
@@ -217,8 +214,8 @@ class ShadowDemoScene : public Canis::Scene
             );
             entity_registry.emplace<Canis::MeshComponent>(cube_entity,
                 cubeModelId,
-                Canis::AssetManager::GetInstance().Get<Canis::ModelAsset>(cubeModelId)->GetVAO(),
-                Canis::AssetManager::GetInstance().Get<Canis::ModelAsset>(cubeModelId)->GetSize(),
+                assetManager->Get<Canis::ModelAsset>(cubeModelId)->GetVAO(),
+                assetManager->Get<Canis::ModelAsset>(cubeModelId)->GetSize(),
                 true
             );
             entity_registry.emplace<Canis::SphereColliderComponent>(cube_entity,
@@ -240,8 +237,8 @@ class ShadowDemoScene : public Canis::Scene
             );
             entity_registry.emplace<Canis::MeshComponent>(ground_entity,
                 cubeModelId,
-                Canis::AssetManager::GetInstance().Get<Canis::ModelAsset>(cubeModelId)->GetVAO(),
-                Canis::AssetManager::GetInstance().Get<Canis::ModelAsset>(cubeModelId)->GetSize(),
+                assetManager->Get<Canis::ModelAsset>(cubeModelId)->GetVAO(),
+                assetManager->Get<Canis::ModelAsset>(cubeModelId)->GetSize(),
                 false
             );
             entity_registry.emplace<Canis::SphereColliderComponent>(ground_entity,
@@ -265,7 +262,7 @@ class ShadowDemoScene : public Canis::Scene
                 glm::vec4(1.0f, 1.0f, 1.0f, 1.0f) // #26854c
             );
             entity_registry.emplace<Canis::TextComponent>(healthText,
-                Canis::AssetManager::GetInstance().LoadText("assets/fonts/Antonio-Bold.ttf", 48),
+                assetManager->LoadText("assets/fonts/Antonio-Bold.ttf", 48),
                 new std::string("Asset Manager Demo") // text
             );
             }

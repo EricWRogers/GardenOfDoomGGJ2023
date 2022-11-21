@@ -103,28 +103,27 @@ class SpriteDemoScene : public Canis::Scene
             spriteShader.Link();
 
             // load icon
-            supperPupStudioLogoTexture = Canis::AssetManager::GetInstance().Get<Canis::TextureAsset>(
-                Canis::AssetManager::GetInstance().LoadTexture("assets/textures/SupperPupStudioLogo.png")
+            supperPupStudioLogoTexture = assetManager->Get<Canis::TextureAsset>(
+                assetManager->LoadTexture("assets/textures/SupperPupStudioLogo.png")
             )->GetTexture();
 
             // load model
-            cubeModelId = Canis::AssetManager::GetInstance().LoadModel("assets/models/white_block.obj");
+            cubeModelId = assetManager->LoadModel("assets/models/white_block.obj");
 
             // load font
-            antonioFontId = Canis::AssetManager::GetInstance().LoadText("assets/fonts/Antonio-Bold.ttf", 48);
+            antonioFontId = assetManager->LoadText("assets/fonts/Antonio-Bold.ttf", 48);
 
             renderTextSystem = new Canis::RenderTextSystem();
             spriteRenderer2DSystem = new Canis::SpriteRenderer2DSystem();
             renderHUDSystem = new Canis::RenderHUDSystem();
 
-            renderTextSystem->camera = camera;
-            renderTextSystem->window = window;
+            ReadySystem(renderTextSystem);
             renderTextSystem->Init();
 
-            spriteRenderer2DSystem->window = window;
+            ReadySystem(spriteRenderer2DSystem);
             spriteRenderer2DSystem->Init(Canis::GlyphSortType::TEXTURE, &spriteShader);
 
-            renderHUDSystem->window = window;
+            ReadySystem(renderHUDSystem);
             renderHUDSystem->Init(Canis::GlyphSortType::TEXTURE, &spriteShader);
 
             // Draw mode
@@ -165,7 +164,7 @@ class SpriteDemoScene : public Canis::Scene
                 glm::vec4(1.0f, 1.0f, 1.0f, 1.0f) // #26854c
             );
             entity_registry.emplace<Canis::TextComponent>(healthText,
-                Canis::AssetManager::GetInstance().LoadText("assets/fonts/Antonio-Bold.ttf", 48),
+                assetManager->LoadText("assets/fonts/Antonio-Bold.ttf", 48),
                 new std::string("Sprite Demo") // text
             );
             }

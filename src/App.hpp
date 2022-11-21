@@ -21,10 +21,7 @@
 #include <Canis/Time.hpp>
 #include <Canis/Window.hpp>
 #include <Canis/Shader.hpp>
-#include <Canis/Camera.hpp>
 #include <Canis/IOManager.hpp>
-#include <Canis/InputManager.hpp>
-#include <Canis/Scene.hpp>
 #include <Canis/SceneManager.hpp>
 #include <Canis/Data/GLTexture.hpp>
 #include <Canis/Data/Vertex.hpp>
@@ -73,6 +70,8 @@ private:
     Canis::InputManager inputManager;
 
     Canis::Camera camera = Canis::Camera(glm::vec3(0.0f, 0.15f, -0.3f),glm::vec3(0.0f, 1.0f, 0.0f),Canis::YAW+90.0f,Canis::PITCH+0.0f);
+
+    Canis::AssetManager assetManager;
 
     float lastXMousePos;
     float lastYMousePos;

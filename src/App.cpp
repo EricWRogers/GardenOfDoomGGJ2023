@@ -30,14 +30,15 @@ void App::Run()
 	Canis::Log("seed : " + std::to_string(seed));
 
 	sceneManager.Add(new MainScene("MainScene"));
-	sceneManager.Add(new ShadowDemoScene("ShadowDemoScene"));
-	sceneManager.Add(new SpriteDemoScene("SpriteDemoScene"));
+	//sceneManager.Add(new ShadowDemoScene("ShadowDemoScene"));
+	//sceneManager.Add(new SpriteDemoScene("SpriteDemoScene"));
 
 	sceneManager.PreLoad(
 		&window,
 		&inputManager,
 		&time,
-		&camera
+		&camera,
+		&assetManager
 	);
 
 	Canis::Log("Q App 0");
