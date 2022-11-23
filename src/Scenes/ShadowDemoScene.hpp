@@ -79,7 +79,10 @@ class ShadowDemoScene : public Canis::Scene
             glEnable(GL_DEPTH_TEST);
             glEnable(GL_ALPHA);
             glEnable(GL_BLEND);
-            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); 
+            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+            glDepthFunc(GL_LESS);
+            glClearColor(0.05f, 0.05f, 0.05f, 1.0f);
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             // glEnable(GL_CULL_FACE);
             // build and compile our shader program
             shader.Compile("assets/shaders/shadow_mapping.vs", "assets/shaders/shadow_mapping.fs");
@@ -186,81 +189,61 @@ class ShadowDemoScene : public Canis::Scene
             }
 
             { // direction light
-            glm::vec3 dir = -glm::normalize(glm::vec3(-5.0f, 10.0f, -5.0f));
+            Canis::TransformComponent transform;
+            transform.position = glm::vec3(-5.0f, 10.0f, -5.0f);
+            transform.rotation = -glm::normalize(glm::vec3(-5.0f, 10.0f, -5.0f));
+            Canis::DirectionalLightComponent directionalLightComponent;
             entt::entity directionalLight = entity_registry.create();
-            entity_registry.emplace<Canis::TransformComponent>(directionalLight,
-                true, // active
-                glm::vec3(-5.0f, 10.0f, -5.0f), // position
-                dir, // rotation
-                glm::vec3(1, 1, 1) // scale
-            );
-            entity_registry.emplace<Canis::DirectionalLightComponent>(directionalLight,
-                glm::vec3(0.05f, 0.05f, 0.05f), // ambient
-                glm::vec3(0.8f, 0.8f, 0.8f), // diffuse
-                glm::vec3(0.5f, 0.5f, 0.5f) // specular
-            );
+            entity_registry.emplace<Canis::TransformComponent>(directionalLight, transform);
+            entity_registry.emplace<Canis::DirectionalLightComponent>(directionalLight, directionalLightComponent);
             }
 
             { // cube
+            Canis::TransformComponent transform;
+            transform.position.x = 2.0f;
+            Canis::ColorComponent color;
+            color.color = glm::vec4(0.0f,0.0f,1.0f,1.0f);
+            Canis::MeshComponent meshComponent;
+            meshComponent.id = cubeModelId;
+            meshComponent.vao = assetManager->Get<Canis::ModelAsset>(cubeModelId)->GetVAO();
+            meshComponent.size = assetManager->Get<Canis::ModelAsset>(cubeModelId)->GetSize();
+            meshComponent.castShadow = true;
+            Canis::SphereColliderComponent sphereColliderComponent;
+
             entt::entity cube_entity = entity_registry.create();
-            entity_registry.emplace<Canis::TransformComponent>(cube_entity,
-                true, // active
-                glm::vec3(2.0f, 0.0f, 0.0f), // position
-                glm::vec3(0.0f, 0.0f, 0.0f), // rotation
-                glm::vec3(1, 1, 1) // scale
-            );
-            entity_registry.emplace<Canis::ColorComponent>(cube_entity,
-                glm::vec4(0.0f,0.0f,1.0f,1.0f)
-            );
-            entity_registry.emplace<Canis::MeshComponent>(cube_entity,
-                cubeModelId,
-                assetManager->Get<Canis::ModelAsset>(cubeModelId)->GetVAO(),
-                assetManager->Get<Canis::ModelAsset>(cubeModelId)->GetSize(),
-                true
-            );
-            entity_registry.emplace<Canis::SphereColliderComponent>(cube_entity,
-                glm::vec3(0.0f),
-                1.0f
-            );
+            entity_registry.emplace<Canis::TransformComponent>(cube_entity, transform);
+            entity_registry.emplace<Canis::ColorComponent>(cube_entity, color);
+            entity_registry.emplace<Canis::MeshComponent>(cube_entity, meshComponent);
+            entity_registry.emplace<Canis::SphereColliderComponent>(cube_entity, sphereColliderComponent);
             }
 
             { // ground
+            Canis::TransformComponent transform;
+            transform.position.y = -0.55f;
+            transform.scale = glm::vec3(20.0f, 0.2f, 20.0f);
+            Canis::ColorComponent color;
+            color.color = glm::vec4(0.0f,1.0f,0.0f,1.0f);
+            Canis::MeshComponent meshComponent;
+            meshComponent.id = cubeModelId;
+            meshComponent.vao = assetManager->Get<Canis::ModelAsset>(cubeModelId)->GetVAO();
+            meshComponent.size = assetManager->Get<Canis::ModelAsset>(cubeModelId)->GetSize();
+            Canis::SphereColliderComponent sphereColliderComponent;
+
             entt::entity ground_entity = entity_registry.create();
-            entity_registry.emplace<Canis::TransformComponent>(ground_entity,
-                true, // active
-                glm::vec3(0.0f, -0.55f, 0.0f), // position
-                glm::vec3(0.0f, 0.0f, 0.0f), // rotation
-                glm::vec3(20.0f, 0.2f, 20.0f) // scale
-            );
-            entity_registry.emplace<Canis::ColorComponent>(ground_entity,
-                glm::vec4(0.0f,1.0f,0.0f,1.0f)
-            );
-            entity_registry.emplace<Canis::MeshComponent>(ground_entity,
-                cubeModelId,
-                assetManager->Get<Canis::ModelAsset>(cubeModelId)->GetVAO(),
-                assetManager->Get<Canis::ModelAsset>(cubeModelId)->GetSize(),
-                false
-            );
-            entity_registry.emplace<Canis::SphereColliderComponent>(ground_entity,
-                glm::vec3(0.0f),
-                1.0f
-            );
+            entity_registry.emplace<Canis::TransformComponent>(ground_entity, transform);
+            entity_registry.emplace<Canis::ColorComponent>(ground_entity, color);
+            entity_registry.emplace<Canis::MeshComponent>(ground_entity, meshComponent);
+            entity_registry.emplace<Canis::SphereColliderComponent>(ground_entity, sphereColliderComponent);
             }
 
             { // health text
+            Canis::RectTransformComponent rectTransformComponent;
+            rectTransformComponent.position = glm::vec2(25.0f, window->GetScreenHeight() - 65.0f);
+            Canis::ColorComponent colorComponent;
+            
             entt::entity healthText = entity_registry.create();
-            entity_registry.emplace<Canis::RectTransformComponent>(healthText,
-                true, // active
-                glm::vec2(25.0f, window->GetScreenHeight() - 65.0f), // position
-                glm::vec2(0.0f,0.0f), // size
-                glm::vec2(0.0f),
-                0.0f, // rotation
-                1.0f, // scale
-                0.0f // depth
-            );
-            entity_registry.emplace<Canis::ColorComponent>(healthText,
-                glm::vec4(1.0f, 1.0f, 1.0f, 1.0f) // #26854c
-            );
+            entity_registry.emplace<Canis::RectTransformComponent>(healthText, rectTransformComponent);
+            entity_registry.emplace<Canis::ColorComponent>(healthText, colorComponent);
             entity_registry.emplace<Canis::TextComponent>(healthText,
                 assetManager->LoadText("assets/fonts/Antonio-Bold.ttf", 48),
                 new std::string("Asset Manager Demo") // text
@@ -309,7 +292,6 @@ class ShadowDemoScene : public Canis::Scene
 
         void UnLoad()
         {
-            Canis::Log("Canis Clear");
             entity_registry.clear();
         }
 
@@ -359,10 +341,6 @@ class ShadowDemoScene : public Canis::Scene
 
         void Draw()
         {
-            glDepthFunc(GL_LESS);
-            glClearColor(0.05f, 0.05f, 0.05f, 1.0f);
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // also clear the depth buffer now!
-
             // First Render Models
             renderMeshWithShadowSystem->UpdateComponents(deltaTime, entity_registry);
             // Second Render Skybox

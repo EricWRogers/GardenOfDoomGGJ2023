@@ -84,7 +84,10 @@ class SpriteDemoScene : public Canis::Scene
             glEnable(GL_DEPTH_TEST);
             glEnable(GL_ALPHA);
             glEnable(GL_BLEND);
-            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); 
+            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+            glDepthFunc(GL_LESS);
+            glClearColor(0.05f, 0.05f, 0.05f, 1.0f);
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             // glEnable(GL_CULL_FACE);
             // build and compile our shader program
             shader.Compile("assets/shaders/lighting.vs", "assets/shaders/lighting.fs");
@@ -193,7 +196,6 @@ class SpriteDemoScene : public Canis::Scene
 
         void UnLoad()
         {
-            Canis::Log("Canis Clear");
             entity_registry.clear();
         }
 
@@ -267,10 +269,6 @@ class SpriteDemoScene : public Canis::Scene
 
         void Draw()
         {
-            glDepthFunc(GL_LESS);
-            glClearColor(0.05f, 0.05f, 0.05f, 1.0f);
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // also clear the depth buffer now!
-
             spriteRenderer2DSystem->UpdateComponents(deltaTime, entity_registry);
             renderTextSystem->UpdateComponents(deltaTime, entity_registry);
             
