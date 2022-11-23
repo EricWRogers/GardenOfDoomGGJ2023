@@ -35,13 +35,13 @@
 #include <Canis/ECS/Systems/SpriteRenderer2DSystem.hpp>
 #include <Canis/ECS/Systems/RenderHUDSystem.hpp>
 
+#include <Canis/ECS/Components/ScriptComponent.hpp>
+
 using namespace Canis;
 
 class MainScene : public Scene
 {
     private:
-        entt::registry entity_registry;
-
         Shader shader;
         Shader spriteShader;
 
@@ -157,23 +157,23 @@ class MainScene : public Scene
             window->MouseLock(mouseLock);
 
             { // light cube
-            entt::entity light_entity = entity_registry.create();
-            entity_registry.emplace<TransformComponent>(light_entity,
+            entt::entity light_entity = entityRegistry.create();
+            entityRegistry.emplace<TransformComponent>(light_entity,
                 true, // active
                 glm::vec3(-5.0f, 10.0f, -5.0f), // position
                 glm::vec3(0.0f, 0.0f, 0.0f), // rotation
                 glm::vec3(1, 1, 1) // scale
             );
-            entity_registry.emplace<ColorComponent>(light_entity,
+            entityRegistry.emplace<ColorComponent>(light_entity,
                 glm::vec4(1.0f,0.0f,0.0f,1.0f)
             );
-            entity_registry.emplace<MeshComponent>(light_entity,
+            entityRegistry.emplace<MeshComponent>(light_entity,
                 cubeModelId,
                 assetManager->Get<ModelAsset>(cubeModelId)->GetVAO(),
                 assetManager->Get<ModelAsset>(cubeModelId)->GetSize(),
                 false
             );
-            entity_registry.emplace<SphereColliderComponent>(light_entity,
+            entityRegistry.emplace<SphereColliderComponent>(light_entity,
                 glm::vec3(0.0f),
                 1.0f
             );
@@ -181,14 +181,14 @@ class MainScene : public Scene
 
             { // direction light
             glm::vec3 dir = -glm::normalize(glm::vec3(-5.0f, 10.0f, -5.0f));
-            entt::entity directionalLight = entity_registry.create();
-            entity_registry.emplace<TransformComponent>(directionalLight,
+            entt::entity directionalLight = entityRegistry.create();
+            entityRegistry.emplace<TransformComponent>(directionalLight,
                 true, // active
                 glm::vec3(-5.0f, 10.0f, -5.0f), // position
                 dir, // rotation
                 glm::vec3(1, 1, 1) // scale
             );
-            entity_registry.emplace<DirectionalLightComponent>(directionalLight,
+            entityRegistry.emplace<DirectionalLightComponent>(directionalLight,
                 glm::vec3(0.05f, 0.05f, 0.05f), // ambient
                 glm::vec3(0.8f, 0.8f, 0.8f), // diffuse
                 glm::vec3(0.5f, 0.5f, 0.5f) // specular
@@ -196,54 +196,81 @@ class MainScene : public Scene
             }
 
             { // cube
-            entt::entity cube_entity = entity_registry.create();
-            entity_registry.emplace<TransformComponent>(cube_entity,
+
+            class TestScript : public ScriptableEntity
+            {
+                void OnCreate()
+                {
+
+                }
+
+                void OnDestroy()
+                {
+
+                }
+
+                void OnUpdate(float _dt)
+                {
+                    auto& transform = GetComponent<TransformComponent>();
+
+                    float speed = 5.0f;
+
+                    RotateTransformRotation(transform, glm::vec3(0.0f,speed,0.0f));
+                }
+            };
+
+            ScriptComponent scriptComponent;
+            scriptComponent.Bind<TestScript>();
+
+            entt::entity cube_entity = entityRegistry.create();
+            entityRegistry.emplace<TransformComponent>(cube_entity,
                 true, // active
                 glm::vec3(2.0f, 0.0f, 0.0f), // position
                 glm::vec3(0.0f, 0.0f, 0.0f), // rotation
                 glm::vec3(1, 1, 1) // scale
             );
-            entity_registry.emplace<ColorComponent>(cube_entity,
+            entityRegistry.emplace<ColorComponent>(cube_entity,
                 glm::vec4(0.0f,0.0f,1.0f,1.0f)
             );
-            entity_registry.emplace<MeshComponent>(cube_entity,
+            entityRegistry.emplace<MeshComponent>(cube_entity,
                 cubeModelId,
                 assetManager->Get<ModelAsset>(cubeModelId)->GetVAO(),
                 assetManager->Get<ModelAsset>(cubeModelId)->GetSize(),
                 true
             );
-            entity_registry.emplace<SphereColliderComponent>(cube_entity,
+            entityRegistry.emplace<SphereColliderComponent>(cube_entity,
                 glm::vec3(0.0f),
                 1.0f
             );
+            entityRegistry.emplace<ScriptComponent>(cube_entity, scriptComponent);
             }
 
             { // ground
-            entt::entity ground_entity = entity_registry.create();
-            entity_registry.emplace<TransformComponent>(ground_entity,
+            entt::entity ground_entity = entityRegistry.create();
+            entityRegistry.emplace<TransformComponent>(ground_entity,
                 true, // active
                 glm::vec3(0.0f, -0.55f, 0.0f), // position
                 glm::vec3(0.0f, 0.0f, 0.0f), // rotation
                 glm::vec3(20.0f, 0.2f, 20.0f) // scale
             );
-            entity_registry.emplace<ColorComponent>(ground_entity,
+            entityRegistry.emplace<ColorComponent>(ground_entity,
                 glm::vec4(0.0f,1.0f,0.0f,1.0f)
             );
-            entity_registry.emplace<MeshComponent>(ground_entity,
+            entityRegistry.emplace<MeshComponent>(ground_entity,
                 cubeModelId,
                 assetManager->Get<ModelAsset>(cubeModelId)->GetVAO(),
                 assetManager->Get<ModelAsset>(cubeModelId)->GetSize(),
                 false
             );
-            entity_registry.emplace<SphereColliderComponent>(ground_entity,
+            entityRegistry.emplace<SphereColliderComponent>(ground_entity,
                 glm::vec3(0.0f),
                 1.0f
             );
             }
 
             { // health text
-            entt::entity healthText = entity_registry.create();
-            entity_registry.emplace<RectTransformComponent>(healthText,
+            entt::entity healthText = entityRegistry.create();
+            entityRegistry.emplace<RectTransformComponent>(healthText,
                 true, // active
                 glm::vec2(25.0f, window->GetScreenHeight() - 65.0f), // position
                 glm::vec2(0.0f,0.0f), // size
@@ -252,18 +279,18 @@ class MainScene : public Scene
                 1.0f, // scale
                 0.0f // depth
             );
-            entity_registry.emplace<ColorComponent>(healthText,
+            entityRegistry.emplace<ColorComponent>(healthText,
                 glm::vec4(1.0f, 1.0f, 1.0f, 1.0f) // #26854c
             );
-            entity_registry.emplace<TextComponent>(healthText,
+            entityRegistry.emplace<TextComponent>(healthText,
                 assetManager->LoadText("assets/fonts/Antonio-Bold.ttf", 48),
                 new std::string("Asset Manager Demo") // text
             );
             }
 
             { // sprite test supperPupStudioLogoTexture
-            entt::entity spriteEntity = entity_registry.create();
-            entity_registry.emplace<RectTransformComponent>(spriteEntity,
+            entt::entity spriteEntity = entityRegistry.create();
+            entityRegistry.emplace<RectTransformComponent>(spriteEntity,
                 true, // active
                 glm::vec2(0.0f, 0.0f), // position
                 glm::vec2(supperPupStudioLogoTexture.width/4,supperPupStudioLogoTexture.height/4), // size
@@ -272,18 +299,18 @@ class MainScene : public Scene
                 1.0f, // scale
                 0.0f // depth
             );
-            entity_registry.emplace<ColorComponent>(spriteEntity,
+            entityRegistry.emplace<ColorComponent>(spriteEntity,
                 glm::vec4(1.0f, 1.0f, 1.0f, 1.0f)
             );
-            entity_registry.emplace<UIImageComponent>(spriteEntity,
+            entityRegistry.emplace<UIImageComponent>(spriteEntity,
                 glm::vec4(0.0f, 0.0f, 1.0f, 1.0f), // uv
                 supperPupStudioLogoTexture // texture
             );// test
             }
 
             { // sprite test supperPupStudioLogoTexture
-            entt::entity spriteEntity = entity_registry.create();
-            entity_registry.emplace<RectTransformComponent>(spriteEntity,
+            entt::entity spriteEntity = entityRegistry.create();
+            entityRegistry.emplace<RectTransformComponent>(spriteEntity,
                 true, // active
                 glm::vec2(100.0f, 400.0f), // position
                 glm::vec2(diffuseColorPaletteTexture.width/4,diffuseColorPaletteTexture.height/4), // size
@@ -292,10 +319,10 @@ class MainScene : public Scene
                 1.0f, // scale
                 0.0f // depth
             );
-            entity_registry.emplace<ColorComponent>(spriteEntity,
+            entityRegistry.emplace<ColorComponent>(spriteEntity,
                 glm::vec4(1.0f, 1.0f, 1.0f, 1.0f)
             );
-            entity_registry.emplace<UIImageComponent>(spriteEntity,
+            entityRegistry.emplace<UIImageComponent>(spriteEntity,
                 glm::vec4(0.0f, 0.0f, 1.0f, 1.0f), // uv
                 diffuseColorPaletteTexture // texture
             );// test
@@ -304,8 +331,7 @@ class MainScene : public Scene
 
         void UnLoad()
         {
-            Log("Canis Clear");
-            entity_registry.clear();
+                        
         }
 
         void Update()
@@ -358,16 +384,16 @@ class MainScene : public Scene
             glClearColor(0.05f, 0.05f, 0.05f, 1.0f);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // also clear the depth buffer now!
 
-            renderSkyboxSystem->UpdateComponents(deltaTime, entity_registry);
-            renderMeshSystem->UpdateComponents(deltaTime, entity_registry);
-            renderHUDSystem->UpdateComponents(deltaTime, entity_registry);
-            renderTextSystem->UpdateComponents(deltaTime, entity_registry);
-            spriteRenderer2DSystem->UpdateComponents(deltaTime, entity_registry);
+            renderSkyboxSystem->UpdateComponents(deltaTime, entityRegistry);
+            renderMeshSystem->UpdateComponents(deltaTime, entityRegistry);
+            renderHUDSystem->UpdateComponents(deltaTime, entityRegistry);
+            renderTextSystem->UpdateComponents(deltaTime, entityRegistry);
+            spriteRenderer2DSystem->UpdateComponents(deltaTime, entityRegistry);
             
 
             window->SetWindowName("Canis : Template | fps : " + std::to_string(int(window->fps))
             + " deltaTime : " + std::to_string(deltaTime)
-            + " Enitity : " + std::to_string(entity_registry.size())
+            + " Enitity : " + std::to_string(entityRegistry.size())
             + " Rendered : " + std::to_string(renderMeshSystem->entities_rendered));
         }
 
