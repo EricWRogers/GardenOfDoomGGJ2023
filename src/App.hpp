@@ -1,34 +1,12 @@
-#include <iostream>
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
-#include <SDL.h>
-#include <math.h>
-#include <chrono>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
-#include <glm/gtx/string_cast.hpp>
-
+#pragma once
 #ifdef __ANDROID__
     #include <android/log.h>
     #define LOGW(...) __android_log_print(ANDROID_LOG_WARN,__VA_ARGS__)
 #endif
 
 #include <Canis/Canis.hpp>
-#include <Canis/Debug.hpp>
-#include <Canis/Math.hpp>
-#include <Canis/Time.hpp>
-#include <Canis/Window.hpp>
-#include <Canis/Shader.hpp>
-#include <Canis/IOManager.hpp>
 #include <Canis/SceneManager.hpp>
-#include <Canis/Data/GLTexture.hpp>
-#include <Canis/Data/Vertex.hpp>
-#include <Canis/External/entt.hpp>
 
-#include "Scenes/MainScene.hpp"
-#include "Scenes/ShadowDemoScene.hpp"
 #include "Scenes/SpriteDemoScene.hpp"
 
 
@@ -81,8 +59,6 @@ private:
     high_resolution_clock::time_point currentTime;
     high_resolution_clock::time_point previousTime;
     double deltaTime;
-
-    Canis::AStar aStar;
 
     unsigned int seed;
 };

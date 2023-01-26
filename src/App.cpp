@@ -1,8 +1,39 @@
 #include "App.hpp"
+#include <Canis/ECS/Systems/RenderHUDSystem.hpp>
+#include <Canis/ECS/Systems/RenderTextSystem.hpp>
+#include <Canis/ECS/Systems/SpriteRenderer2DSystem.hpp>
 
 App::App()
 {
-	
+	sceneManager.decodeRenderSystem.push_back(
+		[](YAML::Node _n, int _index, Canis::Scene *scene) {
+			if(_n[_index].as<std::string>() == "Canis::RenderHUDSystem"){
+                scene->CreateRenderSystem<Canis::RenderHUDSystem>();
+				return true;
+			}
+			return false;
+		}
+	);
+
+	sceneManager.decodeRenderSystem.push_back(
+		[](YAML::Node _n, int _index, Canis::Scene *scene) {
+			if(_n[_index].as<std::string>() == "Canis::RenderTextSystem"){
+                scene->CreateRenderSystem<Canis::RenderTextSystem>();
+				return true;
+			}
+			return false;
+		}
+	);
+
+	sceneManager.decodeRenderSystem.push_back(
+		[](YAML::Node _n, int _index, Canis::Scene *scene) {
+			if(_n[_index].as<std::string>() == "Canis::SpriteRenderer2DSystem"){
+                scene->CreateRenderSystem<Canis::SpriteRenderer2DSystem>();
+				return true;
+			}
+			return false;
+		}
+	);
 }
 App::~App()
 {
@@ -29,16 +60,15 @@ void App::Run()
 	srand(seed);
 	Canis::Log("seed : " + std::to_string(seed));
 
-	sceneManager.Add(new MainScene("MainScene"));
-	//sceneManager.Add(new ShadowDemoScene("ShadowDemoScene"));
-	//sceneManager.Add(new SpriteDemoScene("SpriteDemoScene"));
+	sceneManager.Add(new SpriteDemoScene("SpriteDemoScene"));
 
 	sceneManager.PreLoad(
 		&window,
 		&inputManager,
 		&time,
 		&camera,
-		&assetManager
+		&assetManager,
+		seed
 	);
 
 	Canis::Log("Q App 0");
@@ -51,9 +81,7 @@ void App::Run()
 }
 void App::Load()
 {
-	sceneManager.Load("MainScene");
-	//sceneManager.Load("ShadowDemoScene");
-	//sceneManager.Load("SpriteDemoScene");
+	sceneManager.ForceLoad("SpriteDemoScene");
 
 	// start timer
 	previousTime = high_resolution_clock::now();

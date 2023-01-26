@@ -1,0 +1,11 @@
+Scene: SpireDemo
+Systems:
+RenderSystems:
+  - Canis::RenderTextSystem
+  - Canis::SpriteRenderer2DSystem
+  - Canis::RenderHUDSystem
+Entities:
+  - 0:
+    Canis::Camera2DComponent:
+      position: [0.0, 0.0]
+      scale: 1.0
