@@ -83,66 +83,63 @@ class SpriteDemoScene : public Canis::Scene
                     Canis::Entity entity = CreateEntity();
 
                     auto camera2dComponent = e["Canis::Camera2DComponent"];
-                    if(camera2dComponent)
+                    if (camera2dComponent)
                     {
                         auto& c2dc = entity.AddComponent<Canis::Camera2DComponent>();
                         c2dc.position = camera2dComponent["position"].as<glm::vec2>();
                         c2dc.scale = camera2dComponent["scale"].as<float>();
+                    }
 
-                        Canis::Log("x: " + std::to_string(c2dc.position.x) + " y: " + std::to_string(c2dc.position.y));
+                    auto rectTransform = e["Canis::RectTransformComponent"];
+                    if (rectTransform)
+                    {
+                        auto& rt = entity.AddComponent<Canis::RectTransformComponent>();
+                        rt.active = rectTransform["active"].as<bool>();
+                        rt.anchor = (Canis::RectAnchor)rectTransform["anchor"].as<int>();
+                        rt.position = rectTransform["position"].as<glm::vec2>();
+                        rt.size = rectTransform["size"].as<glm::vec2>();
+                        rt.originOffset = rectTransform["originOffset"].as<glm::vec2>();
+                        rt.rotation = rectTransform["rotation"].as<float>();
+                        rt.scale = rectTransform["scale"].as<float>();
+                        rt.depth = rectTransform["depth"].as<float>();
+                    }
+
+                    auto colorComponent = e["Canis::ColorComponent"];
+                    if (colorComponent)
+                    {
+                        auto& cc = entity.AddComponent<Canis::ColorComponent>();
+                        cc.color = colorComponent["color"].as<glm::vec4>();
+                    }
+
+                    auto textComponent = e["Canis::TextComponent"];
+                    if (textComponent)
+                    {
+                        auto& tc = entity.AddComponent<Canis::TextComponent>();
+                        auto asset = textComponent["assetId"];
+                        if (asset)
+                        {
+                            tc.assetId = assetManager->LoadText(
+                                asset["path"].as<std::string>(),
+                                asset["size"].as<unsigned int>()
+                            );
+                        }
+                        tc.text = new std::string;
+                        (*tc.text) = textComponent["text"].as<std::string>();
+                        tc.align = textComponent["align"].as<unsigned int>();
+                    }
+
+                    auto sprite2DComponent = e["Canis::Sprite2DComponent"];
+                    if (sprite2DComponent)
+                    {
+                        auto& s2dc = entity.AddComponent<Canis::Sprite2DComponent>();
+                        s2dc.uv = sprite2DComponent["uv"].as<glm::vec4>();
+                        s2dc.texture = assetManager->Get<Canis::TextureAsset>(
+                            assetManager->LoadTexture(
+                                sprite2DComponent["texture"].as<std::string>()
+                            )
+                        )->GetTexture();
                     }
                 }
-            }
-
-            /*{ // camera 2D
-            camera2DEntt = entityRegistry.create();
-            entityRegistry.emplace<Canis::Camera2DComponent>(camera2DEntt,
-                glm::vec2(0.0f,0.0f), // position
-                1.0f // scale
-            );
-            }*/
-
-            { // demo text
-            entt::entity healthText = entityRegistry.create();
-            entityRegistry.emplace<Canis::RectTransformComponent>(healthText,
-                true, // active
-                Canis::RectAnchor::BOTTOMLEFT,
-                glm::vec2(30.0f, 30.0f), // position
-                glm::vec2(0.0f,0.0f), // size
-                glm::vec2(0.0f),
-                0.0f, // rotation
-                1.0f, // scale
-                0.0f // depth
-            );
-            entityRegistry.emplace<Canis::ColorComponent>(healthText,
-                glm::vec4(1.0f, 1.0f, 1.0f, 1.0f) // #26854c
-            );
-            entityRegistry.emplace<Canis::TextComponent>(healthText,
-                assetManager->LoadText("assets/fonts/Antonio-Bold.ttf", 48),
-                new std::string("Sprite Demo") // text
-            );
-            }
-
-            { // sprite test supperPupStudioLogoTexture
-            glm::vec2 size = glm::vec2(supperPupStudioLogoTexture.width/4,supperPupStudioLogoTexture.height/4);
-            entt::entity spriteEntity = entityRegistry.create();
-            entityRegistry.emplace<Canis::RectTransformComponent>(spriteEntity,
-                true, // active
-                Canis::RectAnchor::BOTTOMLEFT,
-                glm::vec2(0.0f,0.0f), // position
-                size, // size
-                glm::vec2(0.0f,0.0f), // origin
-                0.0f, // rotation
-                1.0f, // scale
-                0.0f // depth
-            );
-            entityRegistry.emplace<Canis::ColorComponent>(spriteEntity,
-                glm::vec4(1.0f, 1.0f, 1.0f, 1.0f)
-            );
-            entityRegistry.emplace<Canis::Sprite2DComponent>(spriteEntity,
-                glm::vec4(0.0f, 0.0f, 1.0f, 1.0f), // uv
-                supperPupStudioLogoTexture // texture
-            );// test
             }
         }
 
