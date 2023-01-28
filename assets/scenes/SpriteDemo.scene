@@ -1,5 +1,7 @@
-Scene: SpireDemo
+Scene: SpriteDemo
 Systems:
+  - Canis::ButtonSystem
+  - Canis::CollisionSystem2D
 RenderSystems:
   - Canis::RenderTextSystem
   - Canis::SpriteRenderer2DSystem
@@ -9,6 +11,7 @@ Entities:
     Canis::Camera2DComponent:
       position: [0.0, 0.0]
       scale: 1.0
+    Canis::ScriptComponent: DebugCamera2D
   - 1:
     Canis::RectTransformComponent:
       active: true
@@ -32,9 +35,9 @@ Entities:
       active: true
       anchor: 6
       position: [30.0, 30.0]
-      size: [0.5, 0.5]
+      size: [256.0, 256.0]
       originOffset: [0.0, 0.0]
-      rotation: 0.0
+      rotation: 3.14159
       scale: 1.0
       depth: 0.1
     Canis::ColorComponent:

@@ -7,8 +7,6 @@
 #include <Canis/Canis.hpp>
 #include <Canis/SceneManager.hpp>
 
-#include "Scenes/SpriteDemoScene.hpp"
-
 
 enum AppState
 {

@@ -3,37 +3,80 @@
 #include <Canis/ECS/Systems/RenderTextSystem.hpp>
 #include <Canis/ECS/Systems/SpriteRenderer2DSystem.hpp>
 
+#include <Canis/ECS/Systems/CollisionSystem2D.hpp>
+#include <Canis/ECS/Systems/ButtonSystem.hpp>
+
+#include "ECS/ScriptableEntities/DebugCamera2D.hpp"
+
 App::App()
 {
-	sceneManager.decodeRenderSystem.push_back(
-		[](YAML::Node _n, int _index, Canis::Scene *scene) {
-			if(_n[_index].as<std::string>() == "Canis::RenderHUDSystem"){
-                scene->CreateRenderSystem<Canis::RenderHUDSystem>();
-				return true;
+	{ // decode systems
+		sceneManager.decodeSystem.push_back(
+			[](YAML::Node _n, int _index, Canis::Scene *scene) {
+				if(_n[_index].as<std::string>() == "Canis::ButtonSystem"){
+					scene->CreateSystem<Canis::ButtonSystem>();
+					return true;
+				}
+				return false;
 			}
-			return false;
-		}
-	);
+		);
 
-	sceneManager.decodeRenderSystem.push_back(
-		[](YAML::Node _n, int _index, Canis::Scene *scene) {
-			if(_n[_index].as<std::string>() == "Canis::RenderTextSystem"){
-                scene->CreateRenderSystem<Canis::RenderTextSystem>();
-				return true;
+		sceneManager.decodeSystem.push_back(
+			[](YAML::Node _n, int _index, Canis::Scene *scene) {
+				if(_n[_index].as<std::string>() == "Canis::CollisionSystem2D"){
+					scene->CreateSystem<Canis::CollisionSystem2D>();
+					return true;
+				}
+				return false;
 			}
-			return false;
-		}
-	);
+		);
+	}
 
-	sceneManager.decodeRenderSystem.push_back(
-		[](YAML::Node _n, int _index, Canis::Scene *scene) {
-			if(_n[_index].as<std::string>() == "Canis::SpriteRenderer2DSystem"){
-                scene->CreateRenderSystem<Canis::SpriteRenderer2DSystem>();
-				return true;
+	{ // decode render systems
+		sceneManager.decodeRenderSystem.push_back(
+			[](YAML::Node _n, int _index, Canis::Scene *scene) {
+				if(_n[_index].as<std::string>() == "Canis::RenderHUDSystem"){
+					scene->CreateRenderSystem<Canis::RenderHUDSystem>();
+					return true;
+				}
+				return false;
 			}
-			return false;
-		}
-	);
+		);
+
+		sceneManager.decodeRenderSystem.push_back(
+			[](YAML::Node _n, int _index, Canis::Scene *scene) {
+				if(_n[_index].as<std::string>() == "Canis::RenderTextSystem"){
+					scene->CreateRenderSystem<Canis::RenderTextSystem>();
+					return true;
+				}
+				return false;
+			}
+		);
+
+		sceneManager.decodeRenderSystem.push_back(
+			[](YAML::Node _n, int _index, Canis::Scene *scene) {
+				if(_n[_index].as<std::string>() == "Canis::SpriteRenderer2DSystem"){
+					scene->CreateRenderSystem<Canis::SpriteRenderer2DSystem>();
+					return true;
+				}
+				return false;
+			}
+		);
+	}
+	
+	{ // decode scriptable entities
+		sceneManager.decodeScriptableEntity.push_back(
+			[](const std::string &_name, Canis::Entity &_entity) {
+				if(_name == "DebugCamera2D"){
+					Canis::ScriptComponent scriptComponent = {};
+            		scriptComponent.Bind<DebugCamera2D>();
+					_entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
+					return true;
+				}
+				return false;
+			}
+		);
+	}
 }
 App::~App()
 {
@@ -60,7 +103,7 @@ void App::Run()
 	srand(seed);
 	Canis::Log("seed : " + std::to_string(seed));
 
-	sceneManager.Add(new SpriteDemoScene("SpriteDemoScene"));
+	sceneManager.Add(new Canis::Scene("SpriteDemo", "assets/scenes/SpriteDemo.scene"));
 
 	sceneManager.PreLoad(
 		&window,
@@ -81,7 +124,7 @@ void App::Run()
 }
 void App::Load()
 {
-	sceneManager.ForceLoad("SpriteDemoScene");
+	sceneManager.ForceLoad("SpriteDemo");
 
 	// start timer
 	previousTime = high_resolution_clock::now();
