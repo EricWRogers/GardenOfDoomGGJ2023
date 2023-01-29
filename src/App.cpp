@@ -177,7 +177,7 @@ void App::LateUpdate()
 }
 void App::InputUpdate()
 {
-	inputManager.swapMaps();
+	inputManager.SwapMaps();
 
 	SDL_Event event;
 	while (SDL_PollEvent(&event))
@@ -193,11 +193,11 @@ void App::InputUpdate()
 				camera.ProcessMouseMovement(event.motion.xrel, -event.motion.yrel);
 			break;
 		case SDL_KEYUP:
-			inputManager.releasedKey(event.key.keysym.sym);
+			inputManager.ReleasedKey(event.key.keysym.sym);
 			//Canis::Log("UP" + std::to_string(event.key.keysym.sym));
 			break;
 		case SDL_KEYDOWN:
-			inputManager.pressKey(event.key.keysym.sym);
+			inputManager.PressKey(event.key.keysym.sym);
 			//Canis::Log("DOWN");
 			break;
 		case SDL_MOUSEBUTTONDOWN:

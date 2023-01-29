@@ -61,12 +61,12 @@ public:
                 camera2D.scale = 0.01f;
         }
 
-        if (GetInputManager().justPressedKey(SDLK_ESCAPE))
+        if (GetInputManager().JustPressedKey(SDLK_ESCAPE))
         {
             GetWindow().MouseLock(!GetWindow().GetMouseLock());
         }
 
-        if (GetInputManager().justPressedKey(SDLK_F5))
+        if (GetInputManager().JustPressedKey(SDLK_F5))
         {
             Canis::Log("Load Scene");
             ((Canis::SceneManager*)m_Entity.scene->sceneManager)->Load("SpriteDemo");
