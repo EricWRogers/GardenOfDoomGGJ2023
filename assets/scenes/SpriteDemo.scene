@@ -34,8 +34,8 @@ Entities:
     Canis::RectTransformComponent:
       active: true
       anchor: 6
-      position: [30.0, 30.0]
-      size: [256.0, 256.0]
+      position: [0.0, 0.0]
+      size: [100.0, 100.0]
       originOffset: [0.0, 0.0]
       rotation: 0
       scale: 1.0
@@ -44,7 +44,7 @@ Entities:
       color: [1.0, 1.0, 1.0, 1.0]
     Canis::Sprite2DComponent:
       uv: [0.0, 0.0, 1.0, 1.0]
-      texture: "assets/textures/SupperPupStudioLogo.png"
+      texture: "assets/textures/awesomeface.png"
     Canis::CircleColliderComponent:
       center: [0.0, 0.0]
       radius: 128.0
