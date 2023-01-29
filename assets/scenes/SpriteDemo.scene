@@ -37,7 +37,7 @@ Entities:
       position: [30.0, 30.0]
       size: [256.0, 256.0]
       originOffset: [0.0, 0.0]
-      rotation: 3.14159
+      rotation: 0
       scale: 1.0
       depth: 0.1
     Canis::ColorComponent:
@@ -45,3 +45,9 @@ Entities:
     Canis::Sprite2DComponent:
       uv: [0.0, 0.0, 1.0, 1.0]
       texture: "assets/textures/SupperPupStudioLogo.png"
+    Canis::CircleColliderComponent:
+      center: [0.0, 0.0]
+      radius: 128.0
+      layer: 0
+      mask: 0
+    Canis::ScriptComponent: BeachBall
