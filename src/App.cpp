@@ -6,6 +6,8 @@
 #include <Canis/ECS/Systems/CollisionSystem2D.hpp>
 #include <Canis/ECS/Systems/ButtonSystem.hpp>
 
+#include <Canis/ECS/Decode.hpp>
+
 #include "ECS/ScriptableEntities/DebugCamera2D.hpp"
 #include "ECS/ScriptableEntities/BeachBall.hpp"
 
@@ -92,7 +94,13 @@ App::App()
 	}
 
 	{ // decode component
-
+		sceneManager.decodeEntity.push_back(Canis::DecodeTagComponent);
+		sceneManager.decodeEntity.push_back(Canis::DecodeCamera2DComponent);
+		sceneManager.decodeEntity.push_back(Canis::DecodeRectTransformComponent);
+		sceneManager.decodeEntity.push_back(Canis::DecodeColorComponent);
+		sceneManager.decodeEntity.push_back(Canis::DecodeTextComponent);
+		sceneManager.decodeEntity.push_back(Canis::DecodeSprite2DComponent);
+		sceneManager.decodeEntity.push_back(Canis::DecodeCircleColliderComponent);
 	}
 }
 App::~App()

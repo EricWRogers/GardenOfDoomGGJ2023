@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <vector>
 #include <Canis/ScriptableEntity.hpp>
 #include <Canis/ECS/Components/RectTransformComponent.hpp>
 
@@ -8,6 +9,7 @@ class BeachBall : public Canis::ScriptableEntity
 private:
     glm::vec2   m_direction;
     float       m_speed;
+    std::vector<glm::vec2> m_spawnPoints = {};
 public:
     void OnCreate()
     {
@@ -47,5 +49,16 @@ public:
         
         if (GetInputManager().JustPressedKey(SDLK_r))
             m_speed = 150.0f;
+        
+        if (GetInputManager().JustPressedKey(SDLK_d))
+        {
+            auto e = CreateEntity();
+            auto& rectTransform = e.AddComponent<Canis::RectTransformComponent>();
+            rectTransform = rect;
+            auto& color = e.AddComponent<Canis::ColorComponent>();
+            color = GetComponent<Canis::ColorComponent>();
+            auto& sprite = e.AddComponent<Canis::Sprite2DComponent>();
+            sprite = GetComponent<Canis::Sprite2DComponent>();
+        }
     }
 };
