@@ -95,6 +95,8 @@ public:
             color = GetComponent<Canis::ColorComponent>();
             auto& sprite = e.AddComponent<Canis::Sprite2DComponent>();
             sprite = GetComponent<Canis::Sprite2DComponent>();
+            auto& spriteAnimation = e.AddComponent<Canis::SpriteAnimationComponent>();
+            spriteAnimation = GetComponent<Canis::SpriteAnimationComponent>();
         }
     }
 };
