@@ -2,6 +2,7 @@
 #include <Canis/ECS/Systems/RenderHUDSystem.hpp>
 #include <Canis/ECS/Systems/RenderTextSystem.hpp>
 #include <Canis/ECS/Systems/SpriteRenderer2DSystem.hpp>
+#include <Canis/ECS/Systems/SpriteAnimationSystem.hpp>
 
 #include <Canis/ECS/Systems/CollisionSystem2D.hpp>
 #include <Canis/ECS/Systems/ButtonSystem.hpp>
@@ -28,6 +29,16 @@ App::App()
 			[](YAML::Node _n, int _index, Canis::Scene *scene) {
 				if(_n[_index].as<std::string>() == "Canis::CollisionSystem2D"){
 					scene->CreateSystem<Canis::CollisionSystem2D>();
+					return true;
+				}
+				return false;
+			}
+		);
+
+		sceneManager.decodeSystem.push_back(
+			[](YAML::Node _n, int _index, Canis::Scene *scene) {
+				if(_n[_index].as<std::string>() == "Canis::SpriteAnimationSystem"){
+					scene->CreateSystem<Canis::SpriteAnimationSystem>();
 					return true;
 				}
 				return false;
@@ -100,6 +111,7 @@ App::App()
 		sceneManager.decodeEntity.push_back(Canis::DecodeColorComponent);
 		sceneManager.decodeEntity.push_back(Canis::DecodeTextComponent);
 		sceneManager.decodeEntity.push_back(Canis::DecodeSprite2DComponent);
+		sceneManager.decodeEntity.push_back(Canis::DecodeSpriteAnimationComponent);
 		sceneManager.decodeEntity.push_back(Canis::DecodeCircleColliderComponent);
 	}
 }

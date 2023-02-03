@@ -23,7 +23,7 @@ public:
     {
         m_direction = glm::vec2(1.0f, 0.4f);
         m_speed = 150.0f;
-        auto& sprite = GetComponent<Canis::Sprite2DComponent>();
+        /*auto& sprite = GetComponent<Canis::Sprite2DComponent>();
             GetSpriteFromTextureAtlas(
                 sprite,
                 m_animIndex,
@@ -32,7 +32,7 @@ public:
                 50,
                 true,
                 false
-            );
+            );*/
     }
     
     void OnDestroy()
@@ -42,7 +42,7 @@ public:
 
     void OnUpdate(float _dt)
     {        
-        m_countDown -= _dt;
+        /*m_countDown -= _dt;
 
         if (m_countDown < 0.0f)
         {
@@ -63,7 +63,7 @@ public:
                 true,
                 true
             );
-        }
+        }*/
 
         auto& rect = GetComponent<Canis::RectTransformComponent>();
 
