@@ -35,7 +35,7 @@ Entities:
       active: true
       anchor: 6
       position: [0.0, 0.0]
-      size: [100.0, 100.0]
+      size: [480.0, 500.0]
       originOffset: [0.0, 0.0]
       rotation: 0
       scale: 1.0
@@ -43,8 +43,8 @@ Entities:
     Canis::ColorComponent:
       color: [1.0, 1.0, 1.0, 1.0]
     Canis::Sprite2DComponent:
-      uv: [0.0, 0.0, 1.0, 1.0]
-      texture: "assets/textures/awesomeface.png"
+      uv: [0.16, 0.0, 0.16, 0.24]
+      texture: "assets/textures/All.png"
     Canis::CircleColliderComponent:
       center: [0.0, 0.0]
       radius: 128.0
