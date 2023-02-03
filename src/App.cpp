@@ -129,7 +129,7 @@ void App::Run()
 
 	unsigned int windowFlags = 0;
 
-	window.Create("Canis", 1280, 720, windowFlags);
+	window.Create("Canis", 1280, 800, windowFlags);
 
 	time.init(30);
 

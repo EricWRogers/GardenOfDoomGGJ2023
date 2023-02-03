@@ -88,7 +88,8 @@ public:
         
         if (GetInputManager().JustPressedKey(SDLK_d))
         {
-            auto e = CreateEntity();
+            ((Canis::SceneManager *)m_Entity.scene->sceneManager)->Instantiate("assets/prefebs/test_character.scene");
+            /*auto e = CreateEntity();
             auto& rectTransform = e.AddComponent<Canis::RectTransformComponent>();
             rectTransform = rect;
             auto& color = e.AddComponent<Canis::ColorComponent>();
@@ -96,7 +97,7 @@ public:
             auto& sprite = e.AddComponent<Canis::Sprite2DComponent>();
             sprite = GetComponent<Canis::Sprite2DComponent>();
             auto& spriteAnimation = e.AddComponent<Canis::SpriteAnimationComponent>();
-            spriteAnimation = GetComponent<Canis::SpriteAnimationComponent>();
+            spriteAnimation = GetComponent<Canis::SpriteAnimationComponent>();*/
         }
     }
 };
