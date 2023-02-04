@@ -63,7 +63,7 @@ Entities:
     Canis::ScriptComponent: PlayerMovement
     Canis::TagComponent: Player
     PlayerHealthComponent:
-      maxHealth = 10.0;
+      maxHealth: 10.0;
   - 3:
     Canis::TagComponent: EnemySpawnPoint
     Canis::RectTransformComponent:
@@ -126,7 +126,7 @@ Entities:
       align: 1
     Canis::ScriptComponent: FPSCounter
   - 7:
-    Canis::TagComponent HealthText
+    Canis::TagComponent: HealthText
     Canis::RectTransformComponent:
       active: true
       anchor: 0
@@ -144,4 +144,6 @@ Entities:
         size: 48
       text: "Health : "
       align: 1
+  - 8:
+    Canis::ScriptComponent: MapBuilder
       
