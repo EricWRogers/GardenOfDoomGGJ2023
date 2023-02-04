@@ -11,6 +11,7 @@
 
 #include "ECS/ScriptableEntities/DebugCamera2D.hpp"
 #include "ECS/ScriptableEntities/BeachBall.hpp"
+#include "ECS/ScriptableEntities/EnemySpawnManager.hpp"
 
 App::App()
 {
@@ -96,6 +97,18 @@ App::App()
 				if(_name == "BeachBall"){
 					Canis::ScriptComponent scriptComponent = {};
             		scriptComponent.Bind<BeachBall>();
+					_entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
+					return true;
+				}
+				return false;
+			}
+		);
+
+		sceneManager.decodeScriptableEntity.push_back(
+			[](const std::string &_name, Canis::Entity &_entity) {
+				if(_name == "EnemySpawnManager"){
+					Canis::ScriptComponent scriptComponent = {};
+            		scriptComponent.Bind<EnemySpawnManager>();
 					_entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
 					return true;
 				}
