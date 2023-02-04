@@ -7,7 +7,7 @@
 class PlayerMovement : public Canis::ScriptableEntity
 {
 private:
-   float speed = 100;
+   float speed = 100.0f;
     glm::vec2 direction;
 public:
 
@@ -28,8 +28,8 @@ public:
 
     void OnUpdate(float _dt) //Update
     {  
-        float horizontal = 0;
-        float vertical = 0;
+        float horizontal = 0.0f;
+        float vertical = 0.0f;
 
         auto& rect = GetComponent<Canis::RectTransformComponent>();
         
