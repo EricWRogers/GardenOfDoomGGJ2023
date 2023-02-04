@@ -2,12 +2,13 @@
 #include <string>
 #include <vector>
 #include <Canis/ScriptableEntity.hpp>
+#include <Canis/ECS/Components/TextComponent.hpp>
 
 class Timer : public Canis::ScriptableEntity
 {
 private:
-    bool enable;
-    float time;
+    bool enable = true;
+    float time = 10.0f;
 
     
 public:
@@ -33,13 +34,19 @@ public:
        
         if(enable == true)
         {
-            if(time != 0)
+            if(time != 0.0f)
             {
-                time -= time * _dt;
+                time -= _dt;
                 std::string minutes = std::to_string((int)time / 60);
-                //std::string seconds = std::to_string(time % 60);
+                std::string seconds = std::to_string((int)time % 60);
 
-                //(*GetComponent<Canis::TextComponent>().text) = "Time Left- " + minutes + ":" + seconds);
+                (*GetComponent<Canis::TextComponent>().text) = minutes + ":" + seconds;
+                
+                if(time <= 0.0f)
+                {
+                    enable = false;
+                    ((Canis::SceneManager*)m_Entity.scene->sceneManager)->Load("win");
+                }
             }
             else
             {
