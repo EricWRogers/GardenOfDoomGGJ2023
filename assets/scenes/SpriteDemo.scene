@@ -48,13 +48,6 @@ Entities:
     Canis::Sprite2DComponent:
       uv: [0.16, 0.0, 0.16, 0.24]
       texture: "assets/textures/All.png"
-    Canis::SpriteAnimationComponent:
-      animationId: "assets/animations/player.anim"
-      countDown: 0.0
-      index: 0
-      flipX: false
-      flipY: false
-      speed: 1.0
     Canis::CircleColliderComponent:
       center: [0.0, 0.0]
       radius: 128.0

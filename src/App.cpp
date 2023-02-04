@@ -20,6 +20,7 @@
 #include "ECS/ScriptableEntities/MainMenuButtons.hpp"
 #include "ECS/ScriptableEntities/MainMenuButton.hpp"
 #include "ECS/ScriptableEntities/MapBuilder.hpp"
+#include "ECS/ScriptableEntities/WeaponClass.hpp"
 #include "ECS/Decode.hpp"
 
 App::App()
@@ -161,18 +162,6 @@ App::App()
 
 		sceneManager.decodeScriptableEntity.push_back(
 			[](const std::string &_name, Canis::Entity &_entity) {
-				if(_name == "EnemyMovement"){
-					Canis::ScriptComponent scriptComponent = {};
-            		scriptComponent.Bind<EnemyMovement>();
-					_entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
-					return true;
-				}
-				return false;
-			}
-		);
-
-		sceneManager.decodeScriptableEntity.push_back(
-			[](const std::string &_name, Canis::Entity &_entity) {
 				if(_name == "Timer"){
 					Canis::ScriptComponent scriptComponent = {};
             		scriptComponent.Bind<Timer>();
@@ -218,6 +207,18 @@ App::App()
 				return false;
 			}
 		);
+
+		sceneManager.decodeScriptableEntity.push_back(
+            [](const std::string &_name, Canis::Entity &_entity) {
+                if(_name == "WeaponClass"){
+                    Canis::ScriptComponent scriptComponent = {};
+                    scriptComponent.Bind<WeaponClass>();
+                    _entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
+                    return true;
+                }
+                return false;
+            }
+        );
 	}
 
 	{ // decode component
