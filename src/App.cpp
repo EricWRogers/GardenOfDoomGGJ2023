@@ -12,6 +12,7 @@
 #include "ECS/ScriptableEntities/DebugCamera2D.hpp"
 #include "ECS/ScriptableEntities/BeachBall.hpp"
 #include "ECS/ScriptableEntities/EnemySpawnManager.hpp"
+#include "ECS/ScriptableEntities/FPSCounter.hpp"
 
 App::App()
 {
@@ -115,6 +116,18 @@ App::App()
 				return false;
 			}
 		);
+
+		sceneManager.decodeScriptableEntity.push_back(
+			[](const std::string &_name, Canis::Entity &_entity) {
+				if(_name == "FPSCounter"){
+					Canis::ScriptComponent scriptComponent = {};
+            		scriptComponent.Bind<FPSCounter>();
+					_entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
+					return true;
+				}
+				return false;
+			}
+		);
 	}
 
 	{ // decode component
@@ -144,7 +157,7 @@ void App::Run()
 
 	window.Create("Canis", 1280, 800, windowFlags);
 
-	time.init(30);
+	time.init(10000);
 
 	camera.override_camera = false;
 
@@ -154,6 +167,10 @@ void App::Run()
 	Canis::Log("seed : " + std::to_string(seed));
 
 	sceneManager.Add(new Canis::Scene("SpriteDemo", "assets/scenes/SpriteDemo.scene"));
+	sceneManager.Add(new Canis::Scene("main_menu", "assets/scenes/main_menu.scene"));
+	sceneManager.Add(new Canis::Scene("main", "assets/scenes/main.scene"));
+	sceneManager.Add(new Canis::Scene("lose", "assets/scenes/lose.scene"));
+	sceneManager.Add(new Canis::Scene("win", "assets/scenes/win.scene"));
 
 	sceneManager.PreLoad(
 		&window,
@@ -174,7 +191,7 @@ void App::Run()
 }
 void App::Load()
 {
-	sceneManager.ForceLoad("SpriteDemo");
+	sceneManager.ForceLoad("main_menu");
 
 	// start timer
 	previousTime = high_resolution_clock::now();
