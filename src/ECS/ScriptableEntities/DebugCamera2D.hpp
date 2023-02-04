@@ -29,6 +29,13 @@ public:
         const Uint8 *keystate = SDL_GetKeyboardState(NULL);
 
         auto& camera2D = GetComponent<Canis::Camera2DComponent>();
+
+        if (!GetWindow().GetMouseLock())
+        {
+            auto player = m_Entity.GetEntityWithTag("Player");
+            auto& playerTransform = player.GetComponent<Canis::RectTransformComponent>();
+            camera2D.position = playerTransform.position;
+        }
         
         if (keystate[SDL_SCANCODE_W] && GetWindow().GetMouseLock())
         {
