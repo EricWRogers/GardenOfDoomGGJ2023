@@ -10,6 +10,7 @@
 #include <Canis/ECS/Decode.hpp>
 
 #include "ECS/Systems/BoidSystem.hpp"
+#include "ECS/Systems/EnemySystem.hpp"
 
 #include "ECS/ScriptableEntities/DebugCamera2D.hpp"
 #include "ECS/ScriptableEntities/BeachBall.hpp"
@@ -61,6 +62,16 @@ App::App()
 			[](YAML::Node _n, int _index, Canis::Scene *scene) {
 				if(_n[_index].as<std::string>() == "BoidSystem"){
 					scene->CreateSystem<BoidSystem>();
+					return true;
+				}
+				return false;
+			}
+		);
+
+		sceneManager.decodeSystem.push_back(
+			[](YAML::Node _n, int _index, Canis::Scene *scene) {
+				if(_n[_index].as<std::string>() == "EnemySystem"){
+					scene->CreateSystem<EnemySystem>();
 					return true;
 				}
 				return false;
