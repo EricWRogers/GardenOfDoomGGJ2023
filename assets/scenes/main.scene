@@ -4,6 +4,7 @@ Systems:
   - Canis::ButtonSystem
   - Canis::CollisionSystem2D
   - Canis::SpriteAnimationSystem
+  - EnemySystem
 RenderSystems:
   - Canis::SpriteRenderer2DSystem
   - Canis::RenderTextSystem
@@ -15,24 +16,6 @@ Entities:
       position: [0.0, 0.0]
       scale: 1.0
     Canis::ScriptComponent: DebugCamera2D
-  - 1:
-    Canis::RectTransformComponent:
-      active: true
-      anchor: 6
-      position: [30.0, 30.0]
-      size: [0.0, 0.0]
-      originOffset: [0.0, 0.0]
-      rotation: 0.0
-      scale: 1.0
-      depth: 0.1
-    Canis::ColorComponent:
-      color: [0.0, 1.0, 1.0, 1.0]
-    Canis::TextComponent:
-      assetId:
-        path: "assets/fonts/Antonio-Bold.ttf"
-        size: 48
-      text: Sprite Demo
-      align: 0
   - 2:
     Canis::RectTransformComponent:
       active: true
@@ -57,9 +40,9 @@ Entities:
       speed: 1.0
     Canis::CircleColliderComponent:
       center: [0.0, 0.0]
-      radius: 128.0
-      layer: 0
-      mask: 0
+      radius: 16.0
+      layer: 1
+      mask: 2
     Canis::ScriptComponent: PlayerManager
     Canis::TagComponent: Player
     PlayerHealthComponent:
