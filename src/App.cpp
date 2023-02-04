@@ -231,6 +231,7 @@ App::App()
 		sceneManager.decodeEntity.push_back(Canis::DecodeSpriteAnimationComponent);
 		sceneManager.decodeEntity.push_back(Canis::DecodeCircleColliderComponent);
 		sceneManager.decodeEntity.push_back(DecodePlayerHealthComponent);
+		sceneManager.decodeEntity.push_back(DecodeEnemyHealthComponent);
 	}
 }
 App::~App()

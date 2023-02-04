@@ -12,7 +12,10 @@ void DecodePlayerHealthComponent(YAML::Node &_n, Canis::Entity &_entity, Canis::
         c2dc.maxHealth = playerHealthComponent["maxHealth"].as<float>();
         c2dc.currentHealth = c2dc.maxHealth;
     }
+}
 
+void DecodeEnemyHealthComponent(YAML::Node &_n, Canis::Entity &_entity, Canis::SceneManager *_sceneManager)
+{
     if (auto enemyHealthComponent = _n["EnemyHealthComponent"])
     {
         auto &c2dc = _entity.AddComponent<EnemyHealthComponent>();
