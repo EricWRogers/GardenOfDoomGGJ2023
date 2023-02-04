@@ -84,9 +84,9 @@ class EnemySpawnManager : public Canis::ScriptableEntity
         color.color = glm::vec4(1.0, 1.0, 1.0, 1.0);
 
         auto& boid = _entity.AddComponent<BoidComponent>();
-        boid.drag = 0.09f;
-        boid.speed = 10.0f;
-        boid.maxSpeed = 20.0f;
+        boid.drag = 0.95f;
+        boid.speed = 2000.0f;
+        boid.maxSpeed = 10000.0f;
     }
 
     void SpawnEnemies(std::vector<Canis::Entity> _entities)
