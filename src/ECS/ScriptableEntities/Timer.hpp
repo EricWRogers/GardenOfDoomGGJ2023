@@ -8,7 +8,7 @@ class Timer : public Canis::ScriptableEntity
 {
 private:
     bool enable = true;
-    float time = 120.0f;
+    float time = 10.0f;
 
     
 public:
