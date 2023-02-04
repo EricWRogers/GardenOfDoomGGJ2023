@@ -49,3 +49,6 @@ Entities:
       text: "FPS : "
       align: 1
     Canis::ScriptComponent: FPSCounter
+  - 3:
+    Canis::ScriptComponent: MainMenuButtons
+  

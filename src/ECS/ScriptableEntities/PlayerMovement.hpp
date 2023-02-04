@@ -27,32 +27,34 @@ public:
     }
 
     void OnUpdate(float _dt) //Update
-    {  
+    {
+        const Uint8 *keystate = SDL_GetKeyboardState(NULL);
+        
         float horizontal = 0.0f;
         float vertical = 0.0f;
 
         auto& rect = GetComponent<Canis::RectTransformComponent>();
         
-        if (GetInputManager().JustPressedKey(SDLK_a) && !GetWindow().GetMouseLock()) //Left
+        if (keystate[SDL_SCANCODE_A] && !GetWindow().GetMouseLock()) //Left
         {
             horizontal = -1.0f;
         }
 
-        if (GetInputManager().JustPressedKey(SDLK_w) && !GetWindow().GetMouseLock()) //Forwards
+        if (keystate[SDL_SCANCODE_W] && !GetWindow().GetMouseLock()) //Forwards
         {
             vertical = 1.0f;
         }
-        if (GetInputManager().JustPressedKey(SDLK_d) && !GetWindow().GetMouseLock()) //Right
+        if (keystate[SDL_SCANCODE_D] && !GetWindow().GetMouseLock()) //Right
         {
             horizontal = 1.0f;
         }
-        if (GetInputManager().JustPressedKey(SDLK_s) && !GetWindow().GetMouseLock()) //back
+        if (keystate[SDL_SCANCODE_S] && !GetWindow().GetMouseLock()) //back
         {
            vertical = -1.0f;
         }
 
         direction = glm::vec2(horizontal, vertical);
-        rect.position = (direction * (speed * _dt));
+        rect.position += (direction * (speed * _dt));
     }
 
     
