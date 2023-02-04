@@ -1,13 +1,16 @@
 Scene: main
 Systems:
+  - BoidSystem
   - Canis::ButtonSystem
+  - Canis::CollisionSystem2D
   - Canis::SpriteAnimationSystem
 RenderSystems:
-  - Canis::RenderTextSystem
   - Canis::SpriteRenderer2DSystem
+  - Canis::RenderTextSystem
   - Canis::RenderHUDSystem
 Entities:
   - 0:
+    Canis::TagComponent: Camera
     Canis::Camera2DComponent:
       position: [0.0, 0.0]
       scale: 1.0
@@ -15,8 +18,8 @@ Entities:
   - 1:
     Canis::RectTransformComponent:
       active: true
-      anchor: 4
-      position: [-30.0, 200.0]
+      anchor: 6
+      position: [30.0, 30.0]
       size: [0.0, 0.0]
       originOffset: [0.0, 0.0]
       rotation: 0.0
@@ -28,9 +31,82 @@ Entities:
       assetId:
         path: "assets/fonts/Antonio-Bold.ttf"
         size: 48
-      text: Garden Of Doom
+      text: Sprite Demo
       align: 0
   - 2:
+    Canis::RectTransformComponent:
+      active: true
+      anchor: 6
+      position: [0.0, 0.0]
+      size: [32.0, 32.0]
+      originOffset: [0.0, 0.0]
+      rotation: 0
+      scale: 1.0
+      depth: 0.1
+    Canis::ColorComponent:
+      color: [1.0, 1.0, 1.0, 1.0]
+    Canis::Sprite2DComponent:
+      uv: [0.16, 0.0, 0.16, 0.24]
+      texture: "assets/textures/All.png"
+    Canis::SpriteAnimationComponent:
+      animationId: "assets/animations/player.anim"
+      countDown: 0.0
+      index: 0
+      flipX: false
+      flipY: false
+      speed: 1.0
+    Canis::CircleColliderComponent:
+      center: [0.0, 0.0]
+      radius: 128.0
+      layer: 0
+      mask: 0
+    Canis::ScriptComponent: PlayerMovement
+    Canis::TagComponent: Player
+    PlayerHealthComponent:
+      maxHealth: 10.0;
+  - 3:
+    Canis::TagComponent: EnemySpawnPoint
+    Canis::RectTransformComponent:
+      active: true
+      anchor: 6
+      position: [150.0, 0.0]
+      size: [100.0, 100.0]
+      originOffset: [0.0, 0.0]
+      rotation: 0
+      scale: 1.0
+      depth: 0.1
+  - 4:
+    Canis::TagComponent: EnemySpawnManager
+    Canis::RectTransformComponent:
+      active: true
+      anchor: 6
+      position: [0.0, 0.0]
+      size: [100.0, 100.0]
+      originOffset: [0.0, 0.0]
+      rotation: 0
+      scale: 1.0
+      depth: 0.1
+    Canis::ScriptComponent: EnemySpawnManager
+  - 5:
+    Canis::RectTransformComponent:
+      active: true
+      anchor: 2
+      position: [-30.0, -70.0]
+      size: [0.0, 0.0]
+      originOffset: [0.0, 0.0]
+      rotation: 0.0
+      scale: 1.0
+      depth: 0.1
+    Canis::ColorComponent:
+      color: [0.0, 1.0, 1.0, 1.0]
+    Canis::TextComponent:
+      assetId:
+        path: "assets/fonts/Antonio-Bold.ttf"
+        size: 48
+      text: " "
+      align: 1
+    Canis::ScriptComponent: Timer
+  - 6:
     Canis::RectTransformComponent:
       active: true
       anchor: 2
@@ -49,3 +125,25 @@ Entities:
       text: "FPS : "
       align: 1
     Canis::ScriptComponent: FPSCounter
+  - 7:
+    Canis::TagComponent: HealthText
+    Canis::RectTransformComponent:
+      active: true
+      anchor: 0
+      position: [30.0, -70.0]
+      size: [0.0, 0.0]
+      originOffset: [0.0, 0.0]
+      rotation: 0.0
+      scale: 1.0
+      depth: 0.1
+    Canis::ColorComponent:
+      color: [1.0, 0.0, 0.0, 1.0]
+    Canis::TextComponent:
+      assetId:
+        path: "assets/fonts/Antonio-Bold.ttf"
+        size: 48
+      text: "Health : "
+      align: 1
+  - 8:
+    Canis::ScriptComponent: MapBuilder
+      

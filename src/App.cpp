@@ -19,6 +19,7 @@
 #include "ECS/ScriptableEntities/Timer.hpp"
 #include "ECS/ScriptableEntities/MainMenuButtons.hpp"
 #include "ECS/ScriptableEntities/MainMenuButton.hpp"
+#include "ECS/ScriptableEntities/MapBuilder.hpp"
 #include "ECS/Decode.hpp"
 
 App::App()
@@ -205,6 +206,18 @@ App::App()
 				return false;
 			}
 		);
+
+		sceneManager.decodeScriptableEntity.push_back(
+			[](const std::string &_name, Canis::Entity &_entity) {
+				if(_name == "MapBuilder"){
+					Canis::ScriptComponent scriptComponent = {};
+            		scriptComponent.Bind<MapBuilder>();
+					_entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
+					return true;
+				}
+				return false;
+			}
+		);
 	}
 
 	{ // decode component
@@ -269,7 +282,7 @@ void App::Run()
 }
 void App::Load()
 {
-	sceneManager.ForceLoad("SpriteDemo");
+	sceneManager.ForceLoad("main");
 
 	// start timer
 	previousTime = high_resolution_clock::now();
