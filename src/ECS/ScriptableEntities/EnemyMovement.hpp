@@ -12,6 +12,8 @@ class EnemyMovement : public Canis::ScriptableEntity
     Canis::Entity m_spawnManager;
 
     public:
+    int health = 100;
+
     void OnCreate()
     {
         

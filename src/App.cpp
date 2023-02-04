@@ -21,6 +21,7 @@
 #include "ECS/ScriptableEntities/MainMenuButtons.hpp"
 #include "ECS/ScriptableEntities/MainMenuButton.hpp"
 #include "ECS/ScriptableEntities/MapBuilder.hpp"
+#include "ECS/ScriptableEntities/PeaShooterWeapon.hpp"
 #include "ECS/Decode.hpp"
 
 App::App()
@@ -213,6 +214,18 @@ App::App()
 				if(_name == "MapBuilder"){
 					Canis::ScriptComponent scriptComponent = {};
             		scriptComponent.Bind<MapBuilder>();
+					_entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
+					return true;
+				}
+				return false;
+			}
+		);
+		
+		sceneManager.decodeScriptableEntity.push_back(
+			[](const std::string &_name, Canis::Entity &_entity) {
+				if(_name == "PeaShooterWapon"){
+					Canis::ScriptComponent scriptComponent = {};
+            		scriptComponent.Bind<PeaShooterWeapon>();
 					_entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
 					return true;
 				}
