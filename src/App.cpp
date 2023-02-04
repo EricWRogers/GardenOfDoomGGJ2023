@@ -14,6 +14,7 @@
 #include "ECS/ScriptableEntities/EnemySpawnManager.hpp"
 #include "ECS/ScriptableEntities/FPSCounter.hpp"
 #include "ECS/ScriptableEntities/PlayerMovement.hpp"
+#include "ECS/ScriptableEntities/Timer.hpp"
 
 App::App()
 {
@@ -141,6 +142,18 @@ App::App()
 				return false;
 			}
 		);
+
+		sceneManager.decodeScriptableEntity.push_back(
+			[](const std::string &_name, Canis::Entity &_entity) {
+				if(_name == "Timer"){
+					Canis::ScriptComponent scriptComponent = {};
+            		scriptComponent.Bind<Timer>();
+					_entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
+					return true;
+				}
+				return false;
+			}
+		);
 	}
 
 	{ // decode component
@@ -204,7 +217,7 @@ void App::Run()
 }
 void App::Load()
 {
-	sceneManager.ForceLoad("main_menu");
+	sceneManager.ForceLoad("SpriteDemo");
 
 	// start timer
 	previousTime = high_resolution_clock::now();
