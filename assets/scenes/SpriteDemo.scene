@@ -1,11 +1,12 @@
 Scene: SpriteDemo
 Systems:
+  - BoidSystem
   - Canis::ButtonSystem
   - Canis::CollisionSystem2D
   - Canis::SpriteAnimationSystem
 RenderSystems:
-  - Canis::RenderTextSystem
   - Canis::SpriteRenderer2DSystem
+  - Canis::RenderTextSystem
   - Canis::RenderHUDSystem
 Entities:
   - 0:
@@ -103,4 +104,23 @@ Entities:
       text: " "
       align: 1
     Canis::ScriptComponent: Timer
+  - 6:
+    Canis::RectTransformComponent:
+      active: true
+      anchor: 2
+      position: [-30.0, -70.0]
+      size: [0.0, 0.0]
+      originOffset: [0.0, 0.0]
+      rotation: 0.0
+      scale: 1.0
+      depth: 0.1
+    Canis::ColorComponent:
+      color: [0.0, 1.0, 1.0, 1.0]
+    Canis::TextComponent:
+      assetId:
+        path: "assets/fonts/Antonio-Bold.ttf"
+        size: 48
+      text: "FPS : "
+      align: 1
+    Canis::ScriptComponent: FPSCounter
       
