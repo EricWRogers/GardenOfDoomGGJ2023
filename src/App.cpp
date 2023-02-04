@@ -20,6 +20,7 @@
 #include "ECS/ScriptableEntities/Timer.hpp"
 #include "ECS/ScriptableEntities/MainMenuButtons.hpp"
 #include "ECS/ScriptableEntities/MainMenuButton.hpp"
+#include "ECS/Decode.hpp"
 
 App::App()
 {
@@ -216,6 +217,7 @@ App::App()
 		sceneManager.decodeEntity.push_back(Canis::DecodeSprite2DComponent);
 		sceneManager.decodeEntity.push_back(Canis::DecodeSpriteAnimationComponent);
 		sceneManager.decodeEntity.push_back(Canis::DecodeCircleColliderComponent);
+		sceneManager.decodeEntity.push_back(DecodePlayerHealthComponent);
 	}
 }
 App::~App()

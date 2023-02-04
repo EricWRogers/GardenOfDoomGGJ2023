@@ -73,7 +73,7 @@ class EnemySpawnManager : public Canis::ScriptableEntity
         }
 
         auto& rectTransform = _entity.AddComponent<Canis::RectTransformComponent>();
-        rectTransform.size = glm::vec2(100.0, 100.0);
+        rectTransform.size = glm::vec2(32.0, 32.0);
         rectTransform.position = GetRandomPosition(m_spawnPositions);
             
         auto& sprite = _entity.AddComponent<Canis::Sprite2DComponent>();
