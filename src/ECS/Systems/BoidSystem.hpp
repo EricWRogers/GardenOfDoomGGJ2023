@@ -10,17 +10,17 @@
 #include "../Components/BoidComponent.hpp"
 
 const float MAX_ALIGNMENT_DISTANCE = 40.0f;
-const float MAX_COHESION_DISTANCE = 100.0f;
+const float MAX_COHESION_DISTANCE = 50.0f;
 const float MAX_SEPARATION_DISTANCE = 32.0f;
 
 const float WANDER_CIRCLE_OFFSET = 50.0f;
 const float WANDER_CIRCLE_RADIUS = 30.0f;
 const float WANDER_ANGLE_DELTA_MAX = 2.0f;
 
-const float USER_BEHAVIOR_WEIGHT = 0.5f;
-const float SEPARATION_WEIGHT = 2.0f;
-const float ALIGNMENT_WEIGHT = 0.3f;
-const float COHESION_WEIGHT = 0.15f;
+const float USER_BEHAVIOR_WEIGHT = 0.3f;
+const float SEPARATION_WEIGHT = 1.0f;
+const float ALIGNMENT_WEIGHT = 0.0f;//0.3f;
+const float COHESION_WEIGHT = 0.0f;//0.15f;
 
 class BoidSystem : public Canis::System
 {
@@ -146,28 +146,28 @@ public:
             // Separation
             separationTarget = Separation(entity, rect_transform.position, _registry);
 
-            boid.acceleration = (seekTarget * USER_BEHAVIOR_WEIGHT) +
+            boid.acceleration = ((seekTarget * USER_BEHAVIOR_WEIGHT) +
                                 (alignmentTarget * ALIGNMENT_WEIGHT) +
                                 (cohesionTarget * COHESION_WEIGHT) +
-                                (separationTarget * SEPARATION_WEIGHT);
+                                (separationTarget * SEPARATION_WEIGHT)) * boid.speed;
 
             //rect_transform.rotation = atan2(boid.velocity.y, boid.velocity.x);
 
             // update velocity
-            boid.velocity += boid.acceleration;
+            boid.velocity += boid.acceleration * _deltaTime;
 
             // clamp velocity to maxSpeed
-            if (glm::length(boid.velocity) > boid.maxSpeed)
-            {
-                boid.velocity = glm::normalize(boid.velocity);
-                boid.velocity *= boid.maxSpeed;
-            }
+            // if (glm::length(boid.velocity) > boid.maxSpeed)
+            // {
+            //     boid.velocity = glm::normalize(boid.velocity);
+            //     boid.velocity *= boid.maxSpeed;
+            // }
 
             // apply drag
             boid.velocity *= boid.drag;
 
             // update position
-            rect_transform.position += boid.velocity;
+            rect_transform.position += boid.velocity * _deltaTime;
         }
     }
 };
