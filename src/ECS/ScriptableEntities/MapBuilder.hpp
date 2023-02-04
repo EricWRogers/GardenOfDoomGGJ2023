@@ -18,7 +18,7 @@ public:
         int halfWidth = width/2;
         int halfHeight = height/2;
         Canis::GLTexture texture = GetAssetManager().Get<Canis::TextureAsset>(
-                GetAssetManager().LoadTexture("assets/textures/environment/Background_SpriteSheet.png"))->GetTexture();
+                GetAssetManager().LoadTexture("assets/textures/environment/background_sprite_sheet.png"))->GetTexture();
         for(int x = -halfWidth; x < halfWidth; x++)
         {
             for(int y = -halfHeight; y < halfHeight; y++)

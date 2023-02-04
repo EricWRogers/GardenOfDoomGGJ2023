@@ -283,7 +283,7 @@ void App::Run()
 }
 void App::Load()
 {
-	sceneManager.ForceLoad("SpriteDemo");
+	sceneManager.ForceLoad("main");
 
 	// start timer
 	previousTime = high_resolution_clock::now();
