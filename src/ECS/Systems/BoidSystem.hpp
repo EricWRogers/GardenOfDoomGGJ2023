@@ -11,7 +11,7 @@
 
 const float MAX_ALIGNMENT_DISTANCE = 40.0f;
 const float MAX_COHESION_DISTANCE = 100.0f;
-const float MAX_SEPARATION_DISTANCE = 20.0f;
+const float MAX_SEPARATION_DISTANCE = 32.0f;
 
 const float WANDER_CIRCLE_OFFSET = 50.0f;
 const float WANDER_CIRCLE_RADIUS = 30.0f;
@@ -31,13 +31,13 @@ private:
         return glm::normalize(seek);
     }
 
-    glm::vec2 Flee(glm::vec2 agentPosition, glm::vec2 targetPosition)
+    glm::vec2 Flee(const glm::vec2 &agentPosition, const  glm::vec2 &targetPosition)
     {
         glm::vec2 seek = targetPosition - agentPosition;
         return glm::normalize(seek);
     }
 
-    glm::vec2 Alignment(entt::entity agent, glm::vec2 agentPosition, entt::registry &_registry)
+    glm::vec2 Alignment(const entt::entity &agent, const glm::vec2 &agentPosition, entt::registry &_registry)
     {
         glm::vec2 alignment = glm::vec2(0.0f);
         int numNeighbors = 0;
@@ -63,7 +63,7 @@ private:
         return glm::vec2(0.0f);
     }
 
-    glm::vec2 Cohesion(entt::entity agent, glm::vec2 agentPosition, entt::registry &_registry)
+    glm::vec2 Cohesion(const entt::entity &agent, const glm::vec2 &agentPosition, entt::registry &_registry)
     {
         glm::vec2 cohesion = glm::vec2(0.0f);
         int numNeighbors = 0;
@@ -86,7 +86,7 @@ private:
         return glm::normalize((cohesion - agentPosition));
     }
 
-    glm::vec2 Separation(entt::entity agent, glm::vec2 agentPosition, entt::registry &_registry)
+    glm::vec2 Separation(const entt::entity &agent, const glm::vec2 &agentPosition, entt::registry &_registry)
     {
         glm::vec2 separation = glm::vec2(0.0f);
         int numNeighbors = 0;
