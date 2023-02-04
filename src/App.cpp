@@ -13,6 +13,7 @@
 #include "ECS/ScriptableEntities/BeachBall.hpp"
 #include "ECS/ScriptableEntities/EnemySpawnManager.hpp"
 #include "ECS/ScriptableEntities/FPSCounter.hpp"
+#include "ECS/ScriptableEntities/PlayerMovement.hpp"
 
 App::App()
 {
@@ -110,6 +111,18 @@ App::App()
 				if(_name == "EnemySpawnManager"){
 					Canis::ScriptComponent scriptComponent = {};
             		scriptComponent.Bind<EnemySpawnManager>();
+					_entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
+					return true;
+				}
+				return false;
+			}
+		);
+
+		sceneManager.decodeScriptableEntity.push_back(
+			[](const std::string &_name, Canis::Entity &_entity) {
+				if(_name == "PlayerMovement"){
+					Canis::ScriptComponent scriptComponent = {};
+            		scriptComponent.Bind<PlayerMovement>();
 					_entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
 					return true;
 				}
