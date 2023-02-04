@@ -69,7 +69,7 @@ public:
         if (GetInputManager().JustPressedKey(SDLK_F5))
         {
             Canis::Log("Load Scene");
-            ((Canis::SceneManager*)m_Entity.scene->sceneManager)->Load("SpriteDemo");
+            ((Canis::SceneManager*)m_Entity.scene->sceneManager)->HotReload();
         }
     }
 };
