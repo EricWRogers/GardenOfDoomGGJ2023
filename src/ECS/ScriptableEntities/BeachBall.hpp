@@ -26,6 +26,8 @@ public:
         /*auto& sprite = GetComponent<Canis::Sprite2DComponent>();
             GetSpriteFromTextureAtlas(
                 sprite,
+                0,
+                0,
                 m_animIndex,
                 0,
                 48,

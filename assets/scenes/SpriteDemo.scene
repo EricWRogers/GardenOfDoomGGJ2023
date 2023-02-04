@@ -59,8 +59,8 @@ Entities:
       radius: 128.0
       layer: 0
       mask: 0
-    Canis::ScriptComponent: BeachBall
-    Canis::TagComponent: player
+    Canis::ScriptComponent: PlayerMovement
+    Canis::TagComponent: Player
   - 3:
     Canis::TagComponent: EnemySpawnPoint
     Canis::RectTransformComponent:
@@ -84,3 +84,23 @@ Entities:
       scale: 1.0
       depth: 0.1
     Canis::ScriptComponent: EnemySpawnManager
+  - 5:
+    Canis::RectTransformComponent:
+      active: true
+      anchor: 2
+      position: [-30.0, -70.0]
+      size: [0.0, 0.0]
+      originOffset: [0.0, 0.0]
+      rotation: 0.0
+      scale: 1.0
+      depth: 0.1
+    Canis::ColorComponent:
+      color: [0.0, 1.0, 1.0, 1.0]
+    Canis::TextComponent:
+      assetId:
+        path: "assets/fonts/Antonio-Bold.ttf"
+        size: 48
+      text: " "
+      align: 1
+    Canis::ScriptComponent: Timer
+      

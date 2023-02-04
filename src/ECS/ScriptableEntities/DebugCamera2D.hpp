@@ -32,9 +32,12 @@ public:
 
         if (!GetWindow().GetMouseLock())
         {
-            auto player = m_Entity.GetEntityWithTag("player");
-            auto& playerTransform = player.GetComponent<Canis::RectTransformComponent>();
-            camera2D.position = playerTransform.position;
+            auto player = m_Entity.GetEntityWithTag("Player");
+            if(player.entityHandle != entt::null)
+            {
+                auto& playerTransform = player.GetComponent<Canis::RectTransformComponent>();
+                camera2D.position = playerTransform.position;
+            }
         }
         
         if (keystate[SDL_SCANCODE_W] && GetWindow().GetMouseLock())
@@ -76,7 +79,7 @@ public:
         if (GetInputManager().JustPressedKey(SDLK_F5))
         {
             Canis::Log("Load Scene");
-            ((Canis::SceneManager*)m_Entity.scene->sceneManager)->Load("SpriteDemo");
+            ((Canis::SceneManager*)m_Entity.scene->sceneManager)->HotReload();
         }
     }
 };

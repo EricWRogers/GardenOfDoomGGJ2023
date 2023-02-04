@@ -16,7 +16,7 @@ Entities:
     Canis::RectTransformComponent:
       active: true
       anchor: 4
-      position: [-30.0, 200.0]
+      position: [-70.0, 200.0]
       size: [0.0, 0.0]
       originOffset: [0.0, 0.0]
       rotation: 0.0
@@ -49,3 +49,5 @@ Entities:
       text: "FPS : "
       align: 1
     Canis::ScriptComponent: FPSCounter
+  - 3:
+    Canis::ScriptComponent: MainMenuButton

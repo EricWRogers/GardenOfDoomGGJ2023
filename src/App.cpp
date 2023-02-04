@@ -14,6 +14,10 @@
 #include "ECS/ScriptableEntities/EnemySpawnManager.hpp"
 #include "ECS/ScriptableEntities/FPSCounter.hpp"
 #include "ECS/ScriptableEntities/PlayerMovement.hpp"
+#include "ECS/ScriptableEntities/EnemyMovement.hpp"
+#include "ECS/ScriptableEntities/Timer.hpp"
+#include "ECS/ScriptableEntities/MainMenuButtons.hpp"
+#include "ECS/ScriptableEntities/MainMenuButton.hpp"
 
 App::App()
 {
@@ -141,6 +145,54 @@ App::App()
 				return false;
 			}
 		);
+
+		sceneManager.decodeScriptableEntity.push_back(
+			[](const std::string &_name, Canis::Entity &_entity) {
+				if(_name == "EnemyMovement"){
+					Canis::ScriptComponent scriptComponent = {};
+            		scriptComponent.Bind<EnemyMovement>();
+					_entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
+					return true;
+				}
+				return false;
+			}
+		);
+
+		sceneManager.decodeScriptableEntity.push_back(
+			[](const std::string &_name, Canis::Entity &_entity) {
+				if(_name == "Timer"){
+					Canis::ScriptComponent scriptComponent = {};
+            		scriptComponent.Bind<Timer>();
+					_entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
+					return true;
+				}
+				return false;
+			}
+		);
+
+		sceneManager.decodeScriptableEntity.push_back(
+			[](const std::string &_name, Canis::Entity &_entity) {
+				if(_name == "MainMenuButtons"){
+					Canis::ScriptComponent scriptComponent = {};
+            		scriptComponent.Bind<MainMenuButtons>();
+					_entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
+					return true;
+				}
+				return false;
+			}
+		);
+
+		sceneManager.decodeScriptableEntity.push_back(
+			[](const std::string &_name, Canis::Entity &_entity) {
+				if(_name == "MainMenuButton"){
+					Canis::ScriptComponent scriptComponent = {};
+            		scriptComponent.Bind<MainMenuButton>();
+					_entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
+					return true;
+				}
+				return false;
+			}
+		);
 	}
 
 	{ // decode component
@@ -204,7 +256,7 @@ void App::Run()
 }
 void App::Load()
 {
-	sceneManager.ForceLoad("main_menu");
+	sceneManager.ForceLoad("SpriteDemo");
 
 	// start timer
 	previousTime = high_resolution_clock::now();
@@ -252,7 +304,7 @@ void App::InputUpdate()
 			break;
 		case SDL_MOUSEMOTION:
 				inputManager.mouse.x = event.motion.x;
-				inputManager.mouse.y = event.motion.y;
+				inputManager.mouse.y = window.GetScreenHeight() - event.motion.y;
 				camera.ProcessMouseMovement(event.motion.xrel, -event.motion.yrel);
 			break;
 		case SDL_KEYUP:
