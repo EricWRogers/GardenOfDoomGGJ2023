@@ -68,8 +68,10 @@ public:
             Canis::FatalError("You ded for real");
         }
         auto& playerHealth = GetComponent<PlayerHealthComponent>();
-        (*m_healthText.GetComponent<Canis::TextComponent>().text) = std::to_string((int)playerHealth.currentHealth);
-        (*m_healthText.GetComponent<Canis::TextComponent>().text) += ".";
-        (*m_healthText.GetComponent<Canis::TextComponent>().text) += std::to_string((playerHealth.currentHealth - (int)playerHealth.currentHealth) * 100.0f);
+        (*m_healthText.GetComponent<Canis::TextComponent>().text) = std::to_string(playerHealth.currentHealth);
+        // (*m_healthText.GetComponent<Canis::TextComponent>().text) = std::to_string((int)playerHealth.currentHealth);
+        // (*m_healthText.GetComponent<Canis::TextComponent>().text) += ".";
+        // (*m_healthText.GetComponent<Canis::TextComponent>().text) += std::to_string((playerHealth.currentHealth - (int)playerHealth.currentHealth) * 100.0f);
+        // Canis::Log("Test" + *m_healthText.GetComponent<Canis::TextComponent>().text);
     }
 };
