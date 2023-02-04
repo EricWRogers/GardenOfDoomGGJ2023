@@ -8,7 +8,7 @@ class Timer : public Canis::ScriptableEntity
 {
 private:
     bool enable = true;
-    float time = 10.0f;
+    float time = 20.0f;
 
     
 public:
@@ -42,6 +42,10 @@ public:
 
                 (*GetComponent<Canis::TextComponent>().text) = minutes + ":" + seconds;
                 
+                if(seconds.length() <= 1)
+                {
+                     (*GetComponent<Canis::TextComponent>().text) = minutes + ":0" + seconds;
+                }
                 if(time <= 0.0f)
                 {
                     enable = false;
