@@ -40,10 +40,10 @@ public:
             
         }
 
-       if (target.GetEntityWithTag("Enemy"))
-       {
-        target.GetComponent<EnemyMovement>().health -= damage * _dt;
-       }
+    //    if (target.GetEntityWithTag("Enemy"))
+    //    {
+    //         target.GetComponent<EnemyMovement>().health -= damage * _dt;
+    //    }
 
     
 
