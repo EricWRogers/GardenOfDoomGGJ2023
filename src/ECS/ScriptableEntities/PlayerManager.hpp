@@ -80,8 +80,6 @@ public:
         direction = (glm::vec2(horizontal, vertical) == glm::vec2(0.0f)) ? glm::vec2(0.0f) : glm::normalize(glm::vec2(horizontal, vertical));
         rect.position += (direction * (speed * _dt));
 
-        HandleHealth(_dt);
-
 
         if (moving && !wasMoving) // change to run
         {
