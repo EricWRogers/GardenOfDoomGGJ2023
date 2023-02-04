@@ -15,11 +15,13 @@
 #include "ECS/ScriptableEntities/BeachBall.hpp"
 #include "ECS/ScriptableEntities/EnemySpawnManager.hpp"
 #include "ECS/ScriptableEntities/FPSCounter.hpp"
-#include "ECS/ScriptableEntities/PlayerMovement.hpp"
-#include "ECS/ScriptableEntities/EnemyMovement.hpp"
+#include "ECS/ScriptableEntities/PlayerManager.hpp"
 #include "ECS/ScriptableEntities/Timer.hpp"
 #include "ECS/ScriptableEntities/MainMenuButtons.hpp"
 #include "ECS/ScriptableEntities/MainMenuButton.hpp"
+#include "ECS/ScriptableEntities/MapBuilder.hpp"
+#include "ECS/ScriptableEntities/WeaponClass.hpp"
+#include "ECS/ScriptableEntities/PeaShooterWeapon.hpp"
 #include "ECS/Decode.hpp"
 
 App::App()
@@ -137,9 +139,9 @@ App::App()
 
 		sceneManager.decodeScriptableEntity.push_back(
 			[](const std::string &_name, Canis::Entity &_entity) {
-				if(_name == "PlayerMovement"){
+				if(_name == "PlayerManager"){
 					Canis::ScriptComponent scriptComponent = {};
-            		scriptComponent.Bind<PlayerMovement>();
+            		scriptComponent.Bind<PlayerManager>();
 					_entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
 					return true;
 				}
@@ -152,18 +154,6 @@ App::App()
 				if(_name == "FPSCounter"){
 					Canis::ScriptComponent scriptComponent = {};
             		scriptComponent.Bind<FPSCounter>();
-					_entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
-					return true;
-				}
-				return false;
-			}
-		);
-
-		sceneManager.decodeScriptableEntity.push_back(
-			[](const std::string &_name, Canis::Entity &_entity) {
-				if(_name == "EnemyMovement"){
-					Canis::ScriptComponent scriptComponent = {};
-            		scriptComponent.Bind<EnemyMovement>();
 					_entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
 					return true;
 				}
@@ -206,6 +196,42 @@ App::App()
 				return false;
 			}
 		);
+
+		sceneManager.decodeScriptableEntity.push_back(
+			[](const std::string &_name, Canis::Entity &_entity) {
+				if(_name == "MapBuilder"){
+					Canis::ScriptComponent scriptComponent = {};
+            		scriptComponent.Bind<MapBuilder>();
+					_entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
+					return true;
+				}
+				return false;
+			}
+		);
+		
+		sceneManager.decodeScriptableEntity.push_back(
+			[](const std::string &_name, Canis::Entity &_entity) {
+				if(_name == "PeaShooterWapon"){
+					Canis::ScriptComponent scriptComponent = {};
+            		scriptComponent.Bind<PeaShooterWeapon>();
+					_entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
+					return true;
+				}
+				return false;
+			}
+		);
+
+		sceneManager.decodeScriptableEntity.push_back(
+            [](const std::string &_name, Canis::Entity &_entity) {
+                if(_name == "WeaponClass"){
+                    Canis::ScriptComponent scriptComponent = {};
+                    scriptComponent.Bind<WeaponClass>();
+                    _entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
+                    return true;
+                }
+                return false;
+            }
+        );
 	}
 
 	{ // decode component
@@ -218,6 +244,7 @@ App::App()
 		sceneManager.decodeEntity.push_back(Canis::DecodeSpriteAnimationComponent);
 		sceneManager.decodeEntity.push_back(Canis::DecodeCircleColliderComponent);
 		sceneManager.decodeEntity.push_back(DecodePlayerHealthComponent);
+		sceneManager.decodeEntity.push_back(DecodeEnemyHealthComponent);
 	}
 }
 App::~App()
@@ -270,7 +297,7 @@ void App::Run()
 }
 void App::Load()
 {
-	sceneManager.ForceLoad("SpriteDemo");
+	sceneManager.ForceLoad("main");
 
 	// start timer
 	previousTime = high_resolution_clock::now();

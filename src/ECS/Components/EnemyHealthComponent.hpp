@@ -1,6 +1,6 @@
 #pragma once
 
-struct PlayerHealth
+struct EnemyHealthComponent
 {
     float currentHealth;
     float maxHealth;
