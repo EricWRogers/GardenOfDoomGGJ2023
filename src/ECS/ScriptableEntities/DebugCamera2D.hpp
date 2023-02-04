@@ -32,7 +32,7 @@ public:
 
         if (!GetWindow().GetMouseLock())
         {
-            auto player = m_Entity.GetEntityWithTag("player");
+            auto player = m_Entity.GetEntityWithTag("Player");
             auto& playerTransform = player.GetComponent<Canis::RectTransformComponent>();
             camera2D.position = playerTransform.position;
         }

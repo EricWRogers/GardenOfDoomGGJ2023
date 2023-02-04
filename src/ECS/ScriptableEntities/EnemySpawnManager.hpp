@@ -7,6 +7,8 @@
 #include <Canis/ECS/Components/ColorComponent.hpp>
 #include <Canis/ECS/Components/Camera2DComponent.hpp>
 
+class EnemyMovement;
+
 class EnemySpawnManager : public Canis::ScriptableEntity
 {
     private:
@@ -78,6 +80,11 @@ class EnemySpawnManager : public Canis::ScriptableEntity
             
         auto& color = _entity.AddComponent<Canis::ColorComponent>();
         color.color = glm::vec4(1.0, 1.0, 1.0, 1.0);
+
+        //eric splain morrow
+        Canis::ScriptComponent scriptComponent = {};
+        scriptComponent.Bind<EnemyMovement>();
+        _entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
     }
 
     void SpawnEnemies(std::vector<Canis::Entity> _entities)

@@ -59,8 +59,8 @@ Entities:
       radius: 128.0
       layer: 0
       mask: 0
-    Canis::ScriptComponent: BeachBall
-    Canis::TagComponent: player
+    Canis::ScriptComponent: PlayerMovement
+    Canis::TagComponent: Player
   - 3:
     Canis::TagComponent: EnemySpawnPoint
     Canis::RectTransformComponent:
@@ -84,3 +84,4 @@ Entities:
       scale: 1.0
       depth: 0.1
     Canis::ScriptComponent: EnemySpawnManager
+      
