@@ -59,6 +59,7 @@ Entities:
       layer: 0
       mask: 0
     Canis::ScriptComponent: BeachBall
+    Canis::TagComponent: player
   - 3:
     Canis::TagComponent: EnemySpawnPoint
     Canis::RectTransformComponent:
