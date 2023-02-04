@@ -17,11 +17,34 @@ public:
     {
         int halfWidth = width/2;
         int halfHeight = height/2;
+        Canis::GLTexture texture = GetAssetManager().Get<Canis::TextureAsset>(
+                GetAssetManager().LoadTexture("assets/textures/environment/Background_SpriteSheet.png"))->GetTexture();
         for(int x = -halfWidth; x < halfWidth; x++)
         {
             for(int y = -halfHeight; y < halfHeight; y++)
             {
-                
+                Canis::Entity tile = CreateEntity();
+                auto& tileRect = tile.AddComponent<Canis::RectTransformComponent>();
+                tileRect.position.x = x*32;
+                tileRect.position.y = y*32;
+                tileRect.size.x = 32;
+                tileRect.size.y = 32;
+                tileRect.depth = 2.0f;
+                auto& tileColor = tile.AddComponent<Canis::ColorComponent>();
+                tileColor.color = glm::vec4(1.0f);
+                auto& sprite = tile.AddComponent<Canis::Sprite2DComponent>();
+                sprite.texture = texture;
+                GetSpriteFromTextureAtlas(
+                    sprite,
+                    0,
+                    0,
+                    rand() % 3,
+                    rand() % 3,
+                    16,
+                    16,
+                    (0 == rand() % 2),
+                    (0 == rand() % 2)
+                );
             }
         }
     }
