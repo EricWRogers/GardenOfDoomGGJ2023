@@ -3,12 +3,15 @@
 #include <vector>
 #include <Canis/ScriptableEntity.hpp>
 #include <Canis/ECS/Components/RectTransformComponent.hpp>
+#include "../Components/PlayerHealthComponent.hpp"
+#include <format>
 
-class PlayerMovement : public Canis::ScriptableEntity
+class PlayerManager : public Canis::ScriptableEntity
 {
 private:
    float speed = 100.0f;
     glm::vec2 direction;
+    Canis::Entity m_healthText;
 public:
 
     void OnCreate() //Awake
@@ -18,7 +21,12 @@ public:
 
     void OnReady()//Start
     {
-       
+       m_healthText = m_Entity.GetEntityWithTag("HealthText");
+
+       if (m_healthText.entityHandle == entt::null)
+       {
+            Canis::FatalError("You ded");
+       }
     }
     
     void OnDestroy()
@@ -55,7 +63,12 @@ public:
 
         direction = glm::vec2(horizontal, vertical);
         rect.position += (direction * (speed * _dt));
-    }
 
-    
+        if (!m_Entity.HasComponent<PlayerHealthComponent>())
+        {
+            Canis::FatalError("You ded for real");
+        }
+        auto& playerHealth = GetComponent<PlayerHealthComponent>();
+        (*m_healthText.GetComponent<Canis::TextComponent>().text) = std::format("{:.4}", playerHealth.currentHealth);
+    }
 };
