@@ -62,6 +62,9 @@ Entities:
       mask: 0
     Canis::ScriptComponent: PlayerMovement
     Canis::TagComponent: Player
+    PlayerHealthComponent:
+      currentHealth = 10.0;
+      maxHealth = 10.0;
   - 3:
     Canis::TagComponent: EnemySpawnPoint
     Canis::RectTransformComponent:
