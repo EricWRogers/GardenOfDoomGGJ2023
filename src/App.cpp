@@ -14,6 +14,7 @@
 #include "ECS/ScriptableEntities/EnemySpawnManager.hpp"
 #include "ECS/ScriptableEntities/FPSCounter.hpp"
 #include "ECS/ScriptableEntities/PlayerMovement.hpp"
+#include "ECS/ScriptableEntities/EnemyMovement.hpp"
 #include "ECS/ScriptableEntities/MainMenuButtons.hpp"
 #include "ECS/ScriptableEntities/MainMenuButton.hpp"
 
@@ -137,6 +138,18 @@ App::App()
 				if(_name == "FPSCounter"){
 					Canis::ScriptComponent scriptComponent = {};
             		scriptComponent.Bind<FPSCounter>();
+					_entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
+					return true;
+				}
+				return false;
+			}
+		);
+
+		sceneManager.decodeScriptableEntity.push_back(
+			[](const std::string &_name, Canis::Entity &_entity) {
+				if(_name == "EnemyMovement"){
+					Canis::ScriptComponent scriptComponent = {};
+            		scriptComponent.Bind<EnemyMovement>();
 					_entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
 					return true;
 				}
