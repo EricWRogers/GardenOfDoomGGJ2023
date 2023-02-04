@@ -6,6 +6,7 @@
 #include <Canis/ECS/Components/Sprite2DComponent.hpp>
 #include <Canis/ECS/Components/ColorComponent.hpp>
 #include <Canis/ECS/Components/Camera2DComponent.hpp>
+#include <Canis/ECS/Components/CircleColliderComponent.hpp>
 
 #include "../Components/BoidComponent.hpp"
 
@@ -87,6 +88,9 @@ class EnemySpawnManager : public Canis::ScriptableEntity
         boid.drag = 0.95f;
         boid.speed = 2000.0f;
         boid.maxSpeed = 10000.0f;
+        auto& collider = _entity.AddComponent<Canis::CircleColliderComponent>();
+        collider.layer = Canis::BIT::TWO;
+        collider.mask = Canis::BIT::ONE;
     }
 
     void SpawnEnemies(std::vector<Canis::Entity> _entities)

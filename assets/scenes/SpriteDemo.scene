@@ -53,6 +53,8 @@ Entities:
       radius: 128.0
       layer: 0
       mask: 0
+    Canis::ScriptComponent: PlayerMovement
+    Canis::ScriptComponent: PeaShooterWeapon
     Canis::TagComponent: Player
     PlayerHealthComponent:
       maxHealth: 10.155675

@@ -1,11 +1,17 @@
 #pragma once
 #include <string>
 #include <Canis/ScriptableEntity.hpp>
-#include <Canis/ECS/Components/TextComponent.hpp>
+
 
 class WeaponClass : public Canis::ScriptableEntity
 {
 public:
+    bool enabled;
+    int damage;
+    float rarity;
+    float speed;
+
+
     void OnCreate()
     {
         
@@ -23,6 +29,6 @@ public:
 
     void OnUpdate(float _dt)
     {
-        
+       
     }
 };
