@@ -4,6 +4,7 @@ Systems:
   - Canis::ButtonSystem
   - Canis::CollisionSystem2D
   - Canis::SpriteAnimationSystem
+  - EnemySystem
 RenderSystems:
   - Canis::SpriteRenderer2DSystem
   - Canis::RenderTextSystem
@@ -57,9 +58,9 @@ Entities:
       speed: 1.0
     Canis::CircleColliderComponent:
       center: [0.0, 0.0]
-      radius: 128.0
-      layer: 0
-      mask: 0
+      radius: 16.0
+      layer: 1
+      mask: 2
     Canis::ScriptComponent: PlayerManager
     Canis::TagComponent: Player
     PlayerHealthComponent:
