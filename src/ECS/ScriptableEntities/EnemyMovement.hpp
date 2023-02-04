@@ -31,6 +31,6 @@ class EnemyMovement : public Canis::ScriptableEntity
     void OnUpdate(float _dt)
     {
         auto& m_transform = GetComponent<Canis::RectTransformComponent>();
-        m_transform.position += glm::normalize(m_player.GetComponent<Canis::RectTransformComponent>().position - m_transform.position) * 10.0f * _dt;
+        //m_transform.position += glm::normalize(m_player.GetComponent<Canis::RectTransformComponent>().position - m_transform.position) * 10.0f * _dt;
     }
 };

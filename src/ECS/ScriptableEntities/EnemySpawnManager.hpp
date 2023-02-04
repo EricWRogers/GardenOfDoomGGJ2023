@@ -7,6 +7,8 @@
 #include <Canis/ECS/Components/ColorComponent.hpp>
 #include <Canis/ECS/Components/Camera2DComponent.hpp>
 
+#include "../Components/BoidComponent.hpp"
+
 class EnemyMovement;
 
 class EnemySpawnManager : public Canis::ScriptableEntity
@@ -81,6 +83,11 @@ class EnemySpawnManager : public Canis::ScriptableEntity
         auto& color = _entity.AddComponent<Canis::ColorComponent>();
         color.color = glm::vec4(1.0, 1.0, 1.0, 1.0);
 
+        auto& boid = _entity.AddComponent<BoidComponent>();
+            boid.drag = 0.09f;
+            boid.speed = 10.0f;
+            boid.maxSpeed = 20.0f;
+
         //eric splain morrow
         Canis::ScriptComponent scriptComponent = {};
         scriptComponent.Bind<EnemyMovement>();
@@ -123,6 +130,11 @@ class EnemySpawnManager : public Canis::ScriptableEntity
             
             auto& color = e.AddComponent<Canis::ColorComponent>();
             color.color = glm::vec4(1.0, 1.0, 1.0, 1.0);
+
+            auto& boid = e.AddComponent<BoidComponent>();
+            boid.drag = 0.09f;
+            boid.speed = 10.0f;
+            boid.maxSpeed = 20.0f;
         }
 
         
