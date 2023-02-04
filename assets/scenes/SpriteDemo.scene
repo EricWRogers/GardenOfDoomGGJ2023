@@ -9,6 +9,7 @@ RenderSystems:
   - Canis::RenderHUDSystem
 Entities:
   - 0:
+    Canis::TagComponent: Camera
     Canis::Camera2DComponent:
       position: [0.0, 0.0]
       scale: 1.0
@@ -71,3 +72,15 @@ Entities:
       rotation: 0
       scale: 1.0
       depth: 0.1
+  - 4:
+    Canis::TagComponent: EnemySpawnManager
+    Canis::RectTransformComponent:
+      active: true
+      anchor: 6
+      position: [0.0, 0.0]
+      size: [100.0, 100.0]
+      originOffset: [0.0, 0.0]
+      rotation: 0
+      scale: 1.0
+      depth: 0.1
+    Canis::ScriptComponent: EnemySpawnManager
