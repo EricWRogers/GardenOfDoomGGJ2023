@@ -211,5 +211,13 @@ public:
     
         m_healthSlider.GetComponent<Canis::UISliderComponent>().value = GetComponent<PlayerHealthComponent>().currentHealth / GetComponent<PlayerHealthComponent>().maxHealth;
         m_expSlider.GetComponent<Canis::UISliderComponent>().value = currentXp / MAXEXP;
+
+        if(currentXp >= MAXEXP)
+        {
+            if (m_weaponSlotIconEntities.size() < 5)
+            {
+                currentXp = 0;
+            }
+        }
     }
 };
