@@ -5,19 +5,23 @@
 #include "../Components/PlayerHealthComponent.hpp"
 #include "../Components/EnemyHealthComponent.hpp"
 #include "../Components/EnemyHealthComponent.hpp"
-#include "ECS/ScriptableEntities/PlayerManager.hpp"
-#include "ECS/ScriptableEntities/XP.hpp"
+#include "../ScriptableEntities/PlayerManager.hpp"
 
 class EnemySystem : public Canis::System
 {
     private:
     Canis::Entity m_player;
     Canis::CollisionSystem2D *m_collisionSystem2D = nullptr;
+    int blueXpIdleId = 0;
+    int purpleXpIdleId = 0;
+    int rainbowXpIdleId = 0;
 
     public:
     void Create() 
     {
-        
+        blueXpIdleId = assetManager->LoadSpriteAnimation("assets/animations/exp_orb_blue.anim");
+        purpleXpIdleId = assetManager->LoadSpriteAnimation("assets/animations/exp_orb_purple.anim");
+        rainbowXpIdleId = assetManager->LoadSpriteAnimation("assets/animations/exp_orb_rainbow.anim");
     }
 
     void Ready() 
@@ -75,6 +79,22 @@ class EnemySystem : public Canis::System
 
                 auto& xp = e.AddComponent<XP>();
                 xp.SetXP(enemy.xpValue);
+
+                auto& anim = e.AddComponent<Canis::SpriteAnimationComponent>();
+                if (xp.GetXP() >= 100)
+                {
+                    anim.animationId = rainbowXpIdleId;
+                }
+                if (xp.GetXP() >= 50 && xp.GetXP() <= 99)
+                {
+                    anim.animationId = purpleXpIdleId;
+                }
+                if (xp.GetXP() < 50)
+                {
+                    anim.animationId = blueXpIdleId;
+                }
+
+                anim.index = 0;
 
                 _registry.destroy(entity);
             }

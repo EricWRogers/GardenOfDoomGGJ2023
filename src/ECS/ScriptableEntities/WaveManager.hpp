@@ -19,6 +19,7 @@
 struct WaveEnemy
 {
     int amount;
+    float xpAmount;
     std::string texPath;
     std::string animPath;
 };
@@ -36,6 +37,7 @@ class WaveManager : public Canis::ScriptableEntity
         {
             WaveEnemy enemy;
             enemy.amount = 1;
+            enemy.xpAmount = 50.0f;
             enemy.animPath = "";
             enemy.texPath = "assets/textures/enemies/beehive.png";
             m_enemies.push_back(enemy);
@@ -44,6 +46,7 @@ class WaveManager : public Canis::ScriptableEntity
         {
             WaveEnemy enemy;
             enemy.amount = 2;
+            enemy.xpAmount = 100.0f;
             enemy.animPath = "";
             enemy.texPath = "assets/textures/environment/planters.png";
             m_enemies.push_back(enemy);
@@ -68,8 +71,7 @@ class WaveManager : public Canis::ScriptableEntity
         {
             for (int i = 0; i < enemy.amount; i++)
             {
-                auto e = CreateEntity();
-                ((EnemySpawnManager*)m_spawnManager.GetComponent<Canis::ScriptComponent>().Instance)->SpawnEnemy(e, enemy.texPath);
+                ((EnemySpawnManager*)m_spawnManager.GetComponent<Canis::ScriptComponent>().Instance)->SpawnEnemy(enemy.texPath, enemy.xpAmount);
             }
         }
     }

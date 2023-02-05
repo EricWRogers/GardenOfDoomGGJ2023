@@ -81,6 +81,9 @@ private:
             }
         }
 
+        if (numNeighbors == 0)
+            return glm::vec2(0.0f);
+
         cohesion /= numNeighbors;
 
         return glm::normalize((cohesion - agentPosition));
@@ -136,7 +139,6 @@ public:
         auto view = _registry.view<Canis::RectTransformComponent, Canis::ColorComponent, Canis::Sprite2DComponent, BoidComponent>();
         for (auto [entity, rect_transform, color, sprite, boid] : view.each())
         {
-            //Canis::Log("Update");
             // SEEK
             seekTarget = Seek(rect_transform.position, playerPosition);
             // Alignment
