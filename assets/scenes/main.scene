@@ -4,6 +4,7 @@ Systems:
   - Canis::ButtonSystem
   - Canis::CollisionSystem2D
   - Canis::SpriteAnimationSystem
+  - BulletSystem
   - EnemySystem
 RenderSystems:
   - Canis::SpriteRenderer2DSystem
@@ -141,9 +142,8 @@ Entities:
       depth: 0.1
     Canis::CircleColliderComponent:
       center: [0.0, 0.0]
-      radius: 64.0
+      radius: 1000.0
       layer: 0
       mask: 2
-
     Canis::ScriptComponent: PeaShooterWeapon
       
