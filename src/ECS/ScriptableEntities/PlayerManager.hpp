@@ -4,6 +4,7 @@
 #include <Canis/ScriptableEntity.hpp>
 #include <Canis/ECS/Components/RectTransformComponent.hpp>
 #include "../Components/PlayerHealthComponent.hpp"
+#include "ECS/ScriptableEntities/XP.hpp"
 
 enum WeaponType
 {
@@ -28,6 +29,7 @@ private:
     const unsigned int MAXWEAPONS = 5;
     std::vector<Canis::Entity> m_weaponSlotEntities = {};
     std::vector<Canis::Entity> m_weaponSlotIconEntities = {};
+    float currentXp = 0.0f;
 public:
 
     void AddWeaponToSlot(unsigned int _weaponType) {
@@ -187,5 +189,21 @@ public:
         (*m_healthText.GetComponent<Canis::TextComponent>().text) += ".";
         (*m_healthText.GetComponent<Canis::TextComponent>().text) += std::to_string((int)((playerHealth.currentHealth - (int)playerHealth.currentHealth) * 100.0f));
         // Canis::Log("Test" + *m_healthText.GetComponent<Canis::TextComponent>().text);
+
+        std::vector<entt::entity> hits = GetSystem<Canis::CollisionSystem2D>()->GetHits(m_Entity.entityHandle);
+
+        Canis::Entity hitEntity;
+        hitEntity.scene = m_Entity.scene;
+
+        for(entt::entity hit : hits)
+        {
+            hitEntity.entityHandle = hit;
+
+            if (hitEntity.HasComponent<XP>())
+            {
+                currentXp += hitEntity.GetComponent<XP>().GetXP();
+                m_Entity.scene->entityRegistry.destroy(hit);
+            }
+        }
     }
 };
