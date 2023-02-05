@@ -21,7 +21,7 @@ class EnemySystem : public Canis::System
     {
         blueXpIdleId = assetManager->LoadSpriteAnimation("assets/animations/exp_orb_blue.anim");
         purpleXpIdleId = assetManager->LoadSpriteAnimation("assets/animations/exp_orb_purple.anim");
-        rainbowXpIdleId = assetManager->LoadSpriteAnimation("assets/animations/exp_orb_raindbow.anim");
+        rainbowXpIdleId = assetManager->LoadSpriteAnimation("assets/animations/exp_orb_rainbow.anim");
     }
 
     void Ready() 

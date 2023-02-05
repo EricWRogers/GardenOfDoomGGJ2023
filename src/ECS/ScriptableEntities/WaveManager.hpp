@@ -37,7 +37,7 @@ class WaveManager : public Canis::ScriptableEntity
         {
             WaveEnemy enemy;
             enemy.amount = 1;
-            enemy.xpAmount = 1.0f;
+            enemy.xpAmount = 50.0f;
             enemy.animPath = "";
             enemy.texPath = "assets/textures/enemies/beehive.png";
             m_enemies.push_back(enemy);
@@ -46,7 +46,7 @@ class WaveManager : public Canis::ScriptableEntity
         {
             WaveEnemy enemy;
             enemy.amount = 2;
-            enemy.xpAmount = 1.0f;
+            enemy.xpAmount = 100.0f;
             enemy.animPath = "";
             enemy.texPath = "assets/textures/environment/planters.png";
             m_enemies.push_back(enemy);
