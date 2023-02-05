@@ -209,6 +209,7 @@ public:
 
             if (hitEntity.HasComponent<XP>())
             {
+                GetAssetManager().Get<Canis::SoundAsset>(GetAssetManager().LoadSound("assets/sounds/pickupCoin.wav"))->Play();
                 currentXp += hitEntity.GetComponent<XP>().GetXP();
                 m_Entity.scene->entityRegistry.destroy(hit);
             }
@@ -219,6 +220,8 @@ public:
 
         if(currentXp >= MAXEXP)
         {
+             GetAssetManager().Get<Canis::SoundAsset>(GetAssetManager().LoadSound("assets/sounds/powerUp.wav"))->Play();
+            if (m_weaponSlotIconEntities.size() < 5)
             if (m_weaponIDoNotHave.size() > 0)
             {
                 currentXp = 0;
