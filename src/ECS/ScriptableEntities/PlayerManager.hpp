@@ -57,15 +57,15 @@ public:
                 break;
             }
             case WeaponType::BOMBS: {
-
+                m_Entity.GetEntityWithTag("Bomb").GetComponent<Canis::RectTransformComponent>().active = true;
                 break;
             }
             case WeaponType::FIREBALLS: {
-
+                m_Entity.GetEntityWithTag("FireBall").GetComponent<Canis::RectTransformComponent>().active = true;
                 break;
             }
             case WeaponType::SWORD: {
-
+                m_Entity.GetEntityWithTag("Sword").GetComponent<Canis::RectTransformComponent>().active = true;
                 break;
             }
 
@@ -112,6 +112,9 @@ public:
        m_weaponSlotEntities.push_back(m_Entity.GetEntityWithTag("WeaponSlot3"));
        m_weaponSlotEntities.push_back(m_Entity.GetEntityWithTag("WeaponSlot4"));
        AddWeaponToSlot(3);
+       AddWeaponToSlot(5);
+       AddWeaponToSlot(6);
+       AddWeaponToSlot(4);
     }
     
     void OnDestroy()

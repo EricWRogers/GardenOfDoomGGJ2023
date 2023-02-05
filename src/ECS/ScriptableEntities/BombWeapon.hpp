@@ -2,6 +2,7 @@
 #include <string>
 #include <glm/glm.hpp>
 #include <Canis/ScriptableEntity.hpp>
+#include <Canis/Math.hpp>
 #include <Canis/ECS/Components/CircleColliderComponent.hpp>
 #include <Canis/ECS/Components/RectTransformComponent.hpp>
 #include <Canis/ECS/Components/RectTransformComponent.hpp>
@@ -9,33 +10,36 @@
 
 #include "../Components/BulletComponent.hpp"
 
-class PeaShooterWeapon : public WeaponClass
+class BombWeapon : public WeaponClass
 {
 
 private:
     Canis::Entity target;
     float timer = 0.0f;
     bool canShoot = true;
-    int peaId = 0;
+    int bombId = 0;
+    bool firstStartFrame = false;
+    bool canExplode = false;
 
     float dt;
     
     Canis::Entity closestEntity;
 
     Canis::Entity player;
+    Canis::Camera2DComponent camera;
 
 public:
 
 
     void OnCreate()
     {
-        damage = 10;
-        peaId = GetAssetManager().LoadSpriteAnimation("assets/animations/pea_shooter_projectile.anim");
+        bombId = GetAssetManager().LoadSpriteAnimation("assets/animations/bomb_weapon.anim");
     }
 
     void OnReady()
     {
         player = m_Entity.GetEntityWithTag("Player");
+        camera = m_Entity.GetEntityWithTag("Camera").GetComponent<Canis::Camera2DComponent>();
     }
     
     void OnDestroy()
@@ -72,6 +76,7 @@ public:
                 {
                     //Canis::Log("id: " + std::to_string((unsigned int)hit[i].entityHandle.));
                     hitEntity.entityHandle = hit[i];
+                    
                     if (hit[i] != entt::tombstone && m_Entity.scene->entityRegistry.valid(hit[i]))
                     {
                         float distance = glm::distance(hitEntity.GetComponent<Canis::RectTransformComponent>().position, GetComponent<Canis::RectTransformComponent>().position);
@@ -94,6 +99,12 @@ public:
 
             timer = 0.5f;
             canShoot = false;
+
+            if (e.HasComponent<Canis::SpriteAnimationComponent>())
+            {
+                //if (e.GetComponent<Canis::SpriteAnimationComponent>().animationId)
+                
+            }
         }
     }
     void Shoot(Canis::Entity _entity)
@@ -102,14 +113,11 @@ public:
         {
             return;
         }
-        auto& bullet = _entity.AddComponent<BulletComponent>();
-        bullet.direction = glm::normalize(closestEntity.GetComponent<Canis::RectTransformComponent>().position - GetComponent<Canis::RectTransformComponent>().position);
-        bullet.speed = 100.0f;
-        bullet.damage = 10.0f;
-        bullet.timeLeft = 6.0f;
+        
+        //glm::vec2(RandomFloat(camera.x - GetWindow().GetScreenWidth()/2.0f, camera.x - GetWindow().GetScreenWidth()/2.0f), RandomFloat(camera.y - GetWindow().GetScreenHeight()/2.0f, camera.y - GetWindow().GetScreenHeight()/2.0f)
         
         auto& rect = _entity.AddComponent<Canis::RectTransformComponent>();
-        rect.position = player.GetComponent<Canis::RectTransformComponent>().position;
+        rect.position = glm::vec2(Canis::RandomFloat(camera.position.x - GetWindow().GetScreenWidth()/2.0f, camera.position.x - GetWindow().GetScreenWidth()/2.0f), Canis::RandomFloat(camera.position.y - GetWindow().GetScreenHeight()/2.0f, camera.position.y - GetWindow().GetScreenHeight()/2.0f));
         rect.size = glm::vec2(16.0f);
         rect.depth = 0.2f;
 
@@ -120,12 +128,14 @@ public:
         color.color = glm::vec4(1.0, 1.0, 1.0, 1.0);
 
         auto& anim = _entity.AddComponent<Canis::SpriteAnimationComponent>();
-        anim.animationId = peaId;
+        anim.animationId = bombId;
 
         auto& circleCollider = _entity.AddComponent<Canis::CircleColliderComponent>();
         circleCollider.layer = Canis::BIT::ZERO;
         circleCollider.mask = Canis::BIT::TWO;
         circleCollider.radius = 16.0f;
+
+        auto& bomb = _entity.AddComponent<BombComponent>();
     }
 
 };

@@ -9,14 +9,14 @@
 
 #include "../Components/BulletComponent.hpp"
 
-class PeaShooterWeapon : public WeaponClass
+class SwordWeapon : public WeaponClass
 {
 
 private:
     Canis::Entity target;
     float timer = 0.0f;
     bool canShoot = true;
-    int peaId = 0;
+    int swordId = 0;
 
     float dt;
     
@@ -30,7 +30,7 @@ public:
     void OnCreate()
     {
         damage = 10;
-        peaId = GetAssetManager().LoadSpriteAnimation("assets/animations/pea_shooter_projectile.anim");
+        swordId = GetAssetManager().LoadSpriteAnimation("assets/animations/sword_weapon.anim");
     }
 
     void OnReady()
@@ -72,6 +72,7 @@ public:
                 {
                     //Canis::Log("id: " + std::to_string((unsigned int)hit[i].entityHandle.));
                     hitEntity.entityHandle = hit[i];
+
                     if (hit[i] != entt::tombstone && m_Entity.scene->entityRegistry.valid(hit[i]))
                     {
                         float distance = glm::distance(hitEntity.GetComponent<Canis::RectTransformComponent>().position, GetComponent<Canis::RectTransformComponent>().position);
@@ -103,8 +104,18 @@ public:
             return;
         }
         auto& bullet = _entity.AddComponent<BulletComponent>();
-        bullet.direction = glm::normalize(closestEntity.GetComponent<Canis::RectTransformComponent>().position - GetComponent<Canis::RectTransformComponent>().position);
-        bullet.speed = 100.0f;
+
+        if (!player.GetComponent<Canis::SpriteAnimationComponent>().flipX)
+        {
+            bullet.direction = glm::vec2(1.0f, 0.0f);
+        }
+
+        if (player.GetComponent<Canis::SpriteAnimationComponent>().flipX)
+        {
+            bullet.direction = glm::vec2(-1.0f, 0.0f);
+        }
+        
+        bullet.speed = 200.0f;
         bullet.damage = 10.0f;
         bullet.timeLeft = 6.0f;
         
@@ -120,7 +131,7 @@ public:
         color.color = glm::vec4(1.0, 1.0, 1.0, 1.0);
 
         auto& anim = _entity.AddComponent<Canis::SpriteAnimationComponent>();
-        anim.animationId = peaId;
+        anim.animationId = swordId;
 
         auto& circleCollider = _entity.AddComponent<Canis::CircleColliderComponent>();
         circleCollider.layer = Canis::BIT::ZERO;
