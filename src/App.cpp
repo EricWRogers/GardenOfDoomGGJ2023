@@ -25,6 +25,7 @@
 #include "ECS/ScriptableEntities/WeaponClass.hpp"
 #include "ECS/ScriptableEntities/PeaShooterWeapon.hpp"
 #include "ECS/ScriptableEntities/WaveManager.hpp"
+#include "ECS/ScriptableEntities/XP.hpp"
 #include "ECS/Decode.hpp"
 
 App::App()
@@ -267,6 +268,18 @@ App::App()
                 return false;
             }
         );
+
+		sceneManager.decodeScriptableEntity.push_back(
+            [](const std::string &_name, Canis::Entity &_entity) {
+                if(_name == "XP"){
+                    Canis::ScriptComponent scriptComponent = {};
+                    scriptComponent.Bind<XP>();
+                    _entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
+                    return true;
+                }
+                return false;
+            }
+        );
 	}
 
 	{ // decode component
@@ -276,6 +289,7 @@ App::App()
 		sceneManager.decodeEntity.push_back(Canis::DecodeColorComponent);
 		sceneManager.decodeEntity.push_back(Canis::DecodeTextComponent);
 		sceneManager.decodeEntity.push_back(Canis::DecodeSprite2DComponent);
+		sceneManager.decodeEntity.push_back(Canis::DecodeUIImageComponent);
 		sceneManager.decodeEntity.push_back(Canis::DecodeSpriteAnimationComponent);
 		sceneManager.decodeEntity.push_back(Canis::DecodeCircleColliderComponent);
 		sceneManager.decodeEntity.push_back(DecodePlayerHealthComponent);
