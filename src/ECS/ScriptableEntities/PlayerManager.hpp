@@ -220,10 +220,11 @@ public:
 
         if(currentXp >= MAXEXP)
         {
-             GetAssetManager().Get<Canis::SoundAsset>(GetAssetManager().LoadSound("assets/sounds/powerUp.wav"))->Play();
+             
             if (m_weaponSlotIconEntities.size() < 5)
             if (m_weaponIDoNotHave.size() > 0)
             {
+                GetAssetManager().Get<Canis::SoundAsset>(GetAssetManager().LoadSound("assets/sounds/powerUp.wav"))->Play();
                 currentXp = 0;
                 AddWeaponToSlot(m_weaponIDoNotHave[0]);
                 m_weaponIDoNotHave.erase(m_weaponIDoNotHave.begin());
