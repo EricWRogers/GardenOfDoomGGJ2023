@@ -76,7 +76,7 @@ Entities:
     Canis::RectTransformComponent:
       active: true
       anchor: 2
-      position: [-30.0, -140.0]
+      position: [-30.0, -70.0]
       size: [0.0, 0.0]
       originOffset: [0.0, 0.0]
       rotation: 0.0

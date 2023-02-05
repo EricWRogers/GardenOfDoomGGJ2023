@@ -158,12 +158,12 @@ public:
             // update velocity
             boid.velocity += boid.acceleration * _deltaTime;
 
-            // clamp velocity to maxSpeed
-            // if (glm::length(boid.velocity) > boid.maxSpeed)
-            // {
-            //     boid.velocity = glm::normalize(boid.velocity);
-            //     boid.velocity *= boid.maxSpeed;
-            // }
+            //clamp velocity to maxSpeed
+            if (glm::length(boid.velocity) > boid.maxSpeed)
+            {
+                boid.velocity = glm::normalize(boid.velocity);
+                boid.velocity *= boid.maxSpeed;
+            }
 
             // apply drag
             boid.velocity *= boid.drag;
