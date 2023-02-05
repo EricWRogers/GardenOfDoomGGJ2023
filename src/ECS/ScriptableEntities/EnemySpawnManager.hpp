@@ -108,7 +108,7 @@ class EnemySpawnManager : public Canis::ScriptableEntity
         auto& enemy = _entity.AddComponent<EnemyComponent>();
         enemy.attackCooldown = 1.0;
         enemy.attackDamage = 1.0;
-        enemy.xpValue = _xpValue;
+        enemy.xpValue = Canis::RandomFloat(0.0f, _xpValue);
 
         auto& anim = _entity.AddComponent<Canis::SpriteAnimationComponent>();
         anim.animationId = GetAssetManager().LoadSpriteAnimation(_animPath);

@@ -94,7 +94,10 @@ class EnemySystem : public Canis::System
                 auto& xp = e.AddComponent<XP>();
                 xp.SetXP(enemy.xpValue);
 
+                
+
                 auto& anim = e.AddComponent<Canis::SpriteAnimationComponent>();
+                anim.animationId = blueXpIdleId;
                 if (xp.GetXP() >= 100)
                 {
                     anim.animationId = rainbowXpIdleId;
