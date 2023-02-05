@@ -44,14 +44,10 @@ class EnemySpawnManager : public Canis::ScriptableEntity
 
     void OnUpdate(float _dt)
     {
-        if (GetInputManager().JustPressedKey(SDLK_h))
-        {
-            auto e = CreateEntity();
-            SpawnEnemy(" ", 0);
-        }
+        
     }
 
-    void SpawnEnemy(std::string _path, float _xpValue)
+    void SpawnEnemy(const std::string &_texPath, const std::string &_animPath, float _xpValue)
     {
         auto& m_cameraComponent = m_camera.GetComponent<Canis::Camera2DComponent>();
         Canis::Entity _entity = CreateEntity();
@@ -82,7 +78,7 @@ class EnemySpawnManager : public Canis::ScriptableEntity
             
         auto& sprite = _entity.AddComponent<Canis::Sprite2DComponent>();
         sprite.texture = GetAssetManager().Get<Canis::TextureAsset>( 
-            GetAssetManager().LoadTexture(_path))->GetTexture();
+            GetAssetManager().LoadTexture(_texPath))->GetTexture();
             
         auto& color = _entity.AddComponent<Canis::ColorComponent>();
         color.color = glm::vec4(1.0, 1.0, 1.0, 1.0);
@@ -106,51 +102,9 @@ class EnemySpawnManager : public Canis::ScriptableEntity
         enemy.attackCooldown = 1.0;
         enemy.attackDamage = 1.0;
         enemy.xpValue = _xpValue;
-    }
 
-    void SpawnEnemies(std::vector<Canis::Entity> _entities)
-    {
-        auto& m_cameraComponent = m_camera.GetComponent<Canis::Camera2DComponent>();
-
-        for (int i = m_cameraComponent.position.x - GetWindow().GetScreenWidth()/2.0; i < GetWindow().GetScreenWidth() + m_cameraComponent.position.x; i++)
-        {
-            m_spawnPositions.push_back(glm::vec2(i, m_cameraComponent.position.y + GetWindow().GetScreenHeight()/2.0));
-        }
-
-        for (int i = m_cameraComponent.position.x - GetWindow().GetScreenWidth()/2.0; i < GetWindow().GetScreenWidth() + m_cameraComponent.position.x; i++)
-        {
-            m_spawnPositions.push_back(glm::vec2(i, m_cameraComponent.position.y - GetWindow().GetScreenHeight()/2.0));
-        }
-
-        for (int i = m_cameraComponent.position.y - GetWindow().GetScreenHeight()/2.0; i < GetWindow().GetScreenHeight() + m_cameraComponent.position.y; i++)
-        {
-            m_spawnPositions.push_back(glm::vec2(m_cameraComponent.position.x + GetWindow().GetScreenWidth()/2.0, i));
-        }
-
-        for (int i = m_cameraComponent.position.y - GetWindow().GetScreenHeight()/2.0; i < GetWindow().GetScreenHeight() + m_cameraComponent.position.y; i++)
-        {
-            m_spawnPositions.push_back(glm::vec2(m_cameraComponent.position.x - GetWindow().GetScreenWidth()/2.0, i));
-        }
-
-        for (auto e : _entities)
-        {
-            auto& rectTransform = e.AddComponent<Canis::RectTransformComponent>();
-            rectTransform.size = glm::vec2(100.0, 100.0);
-            rectTransform.position = GetRandomPosition(m_spawnPositions);
-            
-            auto& sprite = e.AddComponent<Canis::Sprite2DComponent>();
-            sprite.texture = GetAssetManager().Get<Canis::TextureAsset>(
-                GetAssetManager().LoadTexture("assets/textures/enemies/beehive.png"))->GetTexture();
-            
-            auto& color = e.AddComponent<Canis::ColorComponent>();
-            color.color = glm::vec4(1.0, 1.0, 1.0, 1.0);
-
-            auto& boid = e.AddComponent<BoidComponent>();
-            boid.drag = 0.09f;
-            boid.speed = 10.0f;
-            boid.maxSpeed = 20.0f;
-        }
-
-        
+        auto& anim = _entity.AddComponent<Canis::SpriteAnimationComponent>();
+        anim.animationId = GetAssetManager().LoadSpriteAnimation(_animPath);
+        anim.index = 0;
     }
 };

@@ -16,6 +16,7 @@ private:
     Canis::Entity target;
     float timer = 0.0f;
     bool canShoot = true;
+    int peaId = 0;
 
     float dt;
     
@@ -29,6 +30,7 @@ public:
     void OnCreate()
     {
         damage = 10;
+        peaId = GetAssetManager().LoadSpriteAnimation("assets/animations/pea_shooter_projectile.anim");
     }
 
     void OnReady()
@@ -113,6 +115,9 @@ public:
 
         auto& color = _entity.AddComponent<Canis::ColorComponent>();
         color.color = glm::vec4(1.0, 1.0, 1.0, 1.0);
+
+        auto& anim = _entity.AddComponent<Canis::SpriteAnimationComponent>();
+        anim.animationId = peaId;
 
         auto& circleCollider = _entity.AddComponent<Canis::CircleColliderComponent>();
         circleCollider.layer = Canis::BIT::ZERO;
