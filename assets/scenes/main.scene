@@ -146,4 +146,6 @@ Entities:
       layer: 0
       mask: 2
     Canis::ScriptComponent: PeaShooterWeapon
+  - 10:
+    Canis::ScriptComponent: WaveManager
       

@@ -24,6 +24,7 @@
 #include "ECS/ScriptableEntities/MapBuilder.hpp"
 #include "ECS/ScriptableEntities/WeaponClass.hpp"
 #include "ECS/ScriptableEntities/PeaShooterWeapon.hpp"
+#include "ECS/ScriptableEntities/WaveManager.hpp"
 #include "ECS/Decode.hpp"
 
 App::App()
@@ -248,6 +249,18 @@ App::App()
                 if(_name == "WeaponClass"){
                     Canis::ScriptComponent scriptComponent = {};
                     scriptComponent.Bind<WeaponClass>();
+                    _entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
+                    return true;
+                }
+                return false;
+            }
+        );
+
+		sceneManager.decodeScriptableEntity.push_back(
+            [](const std::string &_name, Canis::Entity &_entity) {
+                if(_name == "WaveManager"){
+                    Canis::ScriptComponent scriptComponent = {};
+                    scriptComponent.Bind<WaveManager>();
                     _entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
                     return true;
                 }
