@@ -39,7 +39,6 @@ public:
     void OnReady()
     {
         player = m_Entity.GetEntityWithTag("Player");
-        camera = m_Entity.GetEntityWithTag("Camera").GetComponent<Canis::Camera2DComponent>();
     }
     
     void OnDestroy()
@@ -49,6 +48,8 @@ public:
 
     void OnUpdate(float _dt)
     {
+        camera = m_Entity.GetEntityWithTag("Camera").GetComponent<Canis::Camera2DComponent>();
+
         if (GetComponent<Canis::RectTransformComponent>().active == false) // add to all weapons
             return;
         
@@ -97,7 +98,7 @@ public:
             auto e = CreateEntity();
             Shoot(e);
 
-            timer = 0.5f;
+            timer = 1.5f;
             canShoot = false;
 
             if (e.HasComponent<Canis::SpriteAnimationComponent>())
@@ -117,8 +118,10 @@ public:
         //glm::vec2(RandomFloat(camera.x - GetWindow().GetScreenWidth()/2.0f, camera.x - GetWindow().GetScreenWidth()/2.0f), RandomFloat(camera.y - GetWindow().GetScreenHeight()/2.0f, camera.y - GetWindow().GetScreenHeight()/2.0f)
         
         auto& rect = _entity.AddComponent<Canis::RectTransformComponent>();
-        rect.position = glm::vec2(Canis::RandomFloat(camera.position.x - GetWindow().GetScreenWidth()/2.0f, camera.position.x - GetWindow().GetScreenWidth()/2.0f), Canis::RandomFloat(camera.position.y - GetWindow().GetScreenHeight()/2.0f, camera.position.y - GetWindow().GetScreenHeight()/2.0f));
-        rect.size = glm::vec2(16.0f);
+        rect.position = glm::vec2(
+            Canis::RandomFloat(camera.position.x - GetWindow().GetScreenWidth()/2.0f, camera.position.x + GetWindow().GetScreenWidth()/2.0f),
+            Canis::RandomFloat(camera.position.y - GetWindow().GetScreenHeight()/2.0f, camera.position.y + GetWindow().GetScreenHeight()/2.0f));
+        rect.size = glm::vec2(32.0f);
         rect.depth = 0.2f;
 
         auto& sprite = _entity.AddComponent<Canis::Sprite2DComponent>();
@@ -133,9 +136,10 @@ public:
         auto& circleCollider = _entity.AddComponent<Canis::CircleColliderComponent>();
         circleCollider.layer = Canis::BIT::ZERO;
         circleCollider.mask = Canis::BIT::TWO;
-        circleCollider.radius = 16.0f;
+        circleCollider.radius = 64.0f;
 
         auto& bomb = _entity.AddComponent<BombComponent>();
+        bomb.damage = 30.0f;
     }
 
 };

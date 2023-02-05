@@ -43,7 +43,7 @@ void DecodeBombComponent(YAML::Node &_n, Canis::Entity &_entity, Canis::SceneMan
     if (auto bombComponent = _n["BombComponent"])
     {
         auto &bc = _entity.AddComponent<BombComponent>();
-        bc.stillOnFirstZero = bombComponent["stillOnFirstZero"].as<bool>();
+        bc.timeLeft = bombComponent["timeLeft"].as<float>();
         bc.damage = bombComponent["damage"].as<float>();
     }
 }
