@@ -38,7 +38,7 @@ class WaveManager : public Canis::ScriptableEntity
     std::vector<WaveEnemy> m_enemies;
     std::vector<Wave> m_waves;
     Canis::Entity m_spawnManager;
-    float m_waveFrequency = 20.0f;
+    float m_waveFrequency = 5.0f;
     float m_timeSinceLastWave = 20.0f;
 
     void Populate()
@@ -49,7 +49,7 @@ class WaveManager : public Canis::ScriptableEntity
 
             {
                 WaveEnemy enemy;
-                enemy.amount = 15;
+                enemy.amount = 2;
                 enemy.xpAmount = 50.0f;
                 enemy.maxHealth = 15.0f;
                 enemy.animPath = "assets/animations/tumbleweed.anim";
@@ -59,7 +59,7 @@ class WaveManager : public Canis::ScriptableEntity
 
             {
                 WaveEnemy enemy;
-                enemy.amount = 5;
+                enemy.amount = 1;
                 enemy.xpAmount = 100.0f;
                 enemy.maxHealth = 20.0f;
                 enemy.animPath = "assets/animations/tangleweed.anim";
@@ -67,9 +67,9 @@ class WaveManager : public Canis::ScriptableEntity
                 wave.enemies.push_back(enemy);
             }
 
-             {
+            {
                 WaveEnemy enemy;
-                enemy.amount = 15;
+                enemy.amount = 2;
                 enemy.xpAmount = 50.0f;
                 enemy.maxHealth = 15.0f;
                 enemy.animPath = "assets/animations/bomb_plant.anim";
@@ -79,10 +79,60 @@ class WaveManager : public Canis::ScriptableEntity
 
             {
                 WaveEnemy enemy;
-                enemy.amount = 10;
+                enemy.amount = 2;
                 enemy.xpAmount = 100.0f;
                 enemy.maxHealth = 20.0f;
                 enemy.animPath = "assets/animations/fire_plant.anim";
+                enemy.texPath = "assets/textures/enemies/beehive.png";
+                wave.enemies.push_back(enemy);
+            }
+
+            {
+                WaveEnemy enemy;
+                enemy.amount = 2;
+                enemy.xpAmount = 50.0f;
+                enemy.maxHealth = 15.0f;
+                enemy.animPath = "assets/animations/bee.anim";
+                enemy.texPath = "assets/textures/enemies/beehive.png";
+                wave.enemies.push_back(enemy);
+            }
+
+            {
+                WaveEnemy enemy;
+                enemy.amount = 2;
+                enemy.xpAmount = 100.0f;
+                enemy.maxHealth = 20.0f;
+                enemy.animPath = "assets/animations/briar_plant.anim";
+                enemy.texPath = "assets/textures/enemies/beehive.png";
+                wave.enemies.push_back(enemy);
+            }
+
+            {
+                WaveEnemy enemy;
+                enemy.amount = 2;
+                enemy.xpAmount = 50.0f;
+                enemy.maxHealth = 15.0f;
+                enemy.animPath = "assets/animations/zombie_plant.anim";
+                enemy.texPath = "assets/textures/enemies/beehive.png";
+                wave.enemies.push_back(enemy);
+            }
+
+            {
+                WaveEnemy enemy;
+                enemy.amount = 2;
+                enemy.xpAmount = 100.0f;
+                enemy.maxHealth = 20.0f;
+                enemy.animPath = "assets/animations/sword_plant.anim";
+                enemy.texPath = "assets/textures/enemies/beehive.png";
+                wave.enemies.push_back(enemy);
+            }
+
+            {
+                WaveEnemy enemy;
+                enemy.amount = 1;
+                enemy.xpAmount = 200.0f;
+                enemy.maxHealth = 100.0f;
+                enemy.animPath = "assets/animations/turtle.anim";
                 enemy.texPath = "assets/textures/enemies/beehive.png";
                 wave.enemies.push_back(enemy);
             }
