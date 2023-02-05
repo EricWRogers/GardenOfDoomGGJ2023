@@ -47,13 +47,14 @@ class EnemySpawnManager : public Canis::ScriptableEntity
         if (GetInputManager().JustPressedKey(SDLK_h))
         {
             auto e = CreateEntity();
-            SpawnEnemy(e, " ");
+            SpawnEnemy(" ", 0);
         }
     }
 
-    void SpawnEnemy(Canis::Entity _entity, std::string _path)
+    void SpawnEnemy(std::string _path, float _xpValue)
     {
         auto& m_cameraComponent = m_camera.GetComponent<Canis::Camera2DComponent>();
+        Canis::Entity _entity = CreateEntity();
 
         for (int i = m_cameraComponent.position.x - GetWindow().GetScreenWidth()/2.0; i < GetWindow().GetScreenWidth() + m_cameraComponent.position.x; i++)
         {
@@ -104,6 +105,7 @@ class EnemySpawnManager : public Canis::ScriptableEntity
         auto& enemy = _entity.AddComponent<EnemyComponent>();
         enemy.attackCooldown = 1.0;
         enemy.attackDamage = 1.0;
+        enemy.xpValue = _xpValue;
     }
 
     void SpawnEnemies(std::vector<Canis::Entity> _entities)
