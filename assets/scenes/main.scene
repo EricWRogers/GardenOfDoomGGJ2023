@@ -111,27 +111,8 @@ Entities:
       align: 1
     Canis::ScriptComponent: FPSCounter
   - 7:
-    Canis::TagComponent: HealthText
-    Canis::RectTransformComponent:
-      active: true
-      anchor: 0
-      position: [30.0, -70.0]
-      size: [0.0, 0.0]
-      originOffset: [0.0, 0.0]
-      rotation: 0.0
-      scale: 1.0
-      depth: 0.1
-    Canis::ColorComponent:
-      color: [1.0, 0.0, 0.0, 1.0]
-    Canis::TextComponent:
-      assetId:
-        path: "assets/fonts/Antonio-Bold.ttf"
-        size: 48
-      text: "Health : "
-      align: 0
-  - 8:
     Canis::ScriptComponent: MapBuilder
-  - 9:
+  - 8:
     Canis::TagComponent: PeaShooter
     Canis::RectTransformComponent:
       active: false
@@ -148,9 +129,62 @@ Entities:
       layer: 0
       mask: 2
     Canis::ScriptComponent: PeaShooterWeapon
-  - 10:
+  - 9:
     Canis::ScriptComponent: WaveManager
+  - 10:
+    Canis::TagComponent: FireBall
+    Canis::RectTransformComponent:
+      active: false
+      anchor: 0
+      position: [30.0, -70.0]
+      size: [0.0, 0.0]
+      originOffset: [0.0, 0.0]
+      rotation: 0.0
+      scale: 1.0
+      depth: 0.1
+    Canis::CircleColliderComponent:
+      center: [0.0, 0.0]
+      radius: 1000.0
+      layer: 0
+      mask: 2
+    Canis::ScriptComponent: FireBallWeapon
+  - 10:
+    Canis::TagComponent: Sword
+    Canis::RectTransformComponent:
+      active: false
+      anchor: 0
+      position: [30.0, -70.0]
+      size: [0.0, 0.0]
+      originOffset: [0.0, 0.0]
+      rotation: 0.0
+      scale: 1.0
+      depth: 0.1
+    Canis::CircleColliderComponent:
+      center: [0.0, 0.0]
+      radius: 1000.0
+      layer: 0
+      mask: 2
+    Canis::ScriptComponent: SwordWeapon
+  - 10:
+    Canis::TagComponent: Bomb
+    Canis::RectTransformComponent:
+      active: false
+      anchor: 0
+      position: [30.0, -70.0]
+      size: [0.0, 0.0]
+      originOffset: [0.0, 0.0]
+      rotation: 0.0
+      scale: 1.0
+      depth: 0.1
+    Canis::CircleColliderComponent:
+      center: [0.0, 0.0]
+      radius: 1000.0
+      layer: 0
+      mask: 2
+    Canis::ScriptComponent: BombWeapon
   - 11:
+    Canis::ScriptComponent: WaveManager
+  - 12:
     Canis::TagComponent: WeaponSlot0
     Canis::RectTransformComponent:
       active: true
@@ -166,7 +200,7 @@ Entities:
     Canis::UIImageComponent:
       uv: [0.0, 0.0, 1.0, 1.0]
       texture: "assets/textures/UI/current_weapon_holder.png"
-  - 12:
+  - 13:
     Canis::TagComponent: WeaponSlot1
     Canis::RectTransformComponent:
       active: true
@@ -182,7 +216,7 @@ Entities:
     Canis::UIImageComponent:
       uv: [0.0, 0.0, 1.0, 1.0]
       texture: "assets/textures/UI/current_weapon_holder.png"
-  - 13:
+  - 14:
     Canis::TagComponent: WeaponSlot2
     Canis::RectTransformComponent:
       active: true
@@ -198,7 +232,7 @@ Entities:
     Canis::UIImageComponent:
       uv: [0.0, 0.0, 1.0, 1.0]
       texture: "assets/textures/UI/current_weapon_holder.png"
-  - 14:
+  - 15:
     Canis::TagComponent: WeaponSlot3
     Canis::RectTransformComponent:
       active: true
@@ -214,7 +248,7 @@ Entities:
     Canis::UIImageComponent:
       uv: [0.0, 0.0, 1.0, 1.0]
       texture: "assets/textures/UI/current_weapon_holder.png"
-  - 15:
+  - 16:
     Canis::TagComponent: WeaponSlot4
     Canis::RectTransformComponent:
       active: true
@@ -230,7 +264,7 @@ Entities:
     Canis::UIImageComponent:
       uv: [0.0, 0.0, 1.0, 1.0]
       texture: "assets/textures/UI/current_weapon_holder.png"
-  - 16:
+  - 17:
     Canis::TagComponent: HealthSliderOutline
     Canis::RectTransformComponent:
       active: true
@@ -246,7 +280,7 @@ Entities:
     Canis::UIImageComponent:
       uv: [0.0, 0.0, 1.0, 0.333333]
       texture: "assets/textures/UI/health_bar_sprite_sheet.png"
-  - 17:
+  - 18:
     Canis::TagComponent: HealthSlider
     Canis::RectTransformComponent:
       active: true
@@ -267,7 +301,7 @@ Entities:
       minUVX : 0.0625
       maxUVX : 0.875
       value: 1.0
-  - 18:
+  - 19:
     Canis::TagComponent: HealthSliderBackground
     Canis::RectTransformComponent:
       active: true
@@ -283,4 +317,56 @@ Entities:
     Canis::UIImageComponent:
       uv: [0.0, 0.666666, 1.0, 0.333333]
       texture: "assets/textures/UI/health_bar_sprite_sheet.png"
-
+  - 19:
+    Canis::TagComponent: ExpSliderOutline
+    Canis::RectTransformComponent:
+      active: true
+      anchor: 6
+      position: [0.0, 0.0]
+      size: [1280.0, 64.0]
+      originOffset: [0.0, 0.0]
+      rotation: 0.0
+      scale: 1.0
+      depth: 0.0
+    Canis::ColorComponent:
+      color: [1.0, 1.0, 1.0, 1.0]
+    Canis::UIImageComponent:
+      uv: [0.0, 0.0, 1.0, 0.333333]
+      texture: "assets/textures/UI/exp_bar_sprite_sheet.png"
+  - 20:
+    Canis::TagComponent: ExpSlider
+    Canis::RectTransformComponent:
+      active: true
+      anchor: 6
+      position: [0.0, 0.0]
+      size: [1280.0, 64.0]
+      originOffset: [0.0, 0.0]
+      rotation: 0.0
+      scale: 1.0
+      depth: 0.01
+    Canis::ColorComponent:
+      color: [1.0, 1.0, 1.0, 1.0]
+    Canis::UIImageComponent:
+      uv: [0.0625, 0.333333, 1.0, 0.333333]
+      texture: "assets/textures/UI/exp_bar_sprite_sheet.png"
+    Canis::UISliderComponent:
+      maxWidth: 1280.0
+      minUVX : 0.0
+      maxUVX : 1.0
+      value: 0.5
+  - 21:
+    Canis::TagComponent: ExpSliderBackground
+    Canis::RectTransformComponent:
+      active: true
+      anchor: 6
+      position: [0.0, 0.0]
+      size: [1280.0, 64.0]
+      originOffset: [0.0, 0.0]
+      rotation: 0.0
+      scale: 1.0
+      depth: 0.02
+    Canis::ColorComponent:
+      color: [1.0, 1.0, 1.0, 1.0]
+    Canis::UIImageComponent:
+      uv: [0.0, 0.666666, 1.0, 0.333333]
+      texture: "assets/textures/UI/exp_bar_sprite_sheet.png"

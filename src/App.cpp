@@ -13,6 +13,7 @@
 #include "ECS/Systems/BoidSystem.hpp"
 #include "ECS/Systems/EnemySystem.hpp"
 #include "ECS/Systems/BulletSystem.hpp"
+#include "ECS/Systems/BombSystem.hpp"
 
 #include "ECS/ScriptableEntities/DebugCamera2D.hpp"
 #include "ECS/ScriptableEntities/BeachBall.hpp"
@@ -27,6 +28,10 @@
 #include "ECS/ScriptableEntities/PeaShooterWeapon.hpp"
 #include "ECS/ScriptableEntities/WaveManager.hpp"
 #include "ECS/ScriptableEntities/XP.hpp"
+#include "ECS/ScriptableEntities/Music.hpp"
+#include "ECS/ScriptableEntities/FireBallWeapon.hpp"
+#include "ECS/ScriptableEntities/SwordWeapon.hpp"
+#include "ECS/ScriptableEntities/BombWeapon.hpp"
 #include "ECS/Decode.hpp"
 
 App::App()
@@ -96,6 +101,16 @@ App::App()
 			[](YAML::Node _n, int _index, Canis::Scene *scene) {
 				if(_n[_index].as<std::string>() == "EnemySystem"){
 					scene->CreateSystem<EnemySystem>();
+					return true;
+				}
+				return false;
+			}
+		);
+
+		sceneManager.decodeSystem.push_back(
+			[](YAML::Node _n, int _index, Canis::Scene *scene) {
+				if(_n[_index].as<std::string>() == "BombSystem"){
+					scene->CreateSystem<BombSystem>();
 					return true;
 				}
 				return false;
@@ -291,6 +306,54 @@ App::App()
                 return false;
             }
         );
+
+		sceneManager.decodeScriptableEntity.push_back(
+            [](const std::string &_name, Canis::Entity &_entity) {
+                if(_name == "Music"){
+                    Canis::ScriptComponent scriptComponent = {};
+                    scriptComponent.Bind<Music>();
+                    _entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
+                    return true;
+                }
+                return false;
+            }
+        );
+
+		sceneManager.decodeScriptableEntity.push_back(
+            [](const std::string &_name, Canis::Entity &_entity) {
+                if(_name == "FireBallWeapon"){
+                    Canis::ScriptComponent scriptComponent = {};
+                    scriptComponent.Bind<FireBallWeapon>();
+                    _entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
+                    return true;
+                }
+                return false;
+            }
+        );
+
+		sceneManager.decodeScriptableEntity.push_back(
+            [](const std::string &_name, Canis::Entity &_entity) {
+                if(_name == "SwordWeapon"){
+                    Canis::ScriptComponent scriptComponent = {};
+                    scriptComponent.Bind<SwordWeapon>();
+                    _entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
+                    return true;
+                }
+                return false;
+            }
+        );
+
+		sceneManager.decodeScriptableEntity.push_back(
+            [](const std::string &_name, Canis::Entity &_entity) {
+                if(_name == "BombWeapon"){
+                    Canis::ScriptComponent scriptComponent = {};
+                    scriptComponent.Bind<BombWeapon>();
+                    _entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
+                    return true;
+                }
+                return false;
+            }
+        );
 	}
 
 	{ // decode component
@@ -306,6 +369,7 @@ App::App()
 		sceneManager.decodeEntity.push_back(Canis::DecodeCircleColliderComponent);
 		sceneManager.decodeEntity.push_back(DecodePlayerHealthComponent);
 		sceneManager.decodeEntity.push_back(DecodeEnemyHealthComponent);
+		sceneManager.decodeEntity.push_back(DecodeBombComponent);
 	}
 }
 App::~App()

@@ -22,8 +22,8 @@ class PlayerManager : public Canis::ScriptableEntity
 private:
    float speed = 100.0f;
     glm::vec2 direction;
-    Canis::Entity m_healthText;
     Canis::Entity m_healthSlider;
+    Canis::Entity m_expSlider;
     int idleId = 0;
     int runId = 0;
     bool wasMoving = false;
@@ -31,6 +31,7 @@ private:
     std::vector<Canis::Entity> m_weaponSlotEntities = {};
     std::vector<Canis::Entity> m_weaponSlotIconEntities = {};
     float currentXp = 0.0f;
+    const float MAXEXP = 1000.0f;
 
 public:
 
@@ -56,15 +57,15 @@ public:
                 break;
             }
             case WeaponType::BOMBS: {
-
+                m_Entity.GetEntityWithTag("Bomb").GetComponent<Canis::RectTransformComponent>().active = true;
                 break;
             }
             case WeaponType::FIREBALLS: {
-
+                m_Entity.GetEntityWithTag("FireBall").GetComponent<Canis::RectTransformComponent>().active = true;
                 break;
             }
             case WeaponType::SWORD: {
-
+                m_Entity.GetEntityWithTag("Sword").GetComponent<Canis::RectTransformComponent>().active = true;
                 break;
             }
 
@@ -103,14 +104,17 @@ public:
 
     void OnReady()//Start
     {
-       m_healthText = m_Entity.GetEntityWithTag("HealthText");
        m_healthSlider = m_Entity.GetEntityWithTag("HealthSlider");
+       m_expSlider = m_Entity.GetEntityWithTag("ExpSlider");
        m_weaponSlotEntities.push_back(m_Entity.GetEntityWithTag("WeaponSlot0"));
        m_weaponSlotEntities.push_back(m_Entity.GetEntityWithTag("WeaponSlot1"));
        m_weaponSlotEntities.push_back(m_Entity.GetEntityWithTag("WeaponSlot2"));
        m_weaponSlotEntities.push_back(m_Entity.GetEntityWithTag("WeaponSlot3"));
        m_weaponSlotEntities.push_back(m_Entity.GetEntityWithTag("WeaponSlot4"));
        AddWeaponToSlot(3);
+       AddWeaponToSlot(5);
+       AddWeaponToSlot(6);
+       AddWeaponToSlot(4);
     }
     
     void OnDestroy()
@@ -131,7 +135,7 @@ public:
         bool moving = false;
         
         
-        if (keystate[SDL_SCANCODE_A] && !GetWindow().GetMouseLock()) //Left
+        if ((keystate[SDL_SCANCODE_A] || keystate[SDL_SCANCODE_LEFT]) && !GetWindow().GetMouseLock()) //Left
         {
             moving = true;
             horizontal = -1.0f;
@@ -142,12 +146,12 @@ public:
             }
         }
 
-        if (keystate[SDL_SCANCODE_W] && !GetWindow().GetMouseLock()) //Forwards
+        if ((keystate[SDL_SCANCODE_W] || keystate[SDL_SCANCODE_UP]) && !GetWindow().GetMouseLock()) //Forwards
         {
             moving = true;
             vertical = 1.0f;
         }
-        if (keystate[SDL_SCANCODE_D] && !GetWindow().GetMouseLock()) //Right
+        if ((keystate[SDL_SCANCODE_D] || keystate[SDL_SCANCODE_RIGHT]) && !GetWindow().GetMouseLock()) //Right
         {
             moving = true;
             horizontal = 1.0f;
@@ -157,7 +161,7 @@ public:
                 anim.redraw = true;
             }
         }
-        if (keystate[SDL_SCANCODE_S] && !GetWindow().GetMouseLock()) //back
+        if ((keystate[SDL_SCANCODE_S] || keystate[SDL_SCANCODE_DOWN]) && !GetWindow().GetMouseLock()) //back
         {
             moving = true;
             vertical = -1.0f;
@@ -186,10 +190,10 @@ public:
         {
             Canis::FatalError("You ded for real");
         }
-        auto& playerHealth = GetComponent<PlayerHealthComponent>();
+        /*auto& playerHealth = GetComponent<PlayerHealthComponent>();
         (*m_healthText.GetComponent<Canis::TextComponent>().text) = "Health: " + std::to_string((int)playerHealth.currentHealth);
         (*m_healthText.GetComponent<Canis::TextComponent>().text) += ".";
-        (*m_healthText.GetComponent<Canis::TextComponent>().text) += std::to_string((int)((playerHealth.currentHealth - (int)playerHealth.currentHealth) * 100.0f));
+        (*m_healthText.GetComponent<Canis::TextComponent>().text) += std::to_string((int)((playerHealth.currentHealth - (int)playerHealth.currentHealth) * 100.0f));*/
         // Canis::Log("Test" + *m_healthText.GetComponent<Canis::TextComponent>().text);
 
         std::vector<entt::entity> hits = GetSystem<Canis::CollisionSystem2D>()->GetHits(m_Entity.entityHandle);
@@ -209,5 +213,14 @@ public:
         }
     
         m_healthSlider.GetComponent<Canis::UISliderComponent>().value = GetComponent<PlayerHealthComponent>().currentHealth / GetComponent<PlayerHealthComponent>().maxHealth;
+        m_expSlider.GetComponent<Canis::UISliderComponent>().value = currentXp / MAXEXP;
+
+        if(currentXp >= MAXEXP)
+        {
+            if (m_weaponSlotIconEntities.size() < 5)
+            {
+                currentXp = 0;
+            }
+        }
     }
 };

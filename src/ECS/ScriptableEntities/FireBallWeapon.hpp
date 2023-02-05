@@ -9,14 +9,14 @@
 
 #include "../Components/BulletComponent.hpp"
 
-class PeaShooterWeapon : public WeaponClass
+class FireBallWeapon : public WeaponClass
 {
 
 private:
     Canis::Entity target;
     float timer = 0.0f;
     bool canShoot = true;
-    int peaId = 0;
+    int fireballId = 0;
 
     float dt;
     
@@ -30,7 +30,7 @@ public:
     void OnCreate()
     {
         damage = 10;
-        peaId = GetAssetManager().LoadSpriteAnimation("assets/animations/pea_shooter_projectile.anim");
+        fireballId = GetAssetManager().LoadSpriteAnimation("assets/animations/fireball_weapon.anim");
     }
 
     void OnReady()
@@ -102,11 +102,10 @@ public:
         {
             return;
         }
-        GetAssetManager().Get<Canis::SoundAsset>(GetAssetManager().LoadSound("assets/sounds/shoot.wav"))->Play();
         auto& bullet = _entity.AddComponent<BulletComponent>();
         bullet.direction = glm::normalize(closestEntity.GetComponent<Canis::RectTransformComponent>().position - GetComponent<Canis::RectTransformComponent>().position);
-        bullet.speed = 100.0f;
-        bullet.damage = 10.0f;
+        bullet.speed = 50.0f;
+        bullet.damage = 15.0f;
         bullet.timeLeft = 6.0f;
         
         auto& rect = _entity.AddComponent<Canis::RectTransformComponent>();
@@ -121,7 +120,7 @@ public:
         color.color = glm::vec4(1.0, 1.0, 1.0, 1.0);
 
         auto& anim = _entity.AddComponent<Canis::SpriteAnimationComponent>();
-        anim.animationId = peaId;
+        anim.animationId = fireballId;
 
         auto& circleCollider = _entity.AddComponent<Canis::CircleColliderComponent>();
         circleCollider.layer = Canis::BIT::ZERO;
