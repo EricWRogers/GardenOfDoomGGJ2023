@@ -43,7 +43,7 @@ Entities:
       center: [0.0, 0.0]
       radius: 16.0
       layer: 1
-      mask: 2
+      mask: 6
     Canis::ScriptComponent: PlayerManager
     Canis::TagComponent: Player
     PlayerHealthComponent:

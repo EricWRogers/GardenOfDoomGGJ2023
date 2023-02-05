@@ -21,7 +21,6 @@ struct WaveEnemy
     int amount;
     std::string texPath;
     std::string animPath;
-
 };
 
 class WaveManager : public Canis::ScriptableEntity
@@ -69,11 +68,8 @@ class WaveManager : public Canis::ScriptableEntity
         {
             for (int i = 0; i < enemy.amount; i++)
             {
-                Canis::Log("Made it");
                 auto e = CreateEntity();
                 ((EnemySpawnManager*)m_spawnManager.GetComponent<Canis::ScriptComponent>().Instance)->SpawnEnemy(e, enemy.texPath);
-                if (m_spawnManager.entityHandle == entt::null)
-                    Canis::Log("m_spawnManager.entityHandle");
             }
         }
     }
@@ -86,7 +82,6 @@ class WaveManager : public Canis::ScriptableEntity
 
     void OnReady()
     {
-        Canis::Log("OnReady");
         m_spawnManager = m_Entity.GetEntityWithTag("EnemySpawnManager");
         Populate();
     }
