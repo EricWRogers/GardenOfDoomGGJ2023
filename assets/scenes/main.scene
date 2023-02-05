@@ -1,5 +1,6 @@
 Scene: main
 Systems:
+  - Canis::UISliderSystem
   - BoidSystem
   - Canis::ButtonSystem
   - Canis::CollisionSystem2D
@@ -229,4 +230,57 @@ Entities:
     Canis::UIImageComponent:
       uv: [0.0, 0.0, 1.0, 1.0]
       texture: "assets/textures/UI/current_weapon_holder.png"
+  - 16:
+    Canis::TagComponent: HealthSliderOutline
+    Canis::RectTransformComponent:
+      active: true
+      anchor: 4
+      position: [-16.0, -30.0]
+      size: [32.0, 10.0]
+      originOffset: [0.0, 0.0]
+      rotation: 0.0
+      scale: 1.0
+      depth: 0.0
+    Canis::ColorComponent:
+      color: [1.0, 1.0, 1.0, 1.0]
+    Canis::UIImageComponent:
+      uv: [0.0, 0.0, 1.0, 0.333333]
+      texture: "assets/textures/UI/health_bar_sprite_sheet.png"
+  - 17:
+    Canis::TagComponent: HealthSlider
+    Canis::RectTransformComponent:
+      active: true
+      anchor: 4
+      position: [-14.0, -30.0]
+      size: [28.0, 10.0]
+      originOffset: [0.0, 0.0]
+      rotation: 0.0
+      scale: 1.0
+      depth: 0.01
+    Canis::ColorComponent:
+      color: [1.0, 1.0, 1.0, 1.0]
+    Canis::UIImageComponent:
+      uv: [0.0625, 0.333333, 1.0, 0.333333]
+      texture: "assets/textures/UI/health_bar_sprite_sheet.png"
+    Canis::UISliderComponent:
+      maxWidth: 28.0
+      minUVX : 0.0625
+      maxUVX : 0.875
+      value: 1.0
+  - 18:
+    Canis::TagComponent: HealthSliderBackground
+    Canis::RectTransformComponent:
+      active: true
+      anchor: 4
+      position: [-16.0, -30.0]
+      size: [32.0, 10.0]
+      originOffset: [0.0, 0.0]
+      rotation: 0.0
+      scale: 1.0
+      depth: 0.02
+    Canis::ColorComponent:
+      color: [1.0, 1.0, 1.0, 1.0]
+    Canis::UIImageComponent:
+      uv: [0.0, 0.666666, 1.0, 0.333333]
+      texture: "assets/textures/UI/health_bar_sprite_sheet.png"
 

@@ -23,6 +23,7 @@ private:
    float speed = 100.0f;
     glm::vec2 direction;
     Canis::Entity m_healthText;
+    Canis::Entity m_healthSlider;
     int idleId = 0;
     int runId = 0;
     bool wasMoving = false;
@@ -30,6 +31,7 @@ private:
     std::vector<Canis::Entity> m_weaponSlotEntities = {};
     std::vector<Canis::Entity> m_weaponSlotIconEntities = {};
     float currentXp = 0.0f;
+
 public:
 
     void AddWeaponToSlot(unsigned int _weaponType) {
@@ -102,6 +104,7 @@ public:
     void OnReady()//Start
     {
        m_healthText = m_Entity.GetEntityWithTag("HealthText");
+       m_healthSlider = m_Entity.GetEntityWithTag("HealthSlider");
        m_weaponSlotEntities.push_back(m_Entity.GetEntityWithTag("WeaponSlot0"));
        m_weaponSlotEntities.push_back(m_Entity.GetEntityWithTag("WeaponSlot1"));
        m_weaponSlotEntities.push_back(m_Entity.GetEntityWithTag("WeaponSlot2"));
@@ -163,7 +166,6 @@ public:
         direction = (glm::vec2(horizontal, vertical) == glm::vec2(0.0f)) ? glm::vec2(0.0f) : glm::normalize(glm::vec2(horizontal, vertical));
         rect.position += (direction * (speed * _dt));
 
-
         if (moving && !wasMoving) // change to run
         {
             anim.redraw = true;
@@ -205,5 +207,7 @@ public:
                 m_Entity.scene->entityRegistry.destroy(hit);
             }
         }
+    
+        m_healthSlider.GetComponent<Canis::UISliderComponent>().value = GetComponent<PlayerHealthComponent>().currentHealth / GetComponent<PlayerHealthComponent>().maxHealth;
     }
 };
