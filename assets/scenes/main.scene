@@ -129,4 +129,21 @@ Entities:
       align: 0
   - 8:
     Canis::ScriptComponent: MapBuilder
+  - 9:
+    Canis::RectTransformComponent:
+      active: true
+      anchor: 0
+      position: [30.0, -70.0]
+      size: [0.0, 0.0]
+      originOffset: [0.0, 0.0]
+      rotation: 0.0
+      scale: 1.0
+      depth: 0.1
+    Canis::CircleColliderComponent:
+      center: [0.0, 0.0]
+      radius: 64.0
+      layer: 0
+      mask: 2
+
+    Canis::ScriptComponent: PeaShooterWeapon
       
