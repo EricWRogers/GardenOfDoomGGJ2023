@@ -7,15 +7,15 @@
 #include <Canis/ECS/Components/RectTransformComponent.hpp>
 #include <Canis/ECS/Components/Sprite2DComponent.hpp>
 
-#include "../Components/Bullet.hpp"
+#include "../Components/BulletComponent.hpp"
 
 class PeaShooterWeapon : public WeaponClass
 {
 
 private:
     Canis::Entity target;
-    float timer = 10;
-    bool canShoot = false;
+    float timer = 0.0f;
+    bool canShoot = true;
 
     float dt;
     
@@ -43,55 +43,49 @@ public:
 
     void OnUpdate(float _dt)
     {
-        
         GetComponent<Canis::RectTransformComponent>().position = player.GetComponent<Canis::RectTransformComponent>().position;
 
-         if (GetInputManager().JustPressedKey(SDLK_z))
+        dt = _dt;
+
+        timer -= _dt;
+        if(timer <= 0)
         {
-            
+            canShoot = true;
         }
 
-        dt = _dt;
-         if (GetInputManager().JustPressedKey(SDLK_z))
+        if (canShoot)
         {
-        std::vector<entt::entity> hit = GetSystem<Canis::CollisionSystem2D>()->GetHits(m_Entity.entityHandle);
-        Canis::Entity hitEntity;
-        hitEntity.scene = m_Entity.scene;
+            std::vector<entt::entity> hit = GetSystem<Canis::CollisionSystem2D>()->GetHits(m_Entity.entityHandle);
+            Canis::Entity hitEntity;
+            hitEntity.scene = m_Entity.scene;
 
-        float closestDistance = 100000000.0f;
+            float closestDistance = 100000000.0f;
 
-        if (hit.size() > 0)
-        {
-            for(int i = 0; i < hit.size(); i++)
+            if (hit.size() > 0)
             {
-                //Canis::Log("id: " + std::to_string((unsigned int)hit[i].entityHandle.));
-                hitEntity.entityHandle = hit[i];
-                float distance = glm::distance(hitEntity.GetComponent<Canis::RectTransformComponent>().position, GetComponent<Canis::RectTransformComponent>().position);
-
-                if(distance <= closestDistance)
+                for(int i = 0; i < hit.size(); i++)
                 {
-                    closestDistance = distance;
-                    closestEntity = hitEntity;
+                    //Canis::Log("id: " + std::to_string((unsigned int)hit[i].entityHandle.));
+                    hitEntity.entityHandle = hit[i];
+                    float distance = glm::distance(hitEntity.GetComponent<Canis::RectTransformComponent>().position, GetComponent<Canis::RectTransformComponent>().position);
+
+                    if(distance <= closestDistance)
+                    {
+                        closestDistance = distance;
+                        closestEntity = hitEntity;
+                    }
                 }
             }
-        }
+            else
+            {
+                return;
+            }
 
-        auto e = CreateEntity();
+            auto e = CreateEntity();
             Shoot(e);
-            
-            
-            
-            timer -= _dt;
-            if(timer <= 0)
-            {
-                timer = 10;
-                canShoot = false;
-            }
-            if(timer >= 10)
-            {
-                canShoot = true;
-            }
 
+            timer = 0.5f;
+            canShoot = false;
         }
     }
     void Shoot(Canis::Entity _entity)
@@ -100,12 +94,15 @@ public:
         {
             return;
         }
-        Canis::Log("Test");
-        auto& rectTransform = _entity.AddComponent<Bullet>();
+        auto& bullet = _entity.AddComponent<BulletComponent>();
+        bullet.direction = glm::normalize(closestEntity.GetComponent<Canis::RectTransformComponent>().position - GetComponent<Canis::RectTransformComponent>().position);
+        bullet.speed = 80.0f;
+        bullet.damage = 10.0f;
+        bullet.timeLeft = 6.0f;
         
         auto& rect = _entity.AddComponent<Canis::RectTransformComponent>();
         rect.position = player.GetComponent<Canis::RectTransformComponent>().position;
-        rect.size = glm::vec2(8.0f);
+        rect.size = glm::vec2(16.0f);
         rect.depth = 0.2f;
 
         auto& sprite = _entity.AddComponent<Canis::Sprite2DComponent>();
@@ -113,6 +110,11 @@ public:
 
         auto& color = _entity.AddComponent<Canis::ColorComponent>();
         color.color = glm::vec4(1.0, 1.0, 1.0, 1.0);
+
+        auto& circleCollider = _entity.AddComponent<Canis::CircleColliderComponent>();
+        circleCollider.layer = Canis::BIT::ZERO;
+        circleCollider.mask = Canis::BIT::TWO;
+        circleCollider.radius = 16.0f;
     }
 
 };

@@ -3,6 +3,7 @@
 #include <Canis/ECS/Systems/System.hpp>
 #include "../Components/EnemyComponent.hpp"
 #include "../Components/PlayerHealthComponent.hpp"
+#include "../Components/EnemyHealthComponent.hpp"
 
 class EnemySystem : public Canis::System
 {
@@ -25,8 +26,8 @@ class EnemySystem : public Canis::System
 
     void Update(entt::registry &_registry, float _deltaTime)
     {
-        auto view = _registry.view<EnemyComponent>();
-        for (auto [entity, enemy] : view.each())
+        auto view = _registry.view<EnemyComponent, EnemyHealthComponent>();
+        for (auto [entity, enemy, health] : view.each())
         {
             std::vector<entt::entity> hit = m_collisionSystem2D->GetHits(entity);
             Canis::Entity hitEntity;
@@ -45,6 +46,11 @@ class EnemySystem : public Canis::System
                 {
                     ((Canis::SceneManager*)scene->sceneManager)->Load("lose");
                 }
+            }
+
+            if (health.currentHealth <= 0)
+            {
+                _registry.destroy(entity);
             }
 
             enemy.step += _deltaTime;
