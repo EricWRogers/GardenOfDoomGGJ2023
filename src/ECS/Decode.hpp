@@ -37,3 +37,13 @@ void DecodeBulletComponent(YAML::Node &_n, Canis::Entity &_entity, Canis::SceneM
         bc.timeLeft = enemyHealthComponent["timeLeft"].as<float>();
     }
 }
+
+void DecodeBombComponent(YAML::Node &_n, Canis::Entity &_entity, Canis::SceneManager *_sceneManager)
+{
+    if (auto bombComponent = _n["BombComponent"])
+    {
+        auto &bc = _entity.AddComponent<BombComponent>();
+        bc.stillOnFirstZero = bombComponent["stillOnFirstZero"].as<bool>();
+        bc.damage = bombComponent["damage"].as<float>();
+    }
+}
