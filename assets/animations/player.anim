@@ -1,8 +1,0 @@
-Animation:
-  - 0:
-    timeOnFrame: 1.0
-    textureAssetId: "assets/textures/player/player_sprite_sheet.png"
-    offset: [0, 0]
-    index: [0, 0]
-    size: [16, 16]
-    

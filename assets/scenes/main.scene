@@ -32,7 +32,7 @@ Entities:
       uv: [0.16, 0.0, 0.16, 0.24]
       texture: "assets/textures/All.png"
     Canis::SpriteAnimationComponent:
-      animationId: "assets/animations/player.anim"
+      animationId: "assets/animations/player_idle.anim"
       countDown: 0.0
       index: 0
       flipX: false
