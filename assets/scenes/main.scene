@@ -111,27 +111,8 @@ Entities:
       align: 1
     Canis::ScriptComponent: FPSCounter
   - 7:
-    Canis::TagComponent: HealthText
-    Canis::RectTransformComponent:
-      active: true
-      anchor: 0
-      position: [30.0, -70.0]
-      size: [0.0, 0.0]
-      originOffset: [0.0, 0.0]
-      rotation: 0.0
-      scale: 1.0
-      depth: 0.1
-    Canis::ColorComponent:
-      color: [1.0, 0.0, 0.0, 1.0]
-    Canis::TextComponent:
-      assetId:
-        path: "assets/fonts/Antonio-Bold.ttf"
-        size: 48
-      text: "Health : "
-      align: 0
-  - 8:
     Canis::ScriptComponent: MapBuilder
-  - 9:
+  - 8:
     Canis::TagComponent: PeaShooter
     Canis::RectTransformComponent:
       active: false
@@ -148,9 +129,9 @@ Entities:
       layer: 0
       mask: 2
     Canis::ScriptComponent: PeaShooterWeapon
-  - 10:
+  - 9:
     Canis::ScriptComponent: WaveManager
-  - 11:
+  - 10:
     Canis::TagComponent: WeaponSlot0
     Canis::RectTransformComponent:
       active: true
@@ -166,7 +147,7 @@ Entities:
     Canis::UIImageComponent:
       uv: [0.0, 0.0, 1.0, 1.0]
       texture: "assets/textures/UI/current_weapon_holder.png"
-  - 12:
+  - 11:
     Canis::TagComponent: WeaponSlot1
     Canis::RectTransformComponent:
       active: true
@@ -182,7 +163,7 @@ Entities:
     Canis::UIImageComponent:
       uv: [0.0, 0.0, 1.0, 1.0]
       texture: "assets/textures/UI/current_weapon_holder.png"
-  - 13:
+  - 12:
     Canis::TagComponent: WeaponSlot2
     Canis::RectTransformComponent:
       active: true
@@ -198,7 +179,7 @@ Entities:
     Canis::UIImageComponent:
       uv: [0.0, 0.0, 1.0, 1.0]
       texture: "assets/textures/UI/current_weapon_holder.png"
-  - 14:
+  - 13:
     Canis::TagComponent: WeaponSlot3
     Canis::RectTransformComponent:
       active: true
@@ -214,7 +195,7 @@ Entities:
     Canis::UIImageComponent:
       uv: [0.0, 0.0, 1.0, 1.0]
       texture: "assets/textures/UI/current_weapon_holder.png"
-  - 15:
+  - 14:
     Canis::TagComponent: WeaponSlot4
     Canis::RectTransformComponent:
       active: true
@@ -230,7 +211,7 @@ Entities:
     Canis::UIImageComponent:
       uv: [0.0, 0.0, 1.0, 1.0]
       texture: "assets/textures/UI/current_weapon_holder.png"
-  - 16:
+  - 15:
     Canis::TagComponent: HealthSliderOutline
     Canis::RectTransformComponent:
       active: true
@@ -246,7 +227,7 @@ Entities:
     Canis::UIImageComponent:
       uv: [0.0, 0.0, 1.0, 0.333333]
       texture: "assets/textures/UI/health_bar_sprite_sheet.png"
-  - 17:
+  - 16:
     Canis::TagComponent: HealthSlider
     Canis::RectTransformComponent:
       active: true
@@ -267,7 +248,7 @@ Entities:
       minUVX : 0.0625
       maxUVX : 0.875
       value: 1.0
-  - 18:
+  - 17:
     Canis::TagComponent: HealthSliderBackground
     Canis::RectTransformComponent:
       active: true

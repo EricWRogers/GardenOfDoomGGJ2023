@@ -44,10 +44,10 @@ class EnemySpawnManager : public Canis::ScriptableEntity
 
     void OnUpdate(float _dt)
     {
-        
+
     }
 
-    void SpawnEnemy(const std::string &_texPath, const std::string &_animPath, float _xpValue)
+    void SpawnEnemy(const std::string &_texPath, const std::string &_animPath, float _xpValue, float _maxHealth)
     {
         auto& m_cameraComponent = m_camera.GetComponent<Canis::Camera2DComponent>();
         Canis::Entity _entity = CreateEntity();
@@ -95,7 +95,7 @@ class EnemySpawnManager : public Canis::ScriptableEntity
         collider.center = glm::vec2(0.0);
 
         auto& health = _entity.AddComponent<EnemyHealthComponent>();
-        health.maxHealth = 10.0;
+        health.maxHealth = _maxHealth;
         health.currentHealth = health.maxHealth;
 
         auto& enemy = _entity.AddComponent<EnemyComponent>();
