@@ -1,5 +1,7 @@
 #pragma once
 #include <string>
+#include <random>
+#include <algorithm>
 #include <vector>
 #include <Canis/ScriptableEntity.hpp>
 #include <Canis/ECS/Components/RectTransformComponent.hpp>
@@ -30,6 +32,7 @@ private:
     const unsigned int MAXWEAPONS = 5;
     std::vector<Canis::Entity> m_weaponSlotEntities = {};
     std::vector<Canis::Entity> m_weaponSlotIconEntities = {};
+    std::vector<unsigned int> m_weaponIDoNotHave = {4,5,6};
     float currentXp = 0.0f;
     const float MAXEXP = 1000.0f;
 
@@ -57,15 +60,15 @@ public:
                 break;
             }
             case WeaponType::BOMBS: {
-
+                m_Entity.GetEntityWithTag("Bomb").GetComponent<Canis::RectTransformComponent>().active = true;
                 break;
             }
             case WeaponType::FIREBALLS: {
-
+                m_Entity.GetEntityWithTag("FireBall").GetComponent<Canis::RectTransformComponent>().active = true;
                 break;
             }
             case WeaponType::SWORD: {
-
+                m_Entity.GetEntityWithTag("Sword").GetComponent<Canis::RectTransformComponent>().active = true;
                 break;
             }
 
@@ -104,14 +107,16 @@ public:
 
     void OnReady()//Start
     {
-       m_healthSlider = m_Entity.GetEntityWithTag("HealthSlider");
-       m_expSlider = m_Entity.GetEntityWithTag("ExpSlider");
-       m_weaponSlotEntities.push_back(m_Entity.GetEntityWithTag("WeaponSlot0"));
-       m_weaponSlotEntities.push_back(m_Entity.GetEntityWithTag("WeaponSlot1"));
-       m_weaponSlotEntities.push_back(m_Entity.GetEntityWithTag("WeaponSlot2"));
-       m_weaponSlotEntities.push_back(m_Entity.GetEntityWithTag("WeaponSlot3"));
-       m_weaponSlotEntities.push_back(m_Entity.GetEntityWithTag("WeaponSlot4"));
-       AddWeaponToSlot(3);
+        std::default_random_engine rng(m_Entity.scene->seed);
+        std::shuffle(std::begin(m_weaponIDoNotHave), std::end(m_weaponIDoNotHave), rng);
+        m_healthSlider = m_Entity.GetEntityWithTag("HealthSlider");
+        m_expSlider = m_Entity.GetEntityWithTag("ExpSlider");
+        m_weaponSlotEntities.push_back(m_Entity.GetEntityWithTag("WeaponSlot0"));
+        m_weaponSlotEntities.push_back(m_Entity.GetEntityWithTag("WeaponSlot1"));
+        m_weaponSlotEntities.push_back(m_Entity.GetEntityWithTag("WeaponSlot2"));
+        m_weaponSlotEntities.push_back(m_Entity.GetEntityWithTag("WeaponSlot3"));
+        m_weaponSlotEntities.push_back(m_Entity.GetEntityWithTag("WeaponSlot4"));
+        AddWeaponToSlot(3);
     }
     
     void OnDestroy()
@@ -217,8 +222,11 @@ public:
         {
              GetAssetManager().Get<Canis::SoundAsset>(GetAssetManager().LoadSound("assets/sounds/powerUp.wav"))->Play();
             if (m_weaponSlotIconEntities.size() < 5)
+            if (m_weaponIDoNotHave.size() > 0)
             {
                 currentXp = 0;
+                AddWeaponToSlot(m_weaponIDoNotHave[0]);
+                m_weaponIDoNotHave.erase(m_weaponIDoNotHave.begin());
             }
         }
     }
