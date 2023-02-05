@@ -29,12 +29,12 @@ class EnemySpawnManager : public Canis::ScriptableEntity
     public:
     void OnCreate()
     {
-
+        m_camera = m_Entity.GetEntityWithTag("Camera");
     }
 
     void OnReady()
     {
-        m_camera = m_Entity.GetEntityWithTag("Camera");
+        
     }
 
     void OnDestroy()
@@ -98,6 +98,7 @@ class EnemySpawnManager : public Canis::ScriptableEntity
 
         auto& health = _entity.AddComponent<EnemyHealthComponent>();
         health.maxHealth = 10.0;
+        health.currentHealth = health.maxHealth;
 
         auto& enemy = _entity.AddComponent<EnemyComponent>();
         enemy.attackCooldown = 1.0;

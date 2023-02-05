@@ -30,7 +30,7 @@ class WaveManager : public Canis::ScriptableEntity
     std::vector<WaveEnemy> m_enemies;
     Canis::Entity m_spawnManager;
     float m_waveFrequency = 20.0f;
-    float m_timeSinceLastWave = 0.0f;
+    float m_timeSinceLastWave = 20.0f;
 
     void Populate()
     {
@@ -38,7 +38,7 @@ class WaveManager : public Canis::ScriptableEntity
             WaveEnemy enemy;
             enemy.amount = 1;
             enemy.animPath = "";
-            enemy.texPath = "assets/texturesenemies/beehive.png";
+            enemy.texPath = "assets/textures/enemies/beehive.png";
             m_enemies.push_back(enemy);
         }
 
@@ -69,8 +69,9 @@ class WaveManager : public Canis::ScriptableEntity
         {
             for (int i = 0; i < enemy.amount; i++)
             {
+                Canis::Log("Made it");
                 auto e = CreateEntity();
-                //m_spawnManager.GetComponent<EnemySpawnManager>().SpawnEnemy(e, m_enemies[i].texPath);
+                ((EnemySpawnManager*)m_spawnManager.GetComponent<Canis::ScriptComponent>().Instance)->SpawnEnemy(e, enemy.texPath);
                 if (m_spawnManager.entityHandle == entt::null)
                     Canis::Log("m_spawnManager.entityHandle");
             }
@@ -85,6 +86,7 @@ class WaveManager : public Canis::ScriptableEntity
 
     void OnReady()
     {
+        Canis::Log("OnReady");
         m_spawnManager = m_Entity.GetEntityWithTag("EnemySpawnManager");
         Populate();
     }
