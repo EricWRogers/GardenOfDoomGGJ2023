@@ -1,6 +1,6 @@
 #pragma once
 
-class SplashLoader : public Canis::ScriptableEntity
+class SplashLoader2 : public Canis::ScriptableEntity
 {
 
 private:
@@ -30,7 +30,7 @@ public:
 
         if (timer >= 3.0f)
         {
-            ((Canis::SceneManager*)m_Entity.scene->sceneManager)->Load("ggj_splash");
+            ((Canis::SceneManager*)m_Entity.scene->sceneManager)->Load("main_menu");
         }
     }
 };

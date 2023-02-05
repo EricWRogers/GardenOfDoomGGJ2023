@@ -1,0 +1,30 @@
+Scene: ggj_splash
+Systems:
+
+RenderSystems:
+  - Canis::SpriteRenderer2DSystem
+  - Canis::RenderTextSystem
+  - Canis::RenderHUDSystem
+Entities:
+  - 0:
+    Canis::Camera2DComponent:
+      position: [0.0, 0.0]
+      scale: 1.0
+    Canis::ScriptComponent: DebugCamera2D
+  - 1:
+    Canis::UIImageComponent:
+      uv: [0.0, 0.0, 1.0, 1.0]
+      texture: assets/textures/UI/ggj_logo_splash.png
+    Canis::RectTransformComponent:
+      active: true
+      anchor: 6
+      position: [0.0, 0.0]
+      size: [1280.0, 800.0]
+      originOffset: [0.0, 0.0]
+      rotation: 0.0
+      scale: 1.0
+      depth: 0.0
+    Canis::ColorComponent:
+      color: [1.0, 1.0, 1.0, 1.0]
+    Canis::ScriptComponent: SplashLoader2
+      
