@@ -5,6 +5,12 @@ Animation:
     offset: [0, 0]
     index: [0, 2]
     size: [48, 48]
+  - 0:
+    timeOnFrame: 0.1
+    textureAssetId: "assets/textures/weapons/explosion.png"
+    offset: [0, 0]
+    index: [0, 2]
+    size: [48, 48]
   - 1:
     timeOnFrame: 0.1
     textureAssetId: "assets/textures//weapons/explosion.png"
