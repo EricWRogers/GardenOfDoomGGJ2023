@@ -59,22 +59,13 @@ class EnemySpawnManager : public Canis::ScriptableEntity
         {
             for (int i = m_cameraComponent.position.x - GetWindow().GetScreenWidth()/2.0; i < GetWindow().GetScreenWidth() + m_cameraComponent.position.x; i+=32)
             {
-
                 m_spawnPositions.push_back(glm::vec2(i, m_cameraComponent.position.y + GetWindow().GetScreenHeight()/2.0));
-            }
-
-            for (int i = m_cameraComponent.position.x - GetWindow().GetScreenWidth()/2.0; i < GetWindow().GetScreenWidth() + m_cameraComponent.position.x; i+=32)
-            {
                 m_spawnPositions.push_back(glm::vec2(i, m_cameraComponent.position.y - GetWindow().GetScreenHeight()/2.0));
             }
 
             for (int i = m_cameraComponent.position.y - GetWindow().GetScreenHeight()/2.0; i < GetWindow().GetScreenHeight() + m_cameraComponent.position.y; i+=32)
             {
                 m_spawnPositions.push_back(glm::vec2(m_cameraComponent.position.x + GetWindow().GetScreenWidth()/2.0, i));
-            }
-
-            for (int i = m_cameraComponent.position.y - GetWindow().GetScreenHeight()/2.0; i < GetWindow().GetScreenHeight() + m_cameraComponent.position.y; i+=32)
-            {
                 m_spawnPositions.push_back(glm::vec2(m_cameraComponent.position.x - GetWindow().GetScreenWidth()/2.0, i));
             }
         }
