@@ -7,8 +7,10 @@
 #include <Canis/ECS/Components/ColorComponent.hpp>
 #include <Canis/ECS/Components/Camera2DComponent.hpp>
 #include <Canis/ECS/Components/CircleColliderComponent.hpp>
+#include "../Components/EnemyHealthComponent.hpp"
 
 #include "../Components/BoidComponent.hpp"
+#include "../Components/EnemyComponent.hpp"
 
 class EnemyMovement;
 
@@ -91,6 +93,15 @@ class EnemySpawnManager : public Canis::ScriptableEntity
         auto& collider = _entity.AddComponent<Canis::CircleColliderComponent>();
         collider.layer = Canis::BIT::TWO;
         collider.mask = Canis::BIT::ONE;
+        collider.radius = 16.0;
+        collider.center = glm::vec2(0.0);
+
+        auto& health = _entity.AddComponent<EnemyHealthComponent>();
+        health.maxHealth = 10.0;
+
+        auto& enemy = _entity.AddComponent<EnemyComponent>();
+        enemy.attackCooldown = 1.0;
+        enemy.attackDamage = 1.0;
     }
 
     void SpawnEnemies(std::vector<Canis::Entity> _entities)

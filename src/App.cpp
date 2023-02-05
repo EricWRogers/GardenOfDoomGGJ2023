@@ -10,6 +10,8 @@
 #include <Canis/ECS/Decode.hpp>
 
 #include "ECS/Systems/BoidSystem.hpp"
+#include "ECS/Systems/EnemySystem.hpp"
+#include "ECS/Systems/BulletSystem.hpp"
 
 #include "ECS/ScriptableEntities/DebugCamera2D.hpp"
 #include "ECS/ScriptableEntities/BeachBall.hpp"
@@ -62,6 +64,26 @@ App::App()
 			[](YAML::Node _n, int _index, Canis::Scene *scene) {
 				if(_n[_index].as<std::string>() == "BoidSystem"){
 					scene->CreateSystem<BoidSystem>();
+					return true;
+				}
+				return false;
+			}
+		);
+
+		sceneManager.decodeSystem.push_back(
+			[](YAML::Node _n, int _index, Canis::Scene *scene) {
+				if(_n[_index].as<std::string>() == "BulletSystem"){
+					scene->CreateSystem<BulletSystem>();
+					return true;
+				}
+				return false;
+			}
+		);
+
+		sceneManager.decodeSystem.push_back(
+			[](YAML::Node _n, int _index, Canis::Scene *scene) {
+				if(_n[_index].as<std::string>() == "EnemySystem"){
+					scene->CreateSystem<EnemySystem>();
 					return true;
 				}
 				return false;
@@ -212,7 +234,7 @@ App::App()
 		
 		sceneManager.decodeScriptableEntity.push_back(
 			[](const std::string &_name, Canis::Entity &_entity) {
-				if(_name == "PeaShooterWapon"){
+				if(_name == "PeaShooterWeapon"){
 					Canis::ScriptComponent scriptComponent = {};
             		scriptComponent.Bind<PeaShooterWeapon>();
 					_entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
