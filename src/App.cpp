@@ -416,6 +416,7 @@ void App::Run()
 	sceneManager.Add(new Canis::Scene("lose", "assets/scenes/lose.scene"));
 	sceneManager.Add(new Canis::Scene("win", "assets/scenes/win.scene"));
 	sceneManager.Add(new Canis::Scene("engine_splash", "assets/scenes/engine_splash.scene"));
+	sceneManager.Add(new Canis::Scene("ggj_splash", "assets/scenes/ggj_splash.scene"));
 
 	sceneManager.PreLoad(
 		&window,
