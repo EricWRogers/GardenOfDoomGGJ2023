@@ -43,7 +43,7 @@ public:
             OnClickMainMenu,
             this,
             glm::vec4(1.0f, 1.0f, 1.0f, 1.0f),
-            glm::vec4(1.0f, 0.0f, 0.0f, 1.0f)
+            glm::vec4(0.24f, 0.37f, 0.25f, 1.0f) //Green, #3c5e40
         );
     }
     

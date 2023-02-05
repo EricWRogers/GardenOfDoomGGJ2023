@@ -3,8 +3,8 @@ Systems:
   - Canis::ButtonSystem
   - Canis::SpriteAnimationSystem
 RenderSystems:
-  - Canis::RenderTextSystem
   - Canis::SpriteRenderer2DSystem
+  - Canis::RenderTextSystem
   - Canis::RenderHUDSystem
 Entities:
   - 0:
@@ -51,3 +51,26 @@ Entities:
     Canis::ScriptComponent: FPSCounter
   - 3:
     Canis::ScriptComponent: MainMenuButton
+  - 4:
+    Canis::RectTransformComponent:
+      active: true
+      anchor: 6
+      position: [0.0, 0.0]
+      size: [1280.0, 800.0]
+      originOffset: [0.0, 0.0]
+      rotation: 0
+      scale: 1.0
+      depth: 0.0
+    Canis::ColorComponent:
+      color: [1.0, 1.0, 1.0, 1.0]
+    Canis::Sprite2DComponent:
+      uv: [0.0, 0.0, 1.0, 1.0]
+      texture: "assets/textures/UI/win_screen_sprite_sheet.png"
+    Canis::SpriteAnimationComponent:
+      animationId: "assets/animations/win.anim"
+      countDown: 0.0 
+      index: 0
+      flipX: false
+      flipY: false
+      speed: 1.0
+    
