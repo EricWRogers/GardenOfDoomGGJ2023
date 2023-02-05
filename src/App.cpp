@@ -6,6 +6,7 @@
 
 #include <Canis/ECS/Systems/CollisionSystem2D.hpp>
 #include <Canis/ECS/Systems/ButtonSystem.hpp>
+#include <Canis/ECS/Systems/UISliderSystem.hpp>
 
 #include <Canis/ECS/Decode.hpp>
 
@@ -55,6 +56,16 @@ App::App()
 			[](YAML::Node _n, int _index, Canis::Scene *scene) {
 				if(_n[_index].as<std::string>() == "Canis::SpriteAnimationSystem"){
 					scene->CreateSystem<Canis::SpriteAnimationSystem>();
+					return true;
+				}
+				return false;
+			}
+		);
+
+		sceneManager.decodeSystem.push_back(
+			[](YAML::Node _n, int _index, Canis::Scene *scene) {
+				if(_n[_index].as<std::string>() == "Canis::UISliderSystem"){
+					scene->CreateSystem<Canis::UISliderSystem>();
 					return true;
 				}
 				return false;
@@ -290,6 +301,7 @@ App::App()
 		sceneManager.decodeEntity.push_back(Canis::DecodeTextComponent);
 		sceneManager.decodeEntity.push_back(Canis::DecodeSprite2DComponent);
 		sceneManager.decodeEntity.push_back(Canis::DecodeUIImageComponent);
+		sceneManager.decodeEntity.push_back(Canis::DecodeUISliderComponent);
 		sceneManager.decodeEntity.push_back(Canis::DecodeSpriteAnimationComponent);
 		sceneManager.decodeEntity.push_back(Canis::DecodeCircleColliderComponent);
 		sceneManager.decodeEntity.push_back(DecodePlayerHealthComponent);

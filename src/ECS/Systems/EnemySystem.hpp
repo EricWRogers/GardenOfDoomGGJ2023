@@ -33,9 +33,23 @@ class EnemySystem : public Canis::System
 
     void Update(entt::registry &_registry, float _deltaTime)
     {
+        auto& playerRect = m_player.GetComponent<Canis::RectTransformComponent>();
+        Canis::Entity entityEnemy;
+        entityEnemy.scene = scene;
+        
         auto view = _registry.view<EnemyComponent, EnemyHealthComponent, Canis::RectTransformComponent>();
         for (auto [entity, enemy, health, transform] : view.each())
         {
+            // look at player
+            bool playerIsLeft = ((transform.position.x - playerRect.position.x) < 0.0f);
+            if(playerIsLeft != enemy.wasFlipX)
+            {
+                entityEnemy.entityHandle = entity;
+                auto& anim = entityEnemy.GetComponent<Canis::SpriteAnimationComponent>();
+                enemy.wasFlipX = playerIsLeft;
+                anim.flipX = playerIsLeft;
+                anim.redraw = true;
+            }
             enemy.step += _deltaTime;
             std::vector<entt::entity> hit = m_collisionSystem2D->GetHits(entity);
             Canis::Entity hitEntity;
