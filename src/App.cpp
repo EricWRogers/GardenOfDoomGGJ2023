@@ -222,7 +222,7 @@ App::App()
 		
 		sceneManager.decodeScriptableEntity.push_back(
 			[](const std::string &_name, Canis::Entity &_entity) {
-				if(_name == "PeaShooterWapon"){
+				if(_name == "PeaShooterWeapon"){
 					Canis::ScriptComponent scriptComponent = {};
             		scriptComponent.Bind<PeaShooterWeapon>();
 					_entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
