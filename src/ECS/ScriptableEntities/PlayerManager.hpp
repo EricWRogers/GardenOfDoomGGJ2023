@@ -4,7 +4,7 @@
 #include <Canis/ScriptableEntity.hpp>
 #include <Canis/ECS/Components/RectTransformComponent.hpp>
 #include "../Components/PlayerHealthComponent.hpp"
-#include "ECS/ScriptableEntities/XP.hpp"
+#include "XP.hpp"
 
 enum WeaponType
 {

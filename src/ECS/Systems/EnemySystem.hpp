@@ -5,8 +5,7 @@
 #include "../Components/PlayerHealthComponent.hpp"
 #include "../Components/EnemyHealthComponent.hpp"
 #include "../Components/EnemyHealthComponent.hpp"
-#include "ECS/ScriptableEntities/PlayerManager.hpp"
-#include "ECS/ScriptableEntities/XP.hpp"
+#include "../ScriptableEntities/PlayerManager.hpp"
 
 class EnemySystem : public Canis::System
 {
