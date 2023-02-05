@@ -4,6 +4,7 @@ Systems:
   - Canis::ButtonSystem
   - Canis::CollisionSystem2D
   - Canis::SpriteAnimationSystem
+  - EnemySystem
 RenderSystems:
   - Canis::SpriteRenderer2DSystem
   - Canis::RenderTextSystem
@@ -31,7 +32,7 @@ Entities:
       uv: [0.16, 0.0, 0.16, 0.24]
       texture: "assets/textures/All.png"
     Canis::SpriteAnimationComponent:
-      animationId: "assets/animations/player.anim"
+      animationId: "assets/animations/player_idle.anim"
       countDown: 0.0
       index: 0
       flipX: false
@@ -39,9 +40,9 @@ Entities:
       speed: 1.0
     Canis::CircleColliderComponent:
       center: [0.0, 0.0]
-      radius: 128.0
-      layer: 0
-      mask: 0
+      radius: 16.0
+      layer: 1
+      mask: 2
     Canis::ScriptComponent: PlayerManager
     Canis::TagComponent: Player
     PlayerHealthComponent:
@@ -128,4 +129,21 @@ Entities:
       align: 0
   - 8:
     Canis::ScriptComponent: MapBuilder
+  - 9:
+    Canis::RectTransformComponent:
+      active: true
+      anchor: 0
+      position: [30.0, -70.0]
+      size: [0.0, 0.0]
+      originOffset: [0.0, 0.0]
+      rotation: 0.0
+      scale: 1.0
+      depth: 0.1
+    Canis::CircleColliderComponent:
+      center: [0.0, 0.0]
+      radius: 64.0
+      layer: 0
+      mask: 2
+
+    Canis::ScriptComponent: PeaShooterWeapon
       
