@@ -5,7 +5,7 @@
 #include <Canis/Math.hpp>
 #include <Canis/ScriptableEntity.hpp>
 
-enum EnemyType
+/*enum EnemyType
 {
     STRANGLE_WEED = 0,
     ZOMBIE = 2,
@@ -14,7 +14,7 @@ enum EnemyType
     BRIAR = 5,
     TUMBLEWEED = 6,
     SWORD = 7
-};
+};*/
 
 struct WaveEnemy
 {

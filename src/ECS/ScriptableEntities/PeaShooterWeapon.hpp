@@ -43,6 +43,9 @@ public:
 
     void OnUpdate(float _dt)
     {
+        if (GetComponent<Canis::RectTransformComponent>().active == false) // add to all weapons
+            return;
+        
         GetComponent<Canis::RectTransformComponent>().position = player.GetComponent<Canis::RectTransformComponent>().position;
 
         dt = _dt;

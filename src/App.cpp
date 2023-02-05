@@ -276,6 +276,7 @@ App::App()
 		sceneManager.decodeEntity.push_back(Canis::DecodeColorComponent);
 		sceneManager.decodeEntity.push_back(Canis::DecodeTextComponent);
 		sceneManager.decodeEntity.push_back(Canis::DecodeSprite2DComponent);
+		sceneManager.decodeEntity.push_back(Canis::DecodeUIImageComponent);
 		sceneManager.decodeEntity.push_back(Canis::DecodeSpriteAnimationComponent);
 		sceneManager.decodeEntity.push_back(Canis::DecodeCircleColliderComponent);
 		sceneManager.decodeEntity.push_back(DecodePlayerHealthComponent);

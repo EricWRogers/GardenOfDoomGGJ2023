@@ -5,6 +5,17 @@
 #include <Canis/ECS/Components/RectTransformComponent.hpp>
 #include "../Components/PlayerHealthComponent.hpp"
 
+enum WeaponType
+{
+    GASAURA         = 0u,
+    HANDOFGOD       = 1u,
+    ORBITINGSPIKES  = 2u,
+    PEASHOOTER      = 3u,
+    BOMBS           = 4u,
+    FIREBALLS       = 5u,
+    SWORD           = 6u
+};
+
 class PlayerManager : public Canis::ScriptableEntity
 {
 private:
@@ -14,7 +25,71 @@ private:
     int idleId = 0;
     int runId = 0;
     bool wasMoving = false;
+    const unsigned int MAXWEAPONS = 5;
+    std::vector<Canis::Entity> m_weaponSlotEntities = {};
+    std::vector<Canis::Entity> m_weaponSlotIconEntities = {};
 public:
+
+    void AddWeaponToSlot(unsigned int _weaponType) {
+        if (m_weaponSlotIconEntities.size() >= MAXWEAPONS)
+            return;
+        
+        switch(_weaponType) {
+            case WeaponType::GASAURA: {
+
+                break;
+            }
+            case WeaponType::HANDOFGOD: {
+
+                break;
+            }
+            case WeaponType::ORBITINGSPIKES: {
+
+                break;
+            }
+            case WeaponType::PEASHOOTER: {
+                m_Entity.GetEntityWithTag("PeaShooter").GetComponent<Canis::RectTransformComponent>().active = true;
+                break;
+            }
+            case WeaponType::BOMBS: {
+
+                break;
+            }
+            case WeaponType::FIREBALLS: {
+
+                break;
+            }
+            case WeaponType::SWORD: {
+
+                break;
+            }
+
+        }
+
+        auto e = CreateEntity();
+        m_weaponSlotIconEntities.push_back(e);
+        auto& rect = e.AddComponent<Canis::RectTransformComponent>();
+        rect = m_weaponSlotEntities[m_weaponSlotIconEntities.size()-1].GetComponent<Canis::RectTransformComponent>();
+        rect.position += glm::vec2(8.0f,8.0f);
+        rect.size = glm::vec2(32);
+        rect.depth = -1.0f;
+        auto& color = e.AddComponent<Canis::ColorComponent>();
+        color.color = glm::vec4(1.0, 1.0, 1.0, 1.0);
+        auto& sprite = e.AddComponent<Canis::UIImageComponent>();
+        sprite.texture = GetAssetManager().Get<Canis::TextureAsset>(
+            GetAssetManager().LoadTexture("assets/textures/weapons/weapon_icons_sprite_sheet.png"))->GetTexture();
+        GetUIImageFromTextureAtlas(
+            sprite,
+            0,
+            0,
+            _weaponType,
+            0,
+            32,
+            32,
+            false,
+            false
+        );
+    }
 
     void OnCreate() //Awake
     {
@@ -25,6 +100,12 @@ public:
     void OnReady()//Start
     {
        m_healthText = m_Entity.GetEntityWithTag("HealthText");
+       m_weaponSlotEntities.push_back(m_Entity.GetEntityWithTag("WeaponSlot0"));
+       m_weaponSlotEntities.push_back(m_Entity.GetEntityWithTag("WeaponSlot1"));
+       m_weaponSlotEntities.push_back(m_Entity.GetEntityWithTag("WeaponSlot2"));
+       m_weaponSlotEntities.push_back(m_Entity.GetEntityWithTag("WeaponSlot3"));
+       m_weaponSlotEntities.push_back(m_Entity.GetEntityWithTag("WeaponSlot4"));
+       AddWeaponToSlot(3);
     }
     
     void OnDestroy()

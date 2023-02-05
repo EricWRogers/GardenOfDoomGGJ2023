@@ -131,8 +131,9 @@ Entities:
   - 8:
     Canis::ScriptComponent: MapBuilder
   - 9:
+    Canis::TagComponent: PeaShooter
     Canis::RectTransformComponent:
-      active: true
+      active: false
       anchor: 0
       position: [30.0, -70.0]
       size: [0.0, 0.0]
@@ -148,4 +149,84 @@ Entities:
     Canis::ScriptComponent: PeaShooterWeapon
   - 10:
     Canis::ScriptComponent: WaveManager
-      
+  - 11:
+    Canis::TagComponent: WeaponSlot0
+    Canis::RectTransformComponent:
+      active: true
+      anchor: 1
+      position: [-142.0, -60.0]
+      size: [48.0, 48.0]
+      originOffset: [0.0, 0.0]
+      rotation: 0.0
+      scale: 1.0
+      depth: 0.0
+    Canis::ColorComponent:
+      color: [1.0, 1.0, 1.0, 1.0]
+    Canis::UIImageComponent:
+      uv: [0.0, 0.0, 1.0, 1.0]
+      texture: "assets/textures/UI/current_weapon_holder.png"
+  - 12:
+    Canis::TagComponent: WeaponSlot1
+    Canis::RectTransformComponent:
+      active: true
+      anchor: 1
+      position: [-82.0, -60.0]
+      size: [48.0, 48.0]
+      originOffset: [0.0, 0.0]
+      rotation: 0.0
+      scale: 1.0
+      depth: 0.0
+    Canis::ColorComponent:
+      color: [1.0, 1.0, 1.0, 1.0]
+    Canis::UIImageComponent:
+      uv: [0.0, 0.0, 1.0, 1.0]
+      texture: "assets/textures/UI/current_weapon_holder.png"
+  - 13:
+    Canis::TagComponent: WeaponSlot2
+    Canis::RectTransformComponent:
+      active: true
+      anchor: 1
+      position: [-22.0, -60.0]
+      size: [48.0, 48.0]
+      originOffset: [0.0, 0.0]
+      rotation: 0.0
+      scale: 1.0
+      depth: 0.0
+    Canis::ColorComponent:
+      color: [1.0, 1.0, 1.0, 1.0]
+    Canis::UIImageComponent:
+      uv: [0.0, 0.0, 1.0, 1.0]
+      texture: "assets/textures/UI/current_weapon_holder.png"
+  - 14:
+    Canis::TagComponent: WeaponSlot3
+    Canis::RectTransformComponent:
+      active: true
+      anchor: 1
+      position: [38.0, -60.0]
+      size: [48.0, 48.0]
+      originOffset: [0.0, 0.0]
+      rotation: 0.0
+      scale: 1.0
+      depth: 0.0
+    Canis::ColorComponent:
+      color: [1.0, 1.0, 1.0, 1.0]
+    Canis::UIImageComponent:
+      uv: [0.0, 0.0, 1.0, 1.0]
+      texture: "assets/textures/UI/current_weapon_holder.png"
+  - 15:
+    Canis::TagComponent: WeaponSlot4
+    Canis::RectTransformComponent:
+      active: true
+      anchor: 1
+      position: [98.0, -60.0]
+      size: [48.0, 48.0]
+      originOffset: [0.0, 0.0]
+      rotation: 0.0
+      scale: 1.0
+      depth: 0.0
+    Canis::ColorComponent:
+      color: [1.0, 1.0, 1.0, 1.0]
+    Canis::UIImageComponent:
+      uv: [0.0, 0.0, 1.0, 1.0]
+      texture: "assets/textures/UI/current_weapon_holder.png"
+
