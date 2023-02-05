@@ -1,0 +1,19 @@
+Animation:
+  - 0:
+    timeOnFrame: 0.1
+    textureAssetId: "assets/textures/enemies/enemies_sprite_sheet.png"
+    offset: [0, 0]
+    index: [0, 5]
+    size: [16, 16]
+  - 1:
+    timeOnFrame: 0.1
+    textureAssetId: "assets/textures/enemies/enemies_sprite_sheet.png"
+    offset: [0, 0]
+    index: [1, 5]
+    size: [16, 16]
+  - 2:
+    timeOnFrame: 0.1
+    textureAssetId: "assets/textures/enemies/enemies_sprite_sheet.png"
+    offset: [0, 0]
+    index: [2, 5]
+    size: [16, 16]
