@@ -22,8 +22,8 @@ class PlayerManager : public Canis::ScriptableEntity
 private:
    float speed = 100.0f;
     glm::vec2 direction;
-    Canis::Entity m_healthText;
     Canis::Entity m_healthSlider;
+    Canis::Entity m_expSlider;
     int idleId = 0;
     int runId = 0;
     bool wasMoving = false;
@@ -31,6 +31,7 @@ private:
     std::vector<Canis::Entity> m_weaponSlotEntities = {};
     std::vector<Canis::Entity> m_weaponSlotIconEntities = {};
     float currentXp = 0.0f;
+    const float MAXEXP = 1000.0f;
 
 public:
 
@@ -103,8 +104,8 @@ public:
 
     void OnReady()//Start
     {
-       m_healthText = m_Entity.GetEntityWithTag("HealthText");
        m_healthSlider = m_Entity.GetEntityWithTag("HealthSlider");
+       m_expSlider = m_Entity.GetEntityWithTag("ExpSlider");
        m_weaponSlotEntities.push_back(m_Entity.GetEntityWithTag("WeaponSlot0"));
        m_weaponSlotEntities.push_back(m_Entity.GetEntityWithTag("WeaponSlot1"));
        m_weaponSlotEntities.push_back(m_Entity.GetEntityWithTag("WeaponSlot2"));
@@ -186,10 +187,10 @@ public:
         {
             Canis::FatalError("You ded for real");
         }
-        auto& playerHealth = GetComponent<PlayerHealthComponent>();
+        /*auto& playerHealth = GetComponent<PlayerHealthComponent>();
         (*m_healthText.GetComponent<Canis::TextComponent>().text) = "Health: " + std::to_string((int)playerHealth.currentHealth);
         (*m_healthText.GetComponent<Canis::TextComponent>().text) += ".";
-        (*m_healthText.GetComponent<Canis::TextComponent>().text) += std::to_string((int)((playerHealth.currentHealth - (int)playerHealth.currentHealth) * 100.0f));
+        (*m_healthText.GetComponent<Canis::TextComponent>().text) += std::to_string((int)((playerHealth.currentHealth - (int)playerHealth.currentHealth) * 100.0f));*/
         // Canis::Log("Test" + *m_healthText.GetComponent<Canis::TextComponent>().text);
 
         std::vector<entt::entity> hits = GetSystem<Canis::CollisionSystem2D>()->GetHits(m_Entity.entityHandle);
@@ -209,5 +210,14 @@ public:
         }
     
         m_healthSlider.GetComponent<Canis::UISliderComponent>().value = GetComponent<PlayerHealthComponent>().currentHealth / GetComponent<PlayerHealthComponent>().maxHealth;
+        m_expSlider.GetComponent<Canis::UISliderComponent>().value = currentXp / MAXEXP;
+
+        if(currentXp >= MAXEXP)
+        {
+            if (m_weaponSlotIconEntities.size() < 5)
+            {
+                currentXp = 0;
+            }
+        }
     }
 };

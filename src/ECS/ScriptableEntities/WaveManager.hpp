@@ -112,7 +112,7 @@ class WaveManager : public Canis::ScriptableEntity
             {
                 for (int i = 0; i < enemy.amount; i++)
                 {
-                    ((EnemySpawnManager*)m_spawnManager.GetComponent<Canis::ScriptComponent>().Instance)->SpawnEnemy(enemy.texPath, enemy.animPath, enemy.xpAmount);
+                    ((EnemySpawnManager*)m_spawnManager.GetComponent<Canis::ScriptComponent>().Instance)->SpawnEnemy(enemy.texPath, enemy.animPath, enemy.xpAmount , enemy.maxHealth);
                 }
             }
         }
