@@ -72,12 +72,15 @@ public:
                 {
                     //Canis::Log("id: " + std::to_string((unsigned int)hit[i].entityHandle.));
                     hitEntity.entityHandle = hit[i];
-                    float distance = glm::distance(hitEntity.GetComponent<Canis::RectTransformComponent>().position, GetComponent<Canis::RectTransformComponent>().position);
-
-                    if(distance <= closestDistance)
+                    if (hit[i] != entt::tombstone && m_Entity.scene->entityRegistry.valid(hit[i]))
                     {
-                        closestDistance = distance;
-                        closestEntity = hitEntity;
+                        float distance = glm::distance(hitEntity.GetComponent<Canis::RectTransformComponent>().position, GetComponent<Canis::RectTransformComponent>().position);
+
+                        if(distance <= closestDistance)
+                        {
+                            closestDistance = distance;
+                            closestEntity = hitEntity;
+                        }
                     }
                 }
             }

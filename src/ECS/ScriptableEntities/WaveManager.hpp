@@ -49,7 +49,7 @@ class WaveManager : public Canis::ScriptableEntity
 
             {
                 WaveEnemy enemy;
-                enemy.amount = 1;
+                enemy.amount = 15;
                 enemy.xpAmount = 50.0f;
                 enemy.maxHealth = 15.0f;
                 enemy.animPath = "assets/animations/tumbleweed.anim";
@@ -59,10 +59,30 @@ class WaveManager : public Canis::ScriptableEntity
 
             {
                 WaveEnemy enemy;
-                enemy.amount = 2;
+                enemy.amount = 5;
                 enemy.xpAmount = 100.0f;
                 enemy.maxHealth = 20.0f;
                 enemy.animPath = "assets/animations/tangleweed.anim";
+                enemy.texPath = "assets/textures/enemies/beehive.png";
+                wave.enemies.push_back(enemy);
+            }
+
+             {
+                WaveEnemy enemy;
+                enemy.amount = 15;
+                enemy.xpAmount = 50.0f;
+                enemy.maxHealth = 15.0f;
+                enemy.animPath = "assets/animations/bomb_plant.anim";
+                enemy.texPath = "assets/textures/enemies/beehive.png";
+                wave.enemies.push_back(enemy);
+            }
+
+            {
+                WaveEnemy enemy;
+                enemy.amount = 10;
+                enemy.xpAmount = 100.0f;
+                enemy.maxHealth = 20.0f;
+                enemy.animPath = "assets/animations/fire_plant.anim";
                 enemy.texPath = "assets/textures/enemies/beehive.png";
                 wave.enemies.push_back(enemy);
             }
