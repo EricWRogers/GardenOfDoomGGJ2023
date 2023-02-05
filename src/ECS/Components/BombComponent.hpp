@@ -2,6 +2,6 @@
 
 struct BombComponent
 {
-    bool stillOnFirstZero = true;
+    float timeLeft = 1.5f;
     float damage = 0.0f;
 };

@@ -9,9 +9,15 @@ Animation:
     timeOnFrame: 0.5
     textureAssetId: "assets/textures/weapons/bomb_weapon_sprite_sheet.png"
     offset: [0, 0]
-    index: [1, 0]
+    index: [0, 0]
     size: [8, 8]
   - 2:
+    timeOnFrame: 0.5
+    textureAssetId: "assets/textures/weapons/bomb_weapon_sprite_sheet.png"
+    offset: [0, 0]
+    index: [1, 0]
+    size: [8, 8]
+  - 3:
     timeOnFrame: 0.5
     textureAssetId: "assets/textures/weapons/bomb_weapon_sprite_sheet.png"
     offset: [0, 0]

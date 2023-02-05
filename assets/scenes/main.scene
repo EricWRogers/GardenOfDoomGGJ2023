@@ -6,6 +6,7 @@ Systems:
   - Canis::ButtonSystem
   - Canis::SpriteAnimationSystem
   - BulletSystem
+  - BombSystem
   - EnemySystem
 RenderSystems:
   - Canis::SpriteRenderer2DSystem
