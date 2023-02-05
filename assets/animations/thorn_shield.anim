@@ -1,0 +1,25 @@
+Animation:
+  - 0:
+    timeOnFrame: 0.1
+    textureAssetId: "assets/textures/weapons/thorn_shield.png"
+    offset: [0, 0]
+    index: [0, 1]
+    size: [68, 68]
+  - 1:
+    timeOnFrame: 0.1
+    textureAssetId: "assets/textures/weapons/thorn_shield.png"
+    offset: [0, 0]
+    index: [1, 1]
+    size: [68, 68]
+  - 2:
+    timeOnFrame: 0.1
+    textureAssetId: "assets/textures/weapons/thorn_shield.png"
+    offset: [0, 0]
+    index: [0, 0]
+    size: [68, 68]
+  - 3:
+    timeOnFrame: 0.1
+    textureAssetId: "assets/textures/weapons/thorn_shield.png"
+    offset: [0, 0]
+    index: [1, 0]
+    size: [68, 68]
