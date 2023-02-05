@@ -20,14 +20,23 @@ struct WaveEnemy
 {
     int amount;
     float xpAmount;
+    float maxHealth = 0.0f;
     std::string texPath;
     std::string animPath;
+};
+
+struct Wave
+{
+    float delay = 0;
+    std::vector<WaveEnemy> enemies;
+    std::vector<std::vector<WaveEnemy>> waves;
 };
 
 class WaveManager : public Canis::ScriptableEntity
 {
     private:
     std::vector<WaveEnemy> m_enemies;
+    std::vector<Wave> m_waves;
     Canis::Entity m_spawnManager;
     float m_waveFrequency = 20.0f;
     float m_timeSinceLastWave = 20.0f;
@@ -35,21 +44,31 @@ class WaveManager : public Canis::ScriptableEntity
     void Populate()
     {
         {
-            WaveEnemy enemy;
-            enemy.amount = 1;
-            enemy.xpAmount = 50.0f;
-            enemy.animPath = "";
-            enemy.texPath = "assets/textures/enemies/beehive.png";
-            m_enemies.push_back(enemy);
-        }
+            Wave wave;
+            wave.delay = 10.0f;
 
-        {
-            WaveEnemy enemy;
-            enemy.amount = 2;
-            enemy.xpAmount = 100.0f;
-            enemy.animPath = "";
-            enemy.texPath = "assets/textures/environment/planters.png";
-            m_enemies.push_back(enemy);
+            {
+                WaveEnemy enemy;
+                enemy.amount = 1;
+                enemy.xpAmount = 50.0f;
+                enemy.maxHealth = 15.0f;
+                enemy.animPath = "assets/animations/tumbleweed.anim";
+                enemy.texPath = "assets/textures/enemies/beehive.png";
+                wave.enemies.push_back(enemy);
+            }
+
+            {
+                WaveEnemy enemy;
+                enemy.amount = 2;
+                enemy.xpAmount = 100.0f;
+                enemy.maxHealth = 20.0f;
+                enemy.animPath = "assets/animations/tangleweed.anim";
+                enemy.texPath = "assets/textures/enemies/beehive.png";
+                wave.enemies.push_back(enemy);
+            }
+
+
+            m_waves.push_back(wave);
         }
     }
 
@@ -67,11 +86,14 @@ class WaveManager : public Canis::ScriptableEntity
         //     m_spawnManager.GetComponent<EnemySpawnManager>().SpawnEnemy(e, m_enemies[i].texPath);
         // }
 
-        for (WaveEnemy enemy : m_enemies)
+        for (Wave wave : m_waves)
         {
-            for (int i = 0; i < enemy.amount; i++)
+            for (WaveEnemy enemy : wave.enemies)
             {
-                ((EnemySpawnManager*)m_spawnManager.GetComponent<Canis::ScriptComponent>().Instance)->SpawnEnemy(enemy.texPath, enemy.xpAmount);
+                for (int i = 0; i < enemy.amount; i++)
+                {
+                    ((EnemySpawnManager*)m_spawnManager.GetComponent<Canis::ScriptComponent>().Instance)->SpawnEnemy(enemy.texPath, enemy.animPath, enemy.xpAmount);
+                }
             }
         }
     }

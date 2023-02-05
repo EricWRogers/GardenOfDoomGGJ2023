@@ -35,11 +35,14 @@ class BulletSystem : public Canis::System
             {
                 hitEntity.entityHandle = hit;
 
-                auto& enemyHealthComponent = hitEntity.GetComponent<EnemyHealthComponent>();
-                if (enemyHealthComponent.currentHealth > 0)
+                if (hitEntity.HasComponent<EnemyHealthComponent>())
                 {
-                    enemyHealthComponent.currentHealth -= bullet.damage;
-                    break;
+                    auto& enemyHealthComponent = hitEntity.GetComponent<EnemyHealthComponent>();
+                    if (enemyHealthComponent.currentHealth > 0)
+                    {
+                        enemyHealthComponent.currentHealth -= bullet.damage;
+                        break;
+                    }
                 }
             }
 
