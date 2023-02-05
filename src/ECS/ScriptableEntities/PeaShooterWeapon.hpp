@@ -29,7 +29,7 @@ public:
 
     void OnCreate()
     {
-        damage = 10;
+        damage = 5;
         peaId = GetAssetManager().LoadSpriteAnimation("assets/animations/pea_shooter_projectile.anim");
     }
 
@@ -106,7 +106,7 @@ public:
         auto& bullet = _entity.AddComponent<BulletComponent>();
         bullet.direction = glm::normalize(closestEntity.GetComponent<Canis::RectTransformComponent>().position - GetComponent<Canis::RectTransformComponent>().position);
         bullet.speed = 100.0f;
-        bullet.damage = 10.0f;
+        bullet.damage = 5.0f;
         bullet.timeLeft = 6.0f;
         
         auto& rect = _entity.AddComponent<Canis::RectTransformComponent>();
