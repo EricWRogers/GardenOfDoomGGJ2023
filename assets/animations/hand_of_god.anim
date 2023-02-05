@@ -1,0 +1,19 @@
+Animation:
+  - 0:
+    timeOnFrame: 0.4
+    textureAssetId: "assets/textures/weapons/hand_of_god_projectile_sprite_sheet.png"
+    offset: [0, 0]
+    index: [0, 0]
+    size: [32, 32]
+  - 1:
+    timeOnFrame: 0.4
+    textureAssetId: "assets/textures/weapons/hand_of_god_projectile_sprite_sheet.png"
+    offset: [0, 0]
+    index: [1, 0]
+    size: [32, 32]
+  - 2:
+    timeOnFrame: 0.4
+    textureAssetId: "assets/textures/weapons/hand_of_god_projectile_sprite_sheet.png"
+    offset: [0, 0]
+    index: [2, 0]
+    size: [32, 32]

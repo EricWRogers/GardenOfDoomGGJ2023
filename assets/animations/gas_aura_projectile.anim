@@ -1,0 +1,19 @@
+Animation:
+  - 0:
+    timeOnFrame: 0.5
+    textureAssetId: "assets/textures/weapons/gas_aura_projectile_sprite_sheet.png"
+    offset: [0, 0]
+    index: [0, 0]
+    size: [64, 64]
+  - 1:
+    timeOnFrame: 0.5
+    textureAssetId: "assets/textures/weapons/gas_aura_projectile_sprite_sheet.png"
+    offset: [0, 0]
+    index: [1, 0]
+    size: [64, 64]
+  - 2:
+    timeOnFrame: 0.5
+    textureAssetId: "assets/textures/weapons/gas_aura_projectile_sprite_sheet.png"
+    offset: [0, 0]
+    index: [2, 0]
+    size: [64, 64]
