@@ -45,11 +45,11 @@ class EnemySpawnManager : public Canis::ScriptableEntity
         if (GetInputManager().JustPressedKey(SDLK_h))
         {
             auto e = CreateEntity();
-            SpawnEnemy(e);
+            SpawnEnemy(e, " ");
         }
     }
 
-    void SpawnEnemy(Canis::Entity _entity)
+    void SpawnEnemy(Canis::Entity _entity, std::string _path)
     {
         auto& m_cameraComponent = m_camera.GetComponent<Canis::Camera2DComponent>();
 
@@ -78,8 +78,8 @@ class EnemySpawnManager : public Canis::ScriptableEntity
         rectTransform.position = GetRandomPosition(m_spawnPositions);
             
         auto& sprite = _entity.AddComponent<Canis::Sprite2DComponent>();
-        sprite.texture = GetAssetManager().Get<Canis::TextureAsset>(
-            GetAssetManager().LoadTexture("assets/textures/enemies/beehive.png"))->GetTexture();
+        sprite.texture = GetAssetManager().Get<Canis::TextureAsset>( 
+            GetAssetManager().LoadTexture(_path))->GetTexture();
             
         auto& color = _entity.AddComponent<Canis::ColorComponent>();
         color.color = glm::vec4(1.0, 1.0, 1.0, 1.0);

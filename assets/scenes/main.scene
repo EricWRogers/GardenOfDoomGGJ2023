@@ -128,4 +128,6 @@ Entities:
       align: 0
   - 8:
     Canis::ScriptComponent: MapBuilder
+  - 9:
+    Canis::ScriptComponent: WaveManager
       
