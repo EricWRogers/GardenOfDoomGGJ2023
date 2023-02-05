@@ -102,6 +102,7 @@ public:
         {
             return;
         }
+        GetAssetManager().Get<Canis::SoundAsset>(GetAssetManager().LoadSound("assets/sounds/shoot.wav"))->Play();
         auto& bullet = _entity.AddComponent<BulletComponent>();
         bullet.direction = glm::normalize(closestEntity.GetComponent<Canis::RectTransformComponent>().position - GetComponent<Canis::RectTransformComponent>().position);
         bullet.speed = 80.0f;

@@ -55,4 +55,6 @@ Entities:
     Canis::ScriptComponent: FPSCounter
   - 3:
     Canis::ScriptComponent: MainMenuButtons
+  - 4:
+    Canis::ScriptComponent: Music
   

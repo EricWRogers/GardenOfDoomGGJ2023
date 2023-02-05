@@ -132,7 +132,7 @@ public:
         bool moving = false;
         
         
-        if (keystate[SDL_SCANCODE_A] && !GetWindow().GetMouseLock()) //Left
+        if ((keystate[SDL_SCANCODE_A] || keystate[SDL_SCANCODE_LEFT]) && !GetWindow().GetMouseLock()) //Left
         {
             moving = true;
             horizontal = -1.0f;
@@ -143,12 +143,12 @@ public:
             }
         }
 
-        if (keystate[SDL_SCANCODE_W] && !GetWindow().GetMouseLock()) //Forwards
+        if ((keystate[SDL_SCANCODE_W] || keystate[SDL_SCANCODE_UP]) && !GetWindow().GetMouseLock()) //Forwards
         {
             moving = true;
             vertical = 1.0f;
         }
-        if (keystate[SDL_SCANCODE_D] && !GetWindow().GetMouseLock()) //Right
+        if ((keystate[SDL_SCANCODE_D] || keystate[SDL_SCANCODE_RIGHT]) && !GetWindow().GetMouseLock()) //Right
         {
             moving = true;
             horizontal = 1.0f;
@@ -158,7 +158,7 @@ public:
                 anim.redraw = true;
             }
         }
-        if (keystate[SDL_SCANCODE_S] && !GetWindow().GetMouseLock()) //back
+        if ((keystate[SDL_SCANCODE_S] || keystate[SDL_SCANCODE_DOWN]) && !GetWindow().GetMouseLock()) //back
         {
             moving = true;
             vertical = -1.0f;

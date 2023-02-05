@@ -10,6 +10,8 @@ private:
     bool enable = true;
     float time = 60.0f;
 
+    bool isPlaying = false;
+
     
 public:
 
@@ -20,12 +22,12 @@ public:
 
     void OnReady()//Start
     {
-       
+       GetAssetManager().Get<Canis::MusicAsset>(GetAssetManager().LoadMusic("assets/music/your_garden_variety_evil.mp3"))->Play(-1);
     }
     
     void OnDestroy()
     {
-
+        GetAssetManager().Get<Canis::MusicAsset>(GetAssetManager().LoadMusic("assets/music/botanicore.mp3"))->Stop();
     }
 
     void OnUpdate(float _dt) //Update
@@ -51,14 +53,16 @@ public:
                     enable = false;
                     ((Canis::SceneManager*)m_Entity.scene->sceneManager)->Load("win");
                 }
+                if(time <= 60.0f && !isPlaying)
+                {
+                    isPlaying = true;
+                    GetAssetManager().Get<Canis::MusicAsset>(GetAssetManager().LoadMusic("assets/music/botanicore.mp3"))->Play(-1);
+                }
             }
             else
             {
                 return;
             }
-            
         }
     }
-
-    
 };

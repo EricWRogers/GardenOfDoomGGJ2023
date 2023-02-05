@@ -27,6 +27,7 @@
 #include "ECS/ScriptableEntities/PeaShooterWeapon.hpp"
 #include "ECS/ScriptableEntities/WaveManager.hpp"
 #include "ECS/ScriptableEntities/XP.hpp"
+#include "ECS/ScriptableEntities/Music.hpp"
 #include "ECS/Decode.hpp"
 
 App::App()
@@ -285,6 +286,18 @@ App::App()
                 if(_name == "XP"){
                     Canis::ScriptComponent scriptComponent = {};
                     scriptComponent.Bind<XP>();
+                    _entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
+                    return true;
+                }
+                return false;
+            }
+        );
+
+		sceneManager.decodeScriptableEntity.push_back(
+            [](const std::string &_name, Canis::Entity &_entity) {
+                if(_name == "Music"){
+                    Canis::ScriptComponent scriptComponent = {};
+                    scriptComponent.Bind<Music>();
                     _entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
                     return true;
                 }
