@@ -156,7 +156,7 @@ public:
             //rect_transform.rotation = atan2(boid.velocity.y, boid.velocity.x);
 
             // update velocity
-            boid.velocity += boid.acceleration * _deltaTime;
+            boid.velocity += boid.acceleration;
 
             //clamp velocity to maxSpeed
             if (glm::length(boid.velocity) > boid.maxSpeed)

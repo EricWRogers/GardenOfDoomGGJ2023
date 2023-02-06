@@ -414,7 +414,7 @@ void App::Run()
 
 	window.Create("Canis", 1280, 800, windowFlags);
 
-	time.init(60);
+	time.init(120);
 
 	camera.override_camera = false;
 

@@ -83,8 +83,8 @@ class EnemySpawnManager : public Canis::ScriptableEntity
 
         auto& boid = _entity.AddComponent<BoidComponent>();
         boid.drag = 0.95f;
-        boid.speed = 1500.0f;
-        boid.maxSpeed = 3000.0f;
+        boid.speed = 50.0f;
+        boid.maxSpeed = 100.0f;
         
         auto& collider = _entity.AddComponent<Canis::CircleColliderComponent>();
         collider.layer = Canis::BIT::TWO;
