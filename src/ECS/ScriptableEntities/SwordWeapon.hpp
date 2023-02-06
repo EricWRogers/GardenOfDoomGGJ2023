@@ -116,7 +116,7 @@ public:
         }
         
         bullet.speed = 200.0f;
-        bullet.damage = 10.0f;
+        bullet.damage = 100.0f;
         bullet.timeLeft = 6.0f;
         
         auto& rect = _entity.AddComponent<Canis::RectTransformComponent>();
