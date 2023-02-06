@@ -132,6 +132,7 @@ public:
 
         auto& anim = _entity.AddComponent<Canis::SpriteAnimationComponent>();
         anim.animationId = swordId;
+        anim.flipX = !player.GetComponent<Canis::SpriteAnimationComponent>().flipX;
 
         auto& circleCollider = _entity.AddComponent<Canis::CircleColliderComponent>();
         circleCollider.layer = Canis::BIT::ZERO;
