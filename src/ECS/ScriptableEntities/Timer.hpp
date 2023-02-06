@@ -65,4 +65,9 @@ public:
             }
         }
     }
+
+    float GetTime()
+    {
+        return time;
+    }
 };
