@@ -14,6 +14,7 @@
 #include "ECS/Systems/EnemySystem.hpp"
 #include "ECS/Systems/BulletSystem.hpp"
 #include "ECS/Systems/BombSystem.hpp"
+#include "ECS/Systems/HandOfGodSystem.hpp"
 
 #include "ECS/ScriptableEntities/DebugCamera2D.hpp"
 #include "ECS/ScriptableEntities/BeachBall.hpp"
@@ -32,6 +33,7 @@
 #include "ECS/ScriptableEntities/FireBallWeapon.hpp"
 #include "ECS/ScriptableEntities/SwordWeapon.hpp"
 #include "ECS/ScriptableEntities/BombWeapon.hpp"
+#include "ECS/ScriptableEntities/HandOfGodWeapon.hpp"
 #include "ECS/ScriptableEntities/SplashLoader.hpp"
 #include "ECS/ScriptableEntities/SplashLoader2.hpp"
 #include "ECS/Decode.hpp"
@@ -113,6 +115,17 @@ App::App()
 			[](YAML::Node _n, int _index, Canis::Scene *scene) {
 				if(_n[_index].as<std::string>() == "BombSystem"){
 					scene->CreateSystem<BombSystem>();
+					return true;
+				}
+				return false;
+			}
+		);
+
+		
+		sceneManager.decodeSystem.push_back(
+			[](YAML::Node _n, int _index, Canis::Scene *scene) {
+				if(_n[_index].as<std::string>() == "HandOfGodSystem"){
+					scene->CreateSystem<HandOfGodSystem>();
 					return true;
 				}
 				return false;
@@ -359,6 +372,18 @@ App::App()
 
 		sceneManager.decodeScriptableEntity.push_back(
             [](const std::string &_name, Canis::Entity &_entity) {
+                if(_name == "HandOfGodWeapon"){
+                    Canis::ScriptComponent scriptComponent = {};
+                    scriptComponent.Bind<HandOfGodWeapon>();
+                    _entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
+                    return true;
+                }
+                return false;
+            }
+        );
+
+		sceneManager.decodeScriptableEntity.push_back(
+            [](const std::string &_name, Canis::Entity &_entity) {
                 if(_name == "SplashLoader"){
                     Canis::ScriptComponent scriptComponent = {};
                     scriptComponent.Bind<SplashLoader>();
@@ -428,8 +453,8 @@ void App::Run()
 	sceneManager.Add(new Canis::Scene("main", "assets/scenes/main.scene"));
 	sceneManager.Add(new Canis::Scene("lose", "assets/scenes/lose.scene"));
 	sceneManager.Add(new Canis::Scene("win", "assets/scenes/win.scene"));
-	sceneManager.Add(new Canis::Scene("engine_splash", "assets/scenes/engine_splash.scene"));
-	sceneManager.Add(new Canis::Scene("ggj_splash", "assets/scenes/ggj_splash.scene"));
+	// sceneManager.Add(new Canis::Scene("engine_splash", "assets/scenes/engine_splash.scene"));
+	// sceneManager.Add(new Canis::Scene("ggj_splash", "assets/scenes/ggj_splash.scene"));
 
 	sceneManager.PreLoad(
 		&window,
@@ -450,7 +475,7 @@ void App::Run()
 }
 void App::Load()
 {
-	sceneManager.ForceLoad("engine_splash");
+	sceneManager.ForceLoad("main");
 
 	// start timer
 	previousTime = high_resolution_clock::now();

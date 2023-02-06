@@ -41,9 +41,8 @@ class BombSystem : public Canis::System
             {
                 if (animation.index == 0)
                 {
-                    // boom
                     auto e = scene->CreateEntity();
-                    // make smoke
+
                     std::vector<entt::entity> hits = m_collisionSystem2D->GetHits(entity);
                     Canis::Entity hitEntity;
                     hitEntity.scene = scene;

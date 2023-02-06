@@ -32,7 +32,7 @@ private:
     const unsigned int MAXWEAPONS = 5;
     std::vector<Canis::Entity> m_weaponSlotEntities = {};
     std::vector<Canis::Entity> m_weaponSlotIconEntities = {};
-    std::vector<unsigned int> m_weaponIDoNotHave = {4,5,6};
+    std::vector<unsigned int> m_weaponIDoNotHave = {4,5,6,1};
     float currentXp = 0.0f;
     const float MAXEXP = 1000.0f;
 
@@ -48,7 +48,7 @@ public:
                 break;
             }
             case WeaponType::HANDOFGOD: {
-
+                m_Entity.GetEntityWithTag("HandOfGod").GetComponent<Canis::RectTransformComponent>().active = true;
                 break;
             }
             case WeaponType::ORBITINGSPIKES: {
@@ -76,16 +76,20 @@ public:
 
         auto e = CreateEntity();
         m_weaponSlotIconEntities.push_back(e);
+
         auto& rect = e.AddComponent<Canis::RectTransformComponent>();
         rect = m_weaponSlotEntities[m_weaponSlotIconEntities.size()-1].GetComponent<Canis::RectTransformComponent>();
         rect.position += glm::vec2(8.0f,8.0f);
         rect.size = glm::vec2(32);
         rect.depth = -1.0f;
+
         auto& color = e.AddComponent<Canis::ColorComponent>();
         color.color = glm::vec4(1.0, 1.0, 1.0, 1.0);
+
         auto& sprite = e.AddComponent<Canis::UIImageComponent>();
         sprite.texture = GetAssetManager().Get<Canis::TextureAsset>(
             GetAssetManager().LoadTexture("assets/textures/weapons/weapon_icons_sprite_sheet.png"))->GetTexture();
+
         GetUIImageFromTextureAtlas(
             sprite,
             0,
@@ -188,15 +192,6 @@ public:
 
         wasMoving = moving;
 
-        if (!m_Entity.HasComponent<PlayerHealthComponent>())
-        {
-            Canis::FatalError("You ded for real");
-        }
-        /*auto& playerHealth = GetComponent<PlayerHealthComponent>();
-        (*m_healthText.GetComponent<Canis::TextComponent>().text) = "Health: " + std::to_string((int)playerHealth.currentHealth);
-        (*m_healthText.GetComponent<Canis::TextComponent>().text) += ".";
-        (*m_healthText.GetComponent<Canis::TextComponent>().text) += std::to_string((int)((playerHealth.currentHealth - (int)playerHealth.currentHealth) * 100.0f));*/
-        // Canis::Log("Test" + *m_healthText.GetComponent<Canis::TextComponent>().text);
 
         std::vector<entt::entity> hits = GetSystem<Canis::CollisionSystem2D>()->GetHits(m_Entity.entityHandle);
 

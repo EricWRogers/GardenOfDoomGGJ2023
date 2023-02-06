@@ -8,6 +8,7 @@ Systems:
   - BulletSystem
   - BombSystem
   - EnemySystem
+  - HandOfGodSystem
 RenderSystems:
   - Canis::SpriteRenderer2DSystem
   - Canis::RenderTextSystem
@@ -49,7 +50,7 @@ Entities:
     Canis::ScriptComponent: PlayerManager
     Canis::TagComponent: Player
     PlayerHealthComponent:
-      maxHealth: 10.0
+      maxHealth: 1000.0
   - 3:
     Canis::TagComponent: EnemySpawnPoint
     Canis::RectTransformComponent:
@@ -183,6 +184,23 @@ Entities:
       layer: 0
       mask: 2
     Canis::ScriptComponent: BombWeapon
+  - 10:
+    Canis::TagComponent: HandOfGod
+    Canis::RectTransformComponent:
+      active: false
+      anchor: 0
+      position: [30.0, -70.0]
+      size: [0.0, 0.0]
+      originOffset: [0.0, 0.0]
+      rotation: 0.0
+      scale: 1.0
+      depth: 0.1
+    Canis::CircleColliderComponent:
+      center: [0.0, 0.0]
+      radius: 1000.0
+      layer: 0
+      mask: 2
+    Canis::ScriptComponent: HandOfGodWeapon
   - 11:
     Canis::ScriptComponent: WaveManager
   - 12:

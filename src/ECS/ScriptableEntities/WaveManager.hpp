@@ -25,11 +25,18 @@ struct WaveEnemy
     std::string animPath;
 };
 
+struct TimeBracket
+{
+    float min = 0.0f;
+    float max = 0.0f;
+};
+
 struct Wave
 {
     float delay = 0;
     std::vector<WaveEnemy> enemies;
     std::vector<std::vector<WaveEnemy>> waves;
+    TimeBracket time;
 };
 
 class WaveManager : public Canis::ScriptableEntity
@@ -38,11 +45,29 @@ class WaveManager : public Canis::ScriptableEntity
     std::vector<WaveEnemy> m_enemies;
     std::vector<Wave> m_waves;
     Canis::Entity m_spawnManager;
+    Canis::Entity m_timer;
     float m_waveFrequency = 10.0f;
     float m_timeSinceLastWave = 20.0f;
 
     void Populate()
     {
+        // {
+        //     Wave wave;
+        //     wave.delay = 5.0f;
+        //     wave.time.min = 180.0f;
+        //     wave.time.max = 120.0f;
+
+        //     {
+        //         WaveEnemy enemy;
+        //         enemy.amount = 2;
+        //         enemy.xpAmount = 50.0f;
+        //         enemy.maxHealth = 50.0f;
+        //         enemy.animPath = "assets/animations/tumbleweed.anim";
+        //         enemy.texPath = "assets/textures/enemies/beehive.png";
+        //         wave.enemies.push_back(enemy);
+        //     }
+        // }
+
         {
             Wave wave;
             wave.delay = 5.0f;
@@ -158,18 +183,21 @@ class WaveManager : public Canis::ScriptableEntity
 
         for (Wave wave : m_waves)
         {
-            for (WaveEnemy enemy : wave.enemies)
-            {
-                for (int i = 0; i < enemy.amount; i++)
+            // if (((Timer*)m_spawnManager.GetComponent<Canis::ScriptComponent>().Instance)->GetTime() >= wave.time.min && ((Timer*)m_spawnManager.GetComponent<Canis::ScriptComponent>().Instance)->GetTime() < wave.time.max)
+            // {
+                for (WaveEnemy enemy : wave.enemies)
                 {
-                    ((EnemySpawnManager*)m_spawnManager.GetComponent<Canis::ScriptComponent>().Instance)->SpawnEnemy(enemy.texPath, enemy.animPath, enemy.xpAmount , enemy.maxHealth);
+                    for (int i = 0; i < enemy.amount; i++)
+                    {
+                        ((EnemySpawnManager*)m_spawnManager.GetComponent<Canis::ScriptComponent>().Instance)->SpawnEnemy(enemy.texPath, enemy.animPath, enemy.xpAmount , enemy.maxHealth);
+                    }
                 }
-            }
-            m_waveFrequency -= 0.1f;
-            if (m_waveFrequency <= 2.0f)
-            {
-                m_waveFrequency = 2.0f;
-            }
+            //}
+            // m_waveFrequency -= 0.1f;
+            // if (m_waveFrequency <= 2.0f)
+            // {
+            //     m_waveFrequency = 2.0f;
+            // }
         }
     }
 
