@@ -105,7 +105,7 @@ public:
         auto& bullet = _entity.AddComponent<BulletComponent>();
         bullet.direction = glm::normalize(closestEntity.GetComponent<Canis::RectTransformComponent>().position - GetComponent<Canis::RectTransformComponent>().position);
         bullet.speed = 50.0f;
-        bullet.damage = 15.0f;
+        bullet.damage = 75.0f;
         bullet.timeLeft = 6.0f;
         
         auto& rect = _entity.AddComponent<Canis::RectTransformComponent>();

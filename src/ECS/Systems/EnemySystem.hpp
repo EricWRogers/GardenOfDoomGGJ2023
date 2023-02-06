@@ -88,7 +88,7 @@ class EnemySystem : public Canis::System
                 auto& collider = e.AddComponent<Canis::CircleColliderComponent>();
                 collider.layer = Canis::BIT::THREE;   //double check this later
                 collider.mask = Canis::BIT::ONE;
-                collider.radius = 16.0;
+                collider.radius = 32.0;
                 collider.center = glm::vec2(0.0);
 
                 auto& xp = e.AddComponent<XP>();

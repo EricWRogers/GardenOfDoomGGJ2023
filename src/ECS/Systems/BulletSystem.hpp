@@ -42,6 +42,7 @@ class BulletSystem : public Canis::System
                     {
                         assetManager->Get<Canis::SoundAsset>(assetManager->LoadSound("assets/sounds/hitHurt.wav"))->Play();
                         enemyHealthComponent.currentHealth -= bullet.damage;
+                        _registry.destroy(entity);
                         break;
                     }
                 }
