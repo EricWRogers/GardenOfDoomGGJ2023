@@ -141,7 +141,7 @@ public:
         bool moving = false;
         
         
-        if ((keystate[SDL_SCANCODE_A] || keystate[SDL_SCANCODE_LEFT]) && !GetWindow().GetMouseLock()) //Left
+        if ((keystate[SDL_SCANCODE_A] || keystate[SDL_SCANCODE_LEFT]) && !GetWindow().GetMouseLock() && (rect.position.x-(rect.size.x/2.0f) > ((GetWindow().GetScreenWidth()/2.0f)-50*32.0f))) //Left
         {
             moving = true;
             horizontal = -1.0f;
@@ -152,12 +152,12 @@ public:
             }
         }
 
-        if ((keystate[SDL_SCANCODE_W] || keystate[SDL_SCANCODE_UP]) && !GetWindow().GetMouseLock()) //Forwards
+        if ((keystate[SDL_SCANCODE_W] || keystate[SDL_SCANCODE_UP]) && !GetWindow().GetMouseLock() && (rect.position.y+(rect.size.y/2.0f) < (50*32.0f - (GetWindow().GetScreenHeight()/2.0f)))) //Forwards
         {
             moving = true;
             vertical = 1.0f;
         }
-        if ((keystate[SDL_SCANCODE_D] || keystate[SDL_SCANCODE_RIGHT]) && !GetWindow().GetMouseLock()) //Right
+        if ((keystate[SDL_SCANCODE_D] || keystate[SDL_SCANCODE_RIGHT]) && !GetWindow().GetMouseLock() && (rect.position.x+(rect.size.x/2.0f) < (50*32.0f - (GetWindow().GetScreenWidth()/2.0f)))) //Right
         {
             moving = true;
             horizontal = 1.0f;
@@ -167,7 +167,7 @@ public:
                 anim.redraw = true;
             }
         }
-        if ((keystate[SDL_SCANCODE_S] || keystate[SDL_SCANCODE_DOWN]) && !GetWindow().GetMouseLock()) //back
+        if ((keystate[SDL_SCANCODE_S] || keystate[SDL_SCANCODE_DOWN]) && !GetWindow().GetMouseLock() && (rect.position.y-(rect.size.y/2.0f) > ((GetWindow().GetScreenHeight()/2.0f) - 50*32.0f))) //back
         {
             moving = true;
             vertical = -1.0f;

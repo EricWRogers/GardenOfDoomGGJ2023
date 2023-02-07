@@ -17,8 +17,12 @@ public:
     {
         int halfWidth = width/2;
         int halfHeight = height/2;
+        int border = 20;
         Canis::GLTexture texture = GetAssetManager().Get<Canis::TextureAsset>(
                 GetAssetManager().LoadTexture("assets/textures/environment/background_sprite_sheet.png"))->GetTexture();
+        Canis::GLTexture borderTexture = GetAssetManager().Get<Canis::TextureAsset>(
+                GetAssetManager().LoadTexture("assets/textures/environment/border_environment_sprite_sheet.png"))->GetTexture();
+        
         for(int x = -halfWidth; x < halfWidth; x++)
         {
             for(int y = -halfHeight; y < halfHeight; y++)
@@ -33,18 +37,38 @@ public:
                 auto& tileColor = tile.AddComponent<Canis::ColorComponent>();
                 tileColor.color = glm::vec4(1.0f);
                 auto& sprite = tile.AddComponent<Canis::Sprite2DComponent>();
-                sprite.texture = texture;
-                GetSpriteFromTextureAtlas(
-                    sprite,
-                    0,
-                    0,
-                    rand() % 3,
-                    rand() % 3,
-                    16,
-                    16,
-                    (0 == rand() % 2),
-                    (0 == rand() % 2)
-                );
+
+                if(x > ((GetWindow().GetScreenWidth()/64.0f) - halfWidth) && 
+                   x < (halfWidth - (GetWindow().GetScreenWidth()/64.0f)) && 
+                   y < (halfHeight - (GetWindow().GetScreenHeight()/64.0f)) &&
+                   y > ((GetWindow().GetScreenHeight()/64.0f) - halfHeight))
+                {
+                    sprite.texture = texture;
+                    GetSpriteFromTextureAtlas(
+                        sprite,
+                        0,
+                        0,
+                        rand() % 3,
+                        rand() % 3,
+                        16,
+                        16,
+                        (0 == rand() % 2),
+                        (0 == rand() % 2)
+                    );
+                }else{
+                    sprite.texture = borderTexture;
+                    GetSpriteFromTextureAtlas(
+                        sprite,
+                        0,
+                        0,
+                        3,
+                        0,
+                        16,
+                        16,
+                        false,
+                        false
+                    );
+                }
             }
         }
     }
