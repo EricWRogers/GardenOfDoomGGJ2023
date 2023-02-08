@@ -53,7 +53,7 @@ public:
             if(time <= 60.0f && !isPlaying)
             {
                 isPlaying = true;
-                GetAssetManager().Get<Canis::MusicAsset>(GetAssetManager().LoadMusic("assets/music/botanicore.mp3"))->Play(-1);
+                //GetAssetManager().Get<Canis::MusicAsset>(GetAssetManager().LoadMusic("assets/music/botanicore.mp3"))->Play(-1);
             }
         }
     }

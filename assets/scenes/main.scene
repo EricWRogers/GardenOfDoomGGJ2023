@@ -75,6 +75,7 @@ Entities:
       depth: 0.1
     Canis::ScriptComponent: EnemySpawnManager
   - 5:
+    Canis::TagComponent: Timer
     Canis::RectTransformComponent:
       active: true
       anchor: 2
