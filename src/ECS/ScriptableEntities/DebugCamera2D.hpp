@@ -81,5 +81,15 @@ public:
             Canis::Log("Load Scene");
             ((Canis::SceneManager*)m_Entity.scene->sceneManager)->HotReload();
         }
+
+        if (GetInputManager().JustPressedKey(SDLK_p))
+        {
+            m_Entity.scene->SetTimeScale(0.0);
+        }
+
+        if (GetInputManager().JustPressedKey(SDLK_u))
+        {
+            m_Entity.scene->SetTimeScale(1.0);
+        }
     }
 };
