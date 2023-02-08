@@ -49,7 +49,7 @@ App::App()
 				}
 				return false;
 			}
-		);
+        );
 
 		sceneManager.decodeSystem.push_back(
 			[](YAML::Node _n, int _index, Canis::Scene *scene) {

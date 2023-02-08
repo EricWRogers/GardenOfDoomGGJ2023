@@ -3,7 +3,6 @@
 #include <Canis/Yaml.hpp>
 #include "Components/PlayerHealthComponent.hpp"
 #include "Components/EnemyHealthComponent.hpp"
-#include "Components/EnemyComponent.hpp"
 #include "Components/BulletComponent.hpp"
 
 void DecodePlayerHealthComponent(YAML::Node &_n, Canis::Entity &_entity, Canis::SceneManager *_sceneManager)
