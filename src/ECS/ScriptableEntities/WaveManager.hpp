@@ -204,7 +204,6 @@ class WaveManager : public Canis::ScriptableEntity
 
         for (Wave wave : m_waves)
         {
-            Canis::Log(std::to_string(((Timer*)m_timer.GetComponent<Canis::ScriptComponent>().Instance)->GetTime()));
             if (((Timer*)m_timer.GetComponent<Canis::ScriptComponent>().Instance)->GetTime() >= wave.time.start && ((Timer*)m_timer.GetComponent<Canis::ScriptComponent>().Instance)->GetTime() < wave.time.end)
             {
                 for (WaveEnemy enemy : wave.enemies)
