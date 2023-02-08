@@ -17,9 +17,10 @@ class EnemyMovement;
 class EnemySpawnManager : public Canis::ScriptableEntity
 {
     private:
-    std::vector<glm::vec2> m_spawnPositions;
+    std::vector<glm::vec2> m_spawnPositions = {};
     Canis::Entity m_camera;
     int m_buffer = 5.0;
+    int m_borderTiles = 20;
 
     glm::vec2 GetRandomPosition(std::vector<glm::vec2> &_positions)
     {
@@ -47,27 +48,30 @@ class EnemySpawnManager : public Canis::ScriptableEntity
 
     void OnUpdate(float _dt)
     {
+        UpdateSpawnPositions();
+    }
 
+    void UpdateSpawnPositions()
+    {
+        m_spawnPositions.clear();
+        auto& m_cameraComponent = m_camera.GetComponent<Canis::Camera2DComponent>();
+
+        for (float x = m_cameraComponent.position.x - GetWindow().GetScreenWidth()/2.0f - (m_borderTiles * 32.0f); x < GetWindow().GetScreenWidth() + m_cameraComponent.position.x + (m_borderTiles * 32.0f); x+=32.0f)
+            for (float y = m_cameraComponent.position.y - GetWindow().GetScreenHeight()/2.0f - (m_borderTiles * 32.0f); y < GetWindow().GetScreenHeight() + m_cameraComponent.position.y + (m_borderTiles * 32.0f); y+=32.0f)
+                if((x > (m_cameraComponent.position.x + (GetWindow().GetScreenWidth()/2.0f)) ||
+                   x < (m_cameraComponent.position.x - (GetWindow().GetScreenWidth()/2.0f)) ||
+                   y < (m_cameraComponent.position.y - (GetWindow().GetScreenHeight()/2.0f)) ||
+                   y > (m_cameraComponent.position.y + (GetWindow().GetScreenHeight()/2.0f))))
+                    m_spawnPositions.push_back(glm::vec2(x,y));
     }
 
     void SpawnEnemy(const std::string &_texPath, const std::string &_animPath, float _xpValue, float _maxHealth)
     {
-        auto& m_cameraComponent = m_camera.GetComponent<Canis::Camera2DComponent>();
         Canis::Entity _entity = CreateEntity();
 
         if (m_spawnPositions.size() == 0)
         {
-            for (int i = m_cameraComponent.position.x - GetWindow().GetScreenWidth()/2.0; i < GetWindow().GetScreenWidth() + m_cameraComponent.position.x; i+=32)
-            {
-                m_spawnPositions.push_back(glm::vec2(i, m_cameraComponent.position.y + GetWindow().GetScreenHeight()/2.0));
-                m_spawnPositions.push_back(glm::vec2(i, m_cameraComponent.position.y - GetWindow().GetScreenHeight()/2.0));
-            }
-
-            for (int i = m_cameraComponent.position.y - GetWindow().GetScreenHeight()/2.0; i < GetWindow().GetScreenHeight() + m_cameraComponent.position.y; i+=32)
-            {
-                m_spawnPositions.push_back(glm::vec2(m_cameraComponent.position.x + GetWindow().GetScreenWidth()/2.0, i));
-                m_spawnPositions.push_back(glm::vec2(m_cameraComponent.position.x - GetWindow().GetScreenWidth()/2.0, i));
-            }
+            UpdateSpawnPositions();
         }
 
         auto& rectTransform = _entity.AddComponent<Canis::RectTransformComponent>();

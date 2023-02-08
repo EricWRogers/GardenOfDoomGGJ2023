@@ -40,8 +40,6 @@ public:
 
     //BoidSystem() : Canis::System() {}
 
-    Canis::QuadTree *quadTree = new Canis::QuadTree(glm::vec2(0.0f), 2560.0f);
-
     glm::vec2 cameraPosition;
     std::vector<entt::entity> boidEntities = {};
 
@@ -57,7 +55,6 @@ public:
 
     void Update(entt::registry &registry, const float _deltaTime)
     {
-        quadTree->Reset();
 
         Canis::Entity player;
         player.scene = scene;
@@ -75,11 +72,6 @@ public:
 
         float boidCount = 0;
         auto view = registry.view<Canis::RectTransformComponent, BoidComponent>();
-        for (auto [entity, rect_transform, boid] : view.each())
-        {
-            boidCount++;
-            quadTree->AddPoint(rect_transform.position, entity, boid.velocity);
-        }
 
         glm::vec2 seekTarget, alignmentTarget, cohesionTarget, separationTarget = glm::vec2(0.0f);
 
@@ -103,25 +95,24 @@ public:
             alignNumNeighbors = 0;
             cohNumNeighbors = 0;
 
-            quadPoints.clear(); // does not unalocate the memory
-            if (quadTree->PointsQuery(rect_transform.position, MAX_COHESION_DISTANCE + 0.0f, quadPoints))
+            for (auto [other_entity, other_rect_transform, other_boid] : view.each())
             {
-                for (Canis::QuadPoint point : quadPoints)
+                if(entity != other_entity)
                 {
-                    distance = glm::distance(rect_transform.position, point.position);
-                    if (distance <= MAX_COHESION_DISTANCE && entity != point.entity)
+                    distance = glm::distance(rect_transform.position, other_rect_transform.position);
+                    if (distance <= MAX_COHESION_DISTANCE)
                     {
                         cohNumNeighbors++;
-                        cohesion += point.position;
+                        cohesion += other_rect_transform.position;
 
                         if (distance <= MAX_ALIGNMENT_DISTANCE)
                         {
                             alignNumNeighbors++;
-                            alignment += point.velocity;
+                            alignment += other_boid.velocity;
 
                             if (distance <= MAX_SEPARATION_DISTANCE)
                             {
-                                separation += (rect_transform.position - point.position);
+                                separation += (rect_transform.position - other_rect_transform.position);
                             }
                         }
                     }
