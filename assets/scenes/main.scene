@@ -203,8 +203,37 @@ Entities:
       mask: 2
     Canis::ScriptComponent: HandOfGodWeapon
   - 11:
-    Canis::ScriptComponent: WaveManager
+    Canis::TagComponent: GasAura
+    Canis::RectTransformComponent:
+      active: false
+      anchor: 0
+      position: [0.0, 0.0]
+      size: [1.0, 1.0]
+      originOffset: [0.0, 0.0]
+      rotation: 0.0
+      scale: 32.0
+      depth: 0.1
+    Canis::CircleColliderComponent:
+      center: [0.0, 0.0]
+      radius: 1000.0
+      layer: 0
+      mask: 2
+    Canis::ColorComponent:
+      color: [1.0, 1.0, 1.0, 1.0]
+    Canis::Sprite2DComponent:
+      uv: [0.0, 0.0, 1.0, 1.0]
+      texture: "assets/textures/All.png"
+    Canis::SpriteAnimationComponent:
+      animationId: "assets/animations/gas_aura_projectile.anim"
+      countDown: 0.0
+      index: 0
+      flipX: false
+      flipY: false
+      speed: 1.0
+    Canis::ScriptComponent: GasAuraWeapon
   - 12:
+    Canis::ScriptComponent: WaveManager
+  - 13:
     Canis::TagComponent: WeaponSlot0
     Canis::RectTransformComponent:
       active: true
@@ -220,7 +249,7 @@ Entities:
     Canis::UIImageComponent:
       uv: [0.0, 0.0, 1.0, 1.0]
       texture: "assets/textures/UI/current_weapon_holder.png"
-  - 13:
+  - 14:
     Canis::TagComponent: WeaponSlot1
     Canis::RectTransformComponent:
       active: true
@@ -236,7 +265,7 @@ Entities:
     Canis::UIImageComponent:
       uv: [0.0, 0.0, 1.0, 1.0]
       texture: "assets/textures/UI/current_weapon_holder.png"
-  - 14:
+  - 15:
     Canis::TagComponent: WeaponSlot2
     Canis::RectTransformComponent:
       active: true
@@ -252,7 +281,7 @@ Entities:
     Canis::UIImageComponent:
       uv: [0.0, 0.0, 1.0, 1.0]
       texture: "assets/textures/UI/current_weapon_holder.png"
-  - 15:
+  - 16:
     Canis::TagComponent: WeaponSlot3
     Canis::RectTransformComponent:
       active: true
@@ -268,7 +297,7 @@ Entities:
     Canis::UIImageComponent:
       uv: [0.0, 0.0, 1.0, 1.0]
       texture: "assets/textures/UI/current_weapon_holder.png"
-  - 16:
+  - 17:
     Canis::TagComponent: WeaponSlot4
     Canis::RectTransformComponent:
       active: true
@@ -284,7 +313,7 @@ Entities:
     Canis::UIImageComponent:
       uv: [0.0, 0.0, 1.0, 1.0]
       texture: "assets/textures/UI/current_weapon_holder.png"
-  - 17:
+  - 18:
     Canis::TagComponent: HealthSliderOutline
     Canis::RectTransformComponent:
       active: true
@@ -300,7 +329,7 @@ Entities:
     Canis::UIImageComponent:
       uv: [0.0, 0.0, 1.0, 0.333333]
       texture: "assets/textures/UI/health_bar_sprite_sheet.png"
-  - 18:
+  - 19:
     Canis::TagComponent: HealthSlider
     Canis::RectTransformComponent:
       active: true
@@ -321,7 +350,7 @@ Entities:
       minUVX : 0.0625
       maxUVX : 0.875
       value: 1.0
-  - 19:
+  - 20:
     Canis::TagComponent: HealthSliderBackground
     Canis::RectTransformComponent:
       active: true
@@ -337,7 +366,7 @@ Entities:
     Canis::UIImageComponent:
       uv: [0.0, 0.666666, 1.0, 0.333333]
       texture: "assets/textures/UI/health_bar_sprite_sheet.png"
-  - 19:
+  - 21:
     Canis::TagComponent: ExpSliderOutline
     Canis::RectTransformComponent:
       active: true
@@ -353,7 +382,7 @@ Entities:
     Canis::UIImageComponent:
       uv: [0.0, 0.0, 1.0, 0.333333]
       texture: "assets/textures/UI/exp_bar_sprite_sheet.png"
-  - 20:
+  - 22:
     Canis::TagComponent: ExpSlider
     Canis::RectTransformComponent:
       active: true
@@ -374,7 +403,7 @@ Entities:
       minUVX : 0.0
       maxUVX : 1.0
       value: 0.5
-  - 21:
+  - 23:
     Canis::TagComponent: ExpSliderBackground
     Canis::RectTransformComponent:
       active: true

@@ -7,7 +7,7 @@ class WeaponClass : public Canis::ScriptableEntity
 {
 public:
     bool enabled;
-    int damage;
+    float damage;
     float rarity;
     float speed;
 
