@@ -99,7 +99,7 @@ class WaveManager : public Canis::ScriptableEntity
                 WaveEnemy enemy;
                 enemy.amount = 2;
                 enemy.xpAmount = 50.0f;
-                enemy.maxHealth = 50.0f;
+                enemy.maxHealth = 25.0f;
                 enemy.animPath = "assets/animations/tumbleweed.anim";
                 enemy.texPath = "assets/textures/enemies/beehive.png";
                 wave.enemies.push_back(enemy);
@@ -109,7 +109,7 @@ class WaveManager : public Canis::ScriptableEntity
                 WaveEnemy enemy;
                 enemy.amount = 2;
                 enemy.xpAmount = 100.0f;
-                enemy.maxHealth = 60.0f;
+                enemy.maxHealth = 30.0f;
                 enemy.animPath = "assets/animations/tangleweed.anim";
                 enemy.texPath = "assets/textures/enemies/beehive.png";
                 wave.enemies.push_back(enemy);
@@ -119,7 +119,7 @@ class WaveManager : public Canis::ScriptableEntity
                 WaveEnemy enemy;
                 enemy.amount = 2;
                 enemy.xpAmount = 50.0f;
-                enemy.maxHealth = 50.0f;
+                enemy.maxHealth = 25.0f;
                 enemy.animPath = "assets/animations/bomb_plant.anim";
                 enemy.texPath = "assets/textures/enemies/beehive.png";
                 wave.enemies.push_back(enemy);
@@ -129,7 +129,7 @@ class WaveManager : public Canis::ScriptableEntity
                 WaveEnemy enemy;
                 enemy.amount = 2;
                 enemy.xpAmount = 100.0f;
-                enemy.maxHealth = 60.0f;
+                enemy.maxHealth = 30.0f;
                 enemy.animPath = "assets/animations/fire_plant.anim";
                 enemy.texPath = "assets/textures/enemies/beehive.png";
                 wave.enemies.push_back(enemy);
@@ -139,7 +139,7 @@ class WaveManager : public Canis::ScriptableEntity
                 WaveEnemy enemy;
                 enemy.amount = 2;
                 enemy.xpAmount = 50.0f;
-                enemy.maxHealth = 50.0f;
+                enemy.maxHealth = 25.0f;
                 enemy.animPath = "assets/animations/bee.anim";
                 enemy.texPath = "assets/textures/enemies/beehive.png";
                 wave.enemies.push_back(enemy);
@@ -149,7 +149,7 @@ class WaveManager : public Canis::ScriptableEntity
                 WaveEnemy enemy;
                 enemy.amount = 2;
                 enemy.xpAmount = 100.0f;
-                enemy.maxHealth = 60.0f;
+                enemy.maxHealth = 30.0f;
                 enemy.animPath = "assets/animations/briar_plant.anim";
                 enemy.texPath = "assets/textures/enemies/beehive.png";
                 wave.enemies.push_back(enemy);
@@ -159,7 +159,7 @@ class WaveManager : public Canis::ScriptableEntity
                 WaveEnemy enemy;
                 enemy.amount = 2;
                 enemy.xpAmount = 50.0f;
-                enemy.maxHealth = 50.0f;
+                enemy.maxHealth = 25.0f;
                 enemy.animPath = "assets/animations/zombie_plant.anim";
                 enemy.texPath = "assets/textures/enemies/beehive.png";
                 wave.enemies.push_back(enemy);
@@ -169,7 +169,7 @@ class WaveManager : public Canis::ScriptableEntity
                 WaveEnemy enemy;
                 enemy.amount = 2;
                 enemy.xpAmount = 100.0f;
-                enemy.maxHealth = 60.0f;
+                enemy.maxHealth = 30.0f;
                 enemy.animPath = "assets/animations/sword_plant.anim";
                 enemy.texPath = "assets/textures/enemies/beehive.png";
                 wave.enemies.push_back(enemy);
