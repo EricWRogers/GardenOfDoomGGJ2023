@@ -59,7 +59,7 @@ class EnemySpawnManager : public Canis::ScriptableEntity
         for (float x = m_cameraComponent.position.x - GetWindow().GetScreenWidth()/2.0f - (m_borderTiles * 32.0f); x < GetWindow().GetScreenWidth() + m_cameraComponent.position.x + (m_borderTiles * 32.0f); x+=32.0f)
             for (float y = m_cameraComponent.position.y - GetWindow().GetScreenHeight()/2.0f - (m_borderTiles * 32.0f); y < GetWindow().GetScreenHeight() + m_cameraComponent.position.y + (m_borderTiles * 32.0f); y+=32.0f)
                 if((x > (m_cameraComponent.position.x + (GetWindow().GetScreenWidth()/2.0f)) ||
-                   x < (m_cameraComponent.position.x - (GetWindow().GetScreenWidth()/2.0f)) ||
+                   x < (m_cameraComponent.position.x - (GetWindow().GetScreenWidth()/2.0f))  ||
                    y < (m_cameraComponent.position.y - (GetWindow().GetScreenHeight()/2.0f)) ||
                    y > (m_cameraComponent.position.y + (GetWindow().GetScreenHeight()/2.0f))))
                     m_spawnPositions.push_back(glm::vec2(x,y));
