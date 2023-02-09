@@ -206,16 +206,16 @@ Entities:
     Canis::TagComponent: GasAura
     Canis::RectTransformComponent:
       active: false
-      anchor: 0
+      anchor: 6
       position: [0.0, 0.0]
-      size: [1.0, 1.0]
+      size: [128.0, 128.0]
       originOffset: [0.0, 0.0]
       rotation: 0.0
-      scale: 32.0
+      scale: 1.0
       depth: 0.1
     Canis::CircleColliderComponent:
       center: [0.0, 0.0]
-      radius: 1000.0
+      radius: 64.0
       layer: 0
       mask: 2
     Canis::ColorComponent:
