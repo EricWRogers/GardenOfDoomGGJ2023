@@ -51,47 +51,11 @@ class WaveManager : public Canis::ScriptableEntity
 
     void Populate()
     {
-        {
-            Wave wave;
-            wave.delay = 5.0f;
-            wave.time.start = 0.0f;
-            wave.time.end = 10.0f;
-
-            {
-                WaveEnemy enemy;
-                enemy.amount = 2;
-                enemy.xpAmount = 50.0f;
-                enemy.maxHealth = 50.0f;
-                enemy.animPath = "assets/animations/tumbleweed.anim";
-                enemy.texPath = "assets/textures/enemies/beehive.png";
-                wave.enemies.push_back(enemy);
-            }
-
-            m_waves.push_back(wave);
-        }
-
-        {
-            Wave wave;
-            wave.delay = 5.0f;
-            wave.time.start = 10.0f;
-            wave.time.end = 20.0f;
-
-            {
-                WaveEnemy enemy;
-                enemy.amount = 2;
-                enemy.xpAmount = 50.0f;
-                enemy.maxHealth = 50.0f;
-                enemy.animPath = "assets/animations/bomb_plant.anim";
-                enemy.texPath = "assets/textures/enemies/beehive.png";
-                wave.enemies.push_back(enemy);
-            }
-
-            m_waves.push_back(wave);
-        }
-
         // {
         //     Wave wave;
         //     wave.delay = 5.0f;
+        //     wave.time.start = 0.0f;
+        //     wave.time.end = 10.0f;
 
         //     {
         //         WaveEnemy enemy;
@@ -103,15 +67,14 @@ class WaveManager : public Canis::ScriptableEntity
         //         wave.enemies.push_back(enemy);
         //     }
 
-        //     {
-        //         WaveEnemy enemy;
-        //         enemy.amount = 2;
-        //         enemy.xpAmount = 100.0f;
-        //         enemy.maxHealth = 60.0f;
-        //         enemy.animPath = "assets/animations/tangleweed.anim";
-        //         enemy.texPath = "assets/textures/enemies/beehive.png";
-        //         wave.enemies.push_back(enemy);
-        //     }
+        //     m_waves.push_back(wave);
+        // }
+
+        // {
+        //     Wave wave;
+        //     wave.delay = 5.0f;
+        //     wave.time.start = 10.0f;
+        //     wave.time.end = 20.0f;
 
         //     {
         //         WaveEnemy enemy;
@@ -123,69 +86,108 @@ class WaveManager : public Canis::ScriptableEntity
         //         wave.enemies.push_back(enemy);
         //     }
 
-        //     {
-        //         WaveEnemy enemy;
-        //         enemy.amount = 2;
-        //         enemy.xpAmount = 100.0f;
-        //         enemy.maxHealth = 60.0f;
-        //         enemy.animPath = "assets/animations/fire_plant.anim";
-        //         enemy.texPath = "assets/textures/enemies/beehive.png";
-        //         wave.enemies.push_back(enemy);
-        //     }
-
-        //     {
-        //         WaveEnemy enemy;
-        //         enemy.amount = 2;
-        //         enemy.xpAmount = 50.0f;
-        //         enemy.maxHealth = 50.0f;
-        //         enemy.animPath = "assets/animations/bee.anim";
-        //         enemy.texPath = "assets/textures/enemies/beehive.png";
-        //         wave.enemies.push_back(enemy);
-        //     }
-
-        //     {
-        //         WaveEnemy enemy;
-        //         enemy.amount = 2;
-        //         enemy.xpAmount = 100.0f;
-        //         enemy.maxHealth = 60.0f;
-        //         enemy.animPath = "assets/animations/briar_plant.anim";
-        //         enemy.texPath = "assets/textures/enemies/beehive.png";
-        //         wave.enemies.push_back(enemy);
-        //     }
-
-        //     {
-        //         WaveEnemy enemy;
-        //         enemy.amount = 2;
-        //         enemy.xpAmount = 50.0f;
-        //         enemy.maxHealth = 50.0f;
-        //         enemy.animPath = "assets/animations/zombie_plant.anim";
-        //         enemy.texPath = "assets/textures/enemies/beehive.png";
-        //         wave.enemies.push_back(enemy);
-        //     }
-
-        //     {
-        //         WaveEnemy enemy;
-        //         enemy.amount = 2;
-        //         enemy.xpAmount = 100.0f;
-        //         enemy.maxHealth = 60.0f;
-        //         enemy.animPath = "assets/animations/sword_plant.anim";
-        //         enemy.texPath = "assets/textures/enemies/beehive.png";
-        //         wave.enemies.push_back(enemy);
-        //     }
-
-        //     {
-        //         WaveEnemy enemy;
-        //         enemy.amount = 1;
-        //         enemy.xpAmount = 200.0f;
-        //         enemy.maxHealth = 150.0f;
-        //         enemy.animPath = "assets/animations/turtle.anim";
-        //         enemy.texPath = "assets/textures/enemies/beehive.png";
-        //         wave.enemies.push_back(enemy);
-        //     }
-
-
         //     m_waves.push_back(wave);
         // }
+
+        {
+            Wave wave;
+            wave.delay = 5.0f;
+            wave.time.start = 0.0f;
+            wave.time.end = 180.0f;
+
+            {
+                WaveEnemy enemy;
+                enemy.amount = 2;
+                enemy.xpAmount = 50.0f;
+                enemy.maxHealth = 50.0f;
+                enemy.animPath = "assets/animations/tumbleweed.anim";
+                enemy.texPath = "assets/textures/enemies/beehive.png";
+                wave.enemies.push_back(enemy);
+            }
+
+            {
+                WaveEnemy enemy;
+                enemy.amount = 2;
+                enemy.xpAmount = 100.0f;
+                enemy.maxHealth = 60.0f;
+                enemy.animPath = "assets/animations/tangleweed.anim";
+                enemy.texPath = "assets/textures/enemies/beehive.png";
+                wave.enemies.push_back(enemy);
+            }
+
+            {
+                WaveEnemy enemy;
+                enemy.amount = 2;
+                enemy.xpAmount = 50.0f;
+                enemy.maxHealth = 50.0f;
+                enemy.animPath = "assets/animations/bomb_plant.anim";
+                enemy.texPath = "assets/textures/enemies/beehive.png";
+                wave.enemies.push_back(enemy);
+            }
+
+            {
+                WaveEnemy enemy;
+                enemy.amount = 2;
+                enemy.xpAmount = 100.0f;
+                enemy.maxHealth = 60.0f;
+                enemy.animPath = "assets/animations/fire_plant.anim";
+                enemy.texPath = "assets/textures/enemies/beehive.png";
+                wave.enemies.push_back(enemy);
+            }
+
+            {
+                WaveEnemy enemy;
+                enemy.amount = 2;
+                enemy.xpAmount = 50.0f;
+                enemy.maxHealth = 50.0f;
+                enemy.animPath = "assets/animations/bee.anim";
+                enemy.texPath = "assets/textures/enemies/beehive.png";
+                wave.enemies.push_back(enemy);
+            }
+
+            {
+                WaveEnemy enemy;
+                enemy.amount = 2;
+                enemy.xpAmount = 100.0f;
+                enemy.maxHealth = 60.0f;
+                enemy.animPath = "assets/animations/briar_plant.anim";
+                enemy.texPath = "assets/textures/enemies/beehive.png";
+                wave.enemies.push_back(enemy);
+            }
+
+            {
+                WaveEnemy enemy;
+                enemy.amount = 2;
+                enemy.xpAmount = 50.0f;
+                enemy.maxHealth = 50.0f;
+                enemy.animPath = "assets/animations/zombie_plant.anim";
+                enemy.texPath = "assets/textures/enemies/beehive.png";
+                wave.enemies.push_back(enemy);
+            }
+
+            {
+                WaveEnemy enemy;
+                enemy.amount = 2;
+                enemy.xpAmount = 100.0f;
+                enemy.maxHealth = 60.0f;
+                enemy.animPath = "assets/animations/sword_plant.anim";
+                enemy.texPath = "assets/textures/enemies/beehive.png";
+                wave.enemies.push_back(enemy);
+            }
+
+            {
+                WaveEnemy enemy;
+                enemy.amount = 1;
+                enemy.xpAmount = 200.0f;
+                enemy.maxHealth = 150.0f;
+                enemy.animPath = "assets/animations/turtle.anim";
+                enemy.texPath = "assets/textures/enemies/beehive.png";
+                wave.enemies.push_back(enemy);
+            }
+
+
+            m_waves.push_back(wave);
+        }
     }
 
     void SpawnWave()
