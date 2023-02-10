@@ -32,7 +32,7 @@ private:
     const unsigned int MAXWEAPONS = 5;
     std::vector<Canis::Entity> m_weaponSlotEntities = {};
     std::vector<Canis::Entity> m_weaponSlotIconEntities = {};
-    std::vector<unsigned int> m_weaponIDoNotHave = {4,5,6,1,0};
+    std::vector<unsigned int> m_weaponIDoNotHave = {4,5,6,1,0,2};
     float currentXp = 0.0f;
     const float MAXEXP = 1000.0f;
 
@@ -52,7 +52,7 @@ public:
                 break;
             }
             case WeaponType::ORBITINGSPIKES: {
-
+                m_Entity.GetEntityWithTag("OrbitingSpikes").GetComponent<Canis::RectTransformComponent>().active = true;
                 break;
             }
             case WeaponType::PEASHOOTER: {
