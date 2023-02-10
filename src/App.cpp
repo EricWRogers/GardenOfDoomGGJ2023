@@ -37,6 +37,7 @@
 #include "ECS/ScriptableEntities/SplashLoader.hpp"
 #include "ECS/ScriptableEntities/SplashLoader2.hpp"
 #include "ECS/ScriptableEntities/GasAuraWeapon.hpp"
+#include "ECS/ScriptableEntities/OrbitingSpikesWeapon.hpp"
 #include "ECS/Decode.hpp"
 
 App::App()
@@ -388,6 +389,18 @@ App::App()
                 if(_name == "GasAuraWeapon"){
                     Canis::ScriptComponent scriptComponent = {};
                     scriptComponent.Bind<GasAuraWeapon>();
+                    _entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
+                    return true;
+                }
+                return false;
+            }
+        );
+
+		sceneManager.decodeScriptableEntity.push_back(
+            [](const std::string &_name, Canis::Entity &_entity) {
+                if(_name == "OrbitingSpikesWeapon"){
+                    Canis::ScriptComponent scriptComponent = {};
+                    scriptComponent.Bind<OrbitingSpikesWeapon>();
                     _entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
                     return true;
                 }

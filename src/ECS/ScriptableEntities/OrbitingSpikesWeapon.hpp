@@ -9,7 +9,7 @@
 #include <Canis/ECS/Components/Sprite2DComponent.hpp>
 #include "../Components/EnemyHealthComponent.hpp"
 
-class GasAuraWeapon : public WeaponClass
+class OrbitingSpikesWeapon : public WeaponClass
 {
     private:
         float timer = 0.0f;
@@ -18,8 +18,9 @@ class GasAuraWeapon : public WeaponClass
         Canis::Entity closestEntity;
 
         Canis::Entity player;
-    public:
 
+    public:
+    
         void OnCreate()
         {
             
@@ -61,7 +62,12 @@ class GasAuraWeapon : public WeaponClass
                     
                     if (hits[i] != entt::tombstone && m_Entity.scene->entityRegistry.valid(hits[i]))
                     {
-                        hitEntity.GetComponent<EnemyHealthComponent>().currentHealth -= damage;
+                        if (glm::distance(GetComponent<Canis::RectTransformComponent>().position, 
+                        hitEntity.GetComponent<Canis::RectTransformComponent>().position) >= 
+                        GetComponent<Canis::CircleColliderComponent>().radius)
+                        {
+                            hitEntity.GetComponent<EnemyHealthComponent>().currentHealth -= damage;
+                        }
                     }
                 }
 

@@ -231,6 +231,35 @@ Entities:
       flipY: false
       speed: 1.0
     Canis::ScriptComponent: GasAuraWeapon
+  - 11:
+    Canis::TagComponent: OrbitingSpikes
+    Canis::RectTransformComponent:
+      active: false
+      anchor: 6
+      position: [0.0, 0.0]
+      size: [256.0, 256.0]
+      originOffset: [0.0, 0.0]
+      rotation: 0.0
+      scale: 1.0
+      depth: 0.1
+    Canis::CircleColliderComponent:
+      center: [0.0, 0.0]
+      radius: 128.0
+      layer: 0
+      mask: 2
+    Canis::ColorComponent:
+      color: [1.0, 1.0, 1.0, 1.0]
+    Canis::Sprite2DComponent:
+      uv: [0.0, 0.0, 1.0, 1.0]
+      texture: "assets/textures/All.png"
+    Canis::SpriteAnimationComponent:
+      animationId: "assets/animations/thorn_shield.anim"
+      countDown: 0.0
+      index: 0
+      flipX: false
+      flipY: false
+      speed: 1.0
+    Canis::ScriptComponent: OrbitingSpikesWeapon
   - 12:
     Canis::ScriptComponent: WaveManager
   - 13:
