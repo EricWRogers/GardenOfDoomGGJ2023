@@ -4,3 +4,7 @@
 build/
 
 dist/
+
+.vs/
+
+CMakeSettings.json
