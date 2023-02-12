@@ -537,37 +537,11 @@ void App::LateUpdate()
 }
 void App::InputUpdate()
 {
-	inputManager.SwapMaps();
-
-	SDL_Event event;
-	while (SDL_PollEvent(&event))
-	{
-		switch (event.type)
-		{
-		case SDL_QUIT:
-			appState = AppState::OFF;
-			break;
-		case SDL_MOUSEMOTION:
-				inputManager.mouse.x = event.motion.x;
-				inputManager.mouse.y = window.GetScreenHeight() - event.motion.y;
-				camera.ProcessMouseMovement(event.motion.xrel, -event.motion.yrel);
-			break;
-		case SDL_KEYUP:
-			inputManager.ReleasedKey(event.key.keysym.sym);
-			//Canis::Log("UP" + std::to_string(event.key.keysym.sym));
-			break;
-		case SDL_KEYDOWN:
-			inputManager.PressKey(event.key.keysym.sym);
-			//Canis::Log("DOWN");
-			break;
-		case SDL_MOUSEBUTTONDOWN:
-			if(event.button.button == SDL_BUTTON_LEFT)
-				inputManager.leftClick = true;
-			if(event.button.button == SDL_BUTTON_RIGHT)
-				inputManager.rightClick = true;
-			break;
-		}
+	if(!inputManager.Update(window.GetScreenWidth(), window.GetScreenHeight())) {
+		appState = AppState::OFF;
 	}
+
+	
 
 	sceneManager.InputUpdate();
 }

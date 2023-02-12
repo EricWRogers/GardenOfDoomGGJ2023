@@ -22,7 +22,8 @@ enum WeaponType
 class PlayerManager : public Canis::ScriptableEntity
 {
 private:
-   float speed = 100.0f;
+    float speed = 100.0f;
+    glm::vec2 m_inputDirection;
     glm::vec2 direction;
     Canis::Entity m_healthSlider;
     Canis::Entity m_expSlider;
@@ -130,50 +131,36 @@ public:
 
     void OnUpdate(float _dt) //Update
     {
-        const Uint8 *keystate = SDL_GetKeyboardState(NULL);
-        
-        float horizontal = 0.0f;
-        float vertical = 0.0f;
-
         auto& rect = GetComponent<Canis::RectTransformComponent>();
         auto& anim = GetComponent<Canis::SpriteAnimationComponent>();
+
+        UpdateInput(rect);
 
         bool moving = false;
         
         
-        if ((keystate[SDL_SCANCODE_A] || keystate[SDL_SCANCODE_LEFT]) && !GetWindow().GetMouseLock() && (rect.position.x-(rect.size.x/2.0f) > ((GetWindow().GetScreenWidth()/2.0f)-50*32.0f))) //Left
+        if (m_inputDirection.x < 0.0f) //Left
         {
-            moving = true;
-            horizontal = -1.0f;
             if(anim.flipX != true)
             {
                 anim.flipX = true;
                 anim.redraw = true;
             }
         }
-
-        if ((keystate[SDL_SCANCODE_W] || keystate[SDL_SCANCODE_UP]) && !GetWindow().GetMouseLock() && (rect.position.y+(rect.size.y/2.0f) < (50*32.0f - (GetWindow().GetScreenHeight()/2.0f)))) //Forwards
+        if (m_inputDirection != glm::vec2(0.0f))
         {
             moving = true;
-            vertical = 1.0f;
         }
-        if ((keystate[SDL_SCANCODE_D] || keystate[SDL_SCANCODE_RIGHT]) && !GetWindow().GetMouseLock() && (rect.position.x+(rect.size.x/2.0f) < (50*32.0f - (GetWindow().GetScreenWidth()/2.0f)))) //Right
+        if (m_inputDirection.x > 0.0f) //Right
         {
-            moving = true;
-            horizontal = 1.0f;
             if (anim.flipX != false)
             {
                 anim.flipX = false;
                 anim.redraw = true;
             }
         }
-        if ((keystate[SDL_SCANCODE_S] || keystate[SDL_SCANCODE_DOWN]) && !GetWindow().GetMouseLock() && (rect.position.y-(rect.size.y/2.0f) > ((GetWindow().GetScreenHeight()/2.0f) - 50*32.0f))) //back
-        {
-            moving = true;
-            vertical = -1.0f;
-        }
 
-        direction = (glm::vec2(horizontal, vertical) == glm::vec2(0.0f)) ? glm::vec2(0.0f) : glm::normalize(glm::vec2(horizontal, vertical));
+        direction = (!moving) ? glm::vec2(0.0f) : ( (glm::length(m_inputDirection) > 1.0f) ? glm::normalize(m_inputDirection) : m_inputDirection);
         rect.position += (direction * (speed * _dt));
 
         if (moving && !wasMoving) // change to run
@@ -223,6 +210,62 @@ public:
                 currentXp = 0;
                 AddWeaponToSlot(m_weaponIDoNotHave[0]);
                 m_weaponIDoNotHave.erase(m_weaponIDoNotHave.begin());
+            }
+        }
+    }
+
+    void UpdateInput(Canis::RectTransformComponent &_rect) {
+        m_inputDirection = glm::vec2(0.0f);
+
+        if( !GetWindow().GetMouseLock() && (_rect.position.x-(_rect.size.x/2.0f) > ((GetWindow().GetScreenWidth()/2.0f)-50*32.0f)))
+        {
+            if ((GetInputManager().GetKey(SDL_SCANCODE_A) || GetInputManager().GetKey(SDL_SCANCODE_LEFT) || GetInputManager().GetButton(0, Canis::ControllerButton::DPAD_LEFT))) //Left
+            {
+                m_inputDirection.x = -1.0f;
+            }
+
+            if (GetInputManager().GetLeftStick(0).x < 0.0f)
+            {
+                m_inputDirection.x = GetInputManager().GetLeftStick(0).x;
+            }
+        }
+
+        if (!GetWindow().GetMouseLock() && (_rect.position.y+(_rect.size.y/2.0f) < (50*32.0f - (GetWindow().GetScreenHeight()/2.0f))))
+        {
+            if ((GetInputManager().GetKey(SDL_SCANCODE_W) || GetInputManager().GetKey(SDL_SCANCODE_UP) || GetInputManager().GetButton(0, Canis::ControllerButton::DPAD_UP))) //Forwards
+            {
+                m_inputDirection.y = 1.0f;
+            }
+
+            if (GetInputManager().GetLeftStick(0).y > 0.0f)
+            {
+                m_inputDirection.y = GetInputManager().GetLeftStick(0).y;
+            }
+        }
+
+        if(!GetWindow().GetMouseLock() && (_rect.position.x+(_rect.size.x/2.0f) < (50*32.0f - (GetWindow().GetScreenWidth()/2.0f))))
+        {
+            if ((GetInputManager().GetKey(SDL_SCANCODE_D) || GetInputManager().GetKey(SDL_SCANCODE_RIGHT) || GetInputManager().GetButton(0, Canis::ControllerButton::DPAD_RIGHT))) //Right
+            {
+                m_inputDirection.x = 1.0f;
+            }
+
+            if (GetInputManager().GetLeftStick(0).x > 0.0f)
+            {
+                m_inputDirection.x = GetInputManager().GetLeftStick(0).x;
+            }
+        }
+
+        if(!GetWindow().GetMouseLock() && (_rect.position.y-(_rect.size.y/2.0f) > ((GetWindow().GetScreenHeight()/2.0f) - 50*32.0f)))
+        {
+            if ((GetInputManager().GetKey(SDL_SCANCODE_S) || GetInputManager().GetKey(SDL_SCANCODE_DOWN) || GetInputManager().GetButton(0, Canis::ControllerButton::DPAD_DOWN))) //back
+            {
+                m_inputDirection.y = -1.0f;
+            }
+
+            if (GetInputManager().GetLeftStick(0).y < 0.0f)
+            {
+                m_inputDirection.y = GetInputManager().GetLeftStick(0).y;
             }
         }
     }
