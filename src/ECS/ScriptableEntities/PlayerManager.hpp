@@ -134,9 +134,16 @@ public:
         auto& rect = GetComponent<Canis::RectTransformComponent>();
         auto& anim = GetComponent<Canis::SpriteAnimationComponent>();
 
+        //Canis::CollisionSystem2D *collsionSystem2d = GetSystem<Canis::CollisionSystem2D>();
+        //int size = collsionSystem2d->BoxCast(rect.position, rect.size, glm::vec2(0.0f), rect.rotation, Canis::BIT::TWO).size();
+        //Canis::Log("Hit : " + std::to_string(size));
+
         UpdateInput(rect);
 
         bool moving = false;
+
+
+
         
         
         if (m_inputDirection.x < 0.0f) //Left
