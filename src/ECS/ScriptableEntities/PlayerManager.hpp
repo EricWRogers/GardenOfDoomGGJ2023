@@ -148,11 +148,13 @@ public:
                 enemyEntity.GetComponent<Canis::ColorComponent>().color = glm::vec4(1.0f);
         }
 
-        int size = collsionSystem2d->BoxCast(rect.position, rect.size*glm::vec2(10.0f,2.0f), rect.size*2.0f, glm::radians(45.0f), Canis::BIT::TWO).size();
+        glm::vec2 colSize = rect.size*glm::vec2(10.0f,2.0f);
+
+        int size = collsionSystem2d->BoxCast(rect.position, colSize, glm::vec2(colSize.x/2.0f,0.0f), glm::radians(90.0f), Canis::BIT::TWO).size();
         
         if (size > 0)
         {
-            for(entt::entity e : collsionSystem2d->BoxCast(rect.position, rect.size*glm::vec2(10.0f,2.0f), rect.size*2.0f, glm::radians(45.0f), Canis::BIT::TWO))
+            for(entt::entity e : collsionSystem2d->BoxCast(rect.position, colSize, glm::vec2(colSize.x/2.0f,0.0f), glm::radians(90.0f), Canis::BIT::TWO))
             {
                 enemyEntity.entityHandle = e;
                 if (enemyEntity.HasComponent<Canis::ColorComponent>())
