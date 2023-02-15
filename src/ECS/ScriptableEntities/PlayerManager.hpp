@@ -134,9 +134,31 @@ public:
         auto& rect = GetComponent<Canis::RectTransformComponent>();
         auto& anim = GetComponent<Canis::SpriteAnimationComponent>();
 
-        //Canis::CollisionSystem2D *collsionSystem2d = GetSystem<Canis::CollisionSystem2D>();
-        //int size = collsionSystem2d->BoxCast(rect.position, rect.size, glm::vec2(0.0f), rect.rotation, Canis::BIT::TWO).size();
-        //Canis::Log("Hit : " + std::to_string(size));
+        
+
+        Canis::CollisionSystem2D *collsionSystem2d = GetSystem<Canis::CollisionSystem2D>();
+
+        // set enemies white
+        Canis::Entity enemyEntity;
+        enemyEntity.scene = m_Entity.scene;
+        for(entt::entity e : collsionSystem2d->BoxCast(glm::vec2(0.0f), glm::vec2(20000.0f), glm::vec2(0.0f), 0.0f, Canis::BIT::TWO))
+        {
+            enemyEntity.entityHandle = e;
+            if (enemyEntity.HasComponent<Canis::ColorComponent>())
+                enemyEntity.GetComponent<Canis::ColorComponent>().color = glm::vec4(1.0f);
+        }
+
+        int size = collsionSystem2d->BoxCast(rect.position, rect.size*glm::vec2(10.0f,2.0f), rect.size*2.0f, glm::radians(45.0f), Canis::BIT::TWO).size();
+        
+        if (size > 0)
+        {
+            for(entt::entity e : collsionSystem2d->BoxCast(rect.position, rect.size*glm::vec2(10.0f,2.0f), rect.size*2.0f, glm::radians(45.0f), Canis::BIT::TWO))
+            {
+                enemyEntity.entityHandle = e;
+                if (enemyEntity.HasComponent<Canis::ColorComponent>())
+                    enemyEntity.GetComponent<Canis::ColorComponent>().color = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
+            }
+        }
 
         UpdateInput(rect);
 
