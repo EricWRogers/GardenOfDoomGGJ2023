@@ -11,9 +11,13 @@ public:
     HUDState(std::function<void(std::string _name)> _changeState, std::string _name) :
         State(_changeState, _name) {}
     
+    ~HUDState() {}
+    
     void Enter()
     {
         State::Enter();
+
+        Canis::Log("Enter HUDState");
     }
 
     void Update(Canis::ScriptableEntity &_scriptableEntity, float _deltaTime)
@@ -34,6 +38,8 @@ public:
     void OnCreate()
     {
         StateMachine::OnCreate();
+
+        Canis::Log("OnCreate HUDStateMachine");
 
         m_states.push_back(new HUDState([this] (std::string _name){ this->ChangeState(_name); }, "HUDState"));
 

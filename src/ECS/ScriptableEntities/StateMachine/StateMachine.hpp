@@ -13,7 +13,7 @@ protected:
 public:
     void OnCreate()
     {
-        
+        Canis::Log("OnCreate StateMachine");
     }
 
     void OnReady()

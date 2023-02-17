@@ -18,6 +18,7 @@ public:
 
     virtual void Enter() {
         m_hasBeenEntered = true;
+        Canis::Log("Enter State");
     }
     
     virtual void Update(Canis::ScriptableEntity &_scriptableEntity, float _deltaTime) {

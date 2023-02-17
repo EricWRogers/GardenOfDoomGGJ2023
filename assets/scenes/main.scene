@@ -20,6 +20,8 @@ Entities:
       position: [0.0, 0.0]
       scale: 1.0
     Canis::ScriptComponent: DebugCamera2D
+  - 1:
+    Canis::ScriptComponent: HUDStateMachine
   - 2:
     Canis::RectTransformComponent:
       active: true

@@ -38,6 +38,7 @@
 #include "ECS/ScriptableEntities/SplashLoader2.hpp"
 #include "ECS/ScriptableEntities/GasAuraWeapon.hpp"
 #include "ECS/ScriptableEntities/OrbitingSpikesWeapon.hpp"
+#include "ECS/ScriptableEntities/UI/HUD/HUDStateMachine.hpp"
 #include "ECS/Decode.hpp"
 
 App::App()
@@ -431,6 +432,18 @@ App::App()
                 return false;
             }
         );
+
+		sceneManager.decodeScriptableEntity.push_back(
+            [](const std::string &_name, Canis::Entity &_entity) {
+                if(_name == "HUDStateMachine"){
+                    Canis::ScriptComponent scriptComponent = {};
+                    scriptComponent.Bind<HUDStateMachine>();
+                    _entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
+                    return true;
+                }
+                return false;
+            }
+        );
 	}
 
 	{ // decode component
@@ -479,8 +492,8 @@ void App::Run()
 	sceneManager.Add(new Canis::Scene("main", "assets/scenes/main.scene"));
 	sceneManager.Add(new Canis::Scene("lose", "assets/scenes/lose.scene"));
 	sceneManager.Add(new Canis::Scene("win", "assets/scenes/win.scene"));
-	// sceneManager.Add(new Canis::Scene("engine_splash", "assets/scenes/engine_splash.scene"));
-	// sceneManager.Add(new Canis::Scene("ggj_splash", "assets/scenes/ggj_splash.scene"));
+	sceneManager.Add(new Canis::Scene("engine_splash", "assets/scenes/engine_splash.scene"));
+	sceneManager.Add(new Canis::Scene("ggj_splash", "assets/scenes/ggj_splash.scene"));
 
 	sceneManager.PreLoad(
 		&window,
@@ -501,7 +514,7 @@ void App::Run()
 }
 void App::Load()
 {
-	sceneManager.ForceLoad("main");
+	sceneManager.ForceLoad("engine_splash");
 
 	// start timer
 	previousTime = high_resolution_clock::now();
