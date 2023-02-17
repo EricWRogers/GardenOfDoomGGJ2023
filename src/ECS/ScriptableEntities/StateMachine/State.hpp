@@ -5,7 +5,7 @@
 
 class State
 {
-private:
+protected:
     bool m_hasBeenEntered = false;
     std::function<void(std::string _name)> m_changeState = nullptr;
 public:
@@ -16,16 +16,15 @@ public:
         name = _name;
     }
 
-    virtual void Enter() {
+    virtual void Enter(Canis::ScriptableEntity &_scriptableEntity) {
         m_hasBeenEntered = true;
-        Canis::Log("Enter State");
     }
     
     virtual void Update(Canis::ScriptableEntity &_scriptableEntity, float _deltaTime) {
 
     }
     
-    virtual void Exit() {
+    virtual void Exit(Canis::ScriptableEntity &_scriptableEntity) {
 
     }
 };

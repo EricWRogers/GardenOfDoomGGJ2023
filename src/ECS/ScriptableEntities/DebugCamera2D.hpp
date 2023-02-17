@@ -71,7 +71,7 @@ public:
                 camera2D.scale = 0.01f;
         }
 
-        if (GetInputManager().JustPressedKey(SDLK_ESCAPE))
+        if (GetInputManager().JustPressedKey(SDLK_F8))
         {
             GetWindow().MouseLock(!GetWindow().GetMouseLock());
         }
@@ -80,16 +80,5 @@ public:
         {
             Canis::Log("Load Scene");
             ((Canis::SceneManager*)m_Entity.scene->sceneManager)->HotReload();
-        }
-
-        if (GetInputManager().JustPressedKey(SDLK_p))
-        {
-            m_Entity.scene->SetTimeScale(0.0);
-        }
-
-        if (GetInputManager().JustPressedKey(SDLK_u))
-        {
-            m_Entity.scene->SetTimeScale(1.0);
-        }
     }
 };

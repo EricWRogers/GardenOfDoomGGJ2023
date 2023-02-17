@@ -13,9 +13,9 @@ public:
     
     ~HUDState() {}
     
-    void Enter()
+    void Enter(Canis::ScriptableEntity &_scriptableEntity)
     {
-        State::Enter();
+        State::Enter(_scriptableEntity);
 
         Canis::Log("Enter HUDState");
     }
@@ -23,11 +23,44 @@ public:
     void Update(Canis::ScriptableEntity &_scriptableEntity, float _deltaTime)
     {
         State::Update(_scriptableEntity, _deltaTime);
+
+        if (_scriptableEntity.GetInputManager().JustPressedKey(SDLK_ESCAPE)) {
+            m_changeState("HUDPauseState");
+        }
     }
 
-    void Exit()
+    void Exit(Canis::ScriptableEntity &_scriptableEntity)
     {
-        State::Exit();
+        State::Exit(_scriptableEntity);
+    }
+};
+
+class HUDPauseState : public State
+{
+private:
+public:
+    HUDPauseState(std::function<void(std::string _name)> _changeState, std::string _name) :
+        State(_changeState, _name) {}
+    
+    ~HUDPauseState() {}
+    
+    void Enter(Canis::ScriptableEntity &_scriptableEntity)
+    {
+        State::Enter(_scriptableEntity);
+
+        _scriptableEntity.scene->SetTimeScale(0.0);
+    }
+
+    void Update(Canis::ScriptableEntity &_scriptableEntity, float _deltaTime)
+    {
+        State::Update(_scriptableEntity, _deltaTime);
+    }
+
+    void Exit(Canis::ScriptableEntity &_scriptableEntity)
+    {
+        State::Exit(_scriptableEntity);
+
+        _scriptableEntity.scene->SetTimeScale(1.0);
     }
 };
 
@@ -39,9 +72,8 @@ public:
     {
         StateMachine::OnCreate();
 
-        Canis::Log("OnCreate HUDStateMachine");
-
         m_states.push_back(new HUDState([this] (std::string _name){ this->ChangeState(_name); }, "HUDState"));
+        m_states.push_back(new HUDPauseState([this] (std::string _name){this->ChangeState(_name); }, "HUDPauseState"));
 
         SetState(m_states[0]);
     }
