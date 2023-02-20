@@ -1,6 +1,5 @@
 #pragma once
 #include <string>
-#include <glm/glm.hpp>
 #include <Canis/ScriptableEntity.hpp>
 #include <Canis/Math.hpp>
 #include <Canis/ECS/Components/CircleColliderComponent.hpp>
@@ -9,7 +8,7 @@
 #include <Canis/ECS/Components/Sprite2DComponent.hpp>
 #include "../Components/EnemyHealthComponent.hpp"
 
-class OrbitingSpikesWeapon : public WeaponClass
+class OrbitingSpikesWeapon : public Weapon
 {
     private:
         float timer = 0.0f;

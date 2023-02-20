@@ -4,11 +4,11 @@ Systems:
   - Canis::UISliderSystem
   - BoidSystem
   - Canis::ButtonSystem
-  - Canis::SpriteAnimationSystem
   - BulletSystem
   - BombSystem
   - EnemySystem
   - HandOfGodSystem
+  - Canis::SpriteAnimationSystem
 RenderSystems:
   - Canis::SpriteRenderer2DSystem
   - Canis::RenderTextSystem

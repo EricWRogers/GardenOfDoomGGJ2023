@@ -19,10 +19,72 @@ enum WeaponType
     SWORD           = 6u
 };
 
+struct Stat
+{
+    float value;
+    float maxValue;
+};
+
+struct Stats
+{
+    Stat movementSpeed;
+    Stat maxHealth;
+    Stat healthRegen;
+    Stat armor;
+    Stat might;
+    Stat area;
+    Stat weaponSpeed;
+    Stat duration;
+    Stat amount;
+    Stat cooldown;
+    Stat luck;
+    Stat growth;
+    Stat greed;
+    Stat curse;
+    Stat pickupRange;
+    Stat revives;
+    Stat reroll;
+    Stat skip;
+    Stat banish;
+
+    // float movementSpeed = 100.0f;
+    // float maxHealth = 10.0f;
+    // float healthRegen = 0.0f;
+    // float armor = 0.0f;
+    // float might = 100.0f;
+    // float area = 100.0f;
+    // float speed = 100.0f;
+    // float duration = 100.0f;
+    // float amount = 
+};
+
+Stats static PlayerStats = 
+{
+    {1.0f, FLT_MAX},    //movementSpeed (multipler value)
+    {1000.0f, FLT_MAX},    //maxHealth (raw value)
+    {0.0f, FLT_MAX},       //healthRegen (raw value)
+    {0.0f, FLT_MAX},       //armor (raw value)
+    {1.0f, 5.0f},       //might (multiplier value)
+    {1.0f, 5.0},        //area (multiplier value)
+    {1.0f, 5.0f},       //weaponSpeed (multiplier value)
+    {1.0f, 5.0f},       //duration (multiplier value)
+    {0.0f, 10.0f},      //amount (in terms of extra projectiles)
+    {1.0f, 0.1f},       //cooldown (multiplier value in reverse)
+    {1.0f, 5.0f},       //luck (multiplier value)
+    {1.0f, 5.0f},       //growth (multiplier value)
+    {1.0f, 5.0f},       //greed (multiplier value)
+    {1.0f, 5.0f},       //curse (multiplier value)
+    {20.0f, FLT_MAX},      //pickupRange (raw value as a radius)
+    {0.0f, FLT_MAX},       //revives (raw value)
+    {0.0f, FLT_MAX},       //reroll (raw value)
+    {0.0f, FLT_MAX},       //skip (raw value)
+    {0.0f, FLT_MAX},       //banish (raw value)
+};
+
 class PlayerManager : public Canis::ScriptableEntity
 {
 private:
-    float speed = 100.0f;
+    float baseMovementSpeed = 100.0f;
     glm::vec2 m_inputDirection;
     glm::vec2 direction;
     Canis::Entity m_healthSlider;
@@ -33,12 +95,11 @@ private:
     const unsigned int MAXWEAPONS = 5;
     std::vector<Canis::Entity> m_weaponSlotEntities = {};
     std::vector<Canis::Entity> m_weaponSlotIconEntities = {};
-    std::vector<unsigned int> m_weaponIDoNotHave = {4,5,6,1,0,2};
+    std::vector<unsigned int> m_weaponIDoNotHave = {4,6,3,1,0,2};
     float currentXp = 0.0f;
     const float MAXEXP = 1000.0f;
 
 public:
-
     void AddWeaponToSlot(unsigned int _weaponType) {
         if (m_weaponSlotIconEntities.size() >= MAXWEAPONS)
             return;
@@ -108,6 +169,7 @@ public:
     {
         idleId = GetAssetManager().LoadSpriteAnimation("assets/animations/player_idle.anim");
         runId = GetAssetManager().LoadSpriteAnimation("assets/animations/player_run.anim");
+        GetComponent<PlayerHealthComponent>().maxHealth = PlayerStats.maxHealth.value;
     }
 
     void OnReady()//Start
@@ -121,7 +183,7 @@ public:
         m_weaponSlotEntities.push_back(m_Entity.GetEntityWithTag("WeaponSlot2"));
         m_weaponSlotEntities.push_back(m_Entity.GetEntityWithTag("WeaponSlot3"));
         m_weaponSlotEntities.push_back(m_Entity.GetEntityWithTag("WeaponSlot4"));
-        AddWeaponToSlot(3);
+        AddWeaponToSlot(5);
     }
     
     void OnDestroy()
@@ -141,10 +203,6 @@ public:
         UpdateInput(rect);
 
         bool moving = false;
-
-
-
-        
         
         if (m_inputDirection.x < 0.0f) //Left
         {
@@ -168,7 +226,7 @@ public:
         }
 
         direction = (!moving) ? glm::vec2(0.0f) : ( (glm::length(m_inputDirection) > 1.0f) ? glm::normalize(m_inputDirection) : m_inputDirection);
-        rect.position += (direction * (speed * _dt));
+        rect.position += (direction * (baseMovementSpeed * PlayerStats.movementSpeed.value * _dt));
 
         if (moving && !wasMoving) // change to run
         {

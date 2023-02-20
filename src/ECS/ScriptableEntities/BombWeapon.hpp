@@ -1,6 +1,5 @@
 #pragma once
 #include <string>
-#include <glm/glm.hpp>
 #include <Canis/ScriptableEntity.hpp>
 #include <Canis/Math.hpp>
 #include <Canis/ECS/Components/CircleColliderComponent.hpp>
@@ -10,7 +9,7 @@
 
 #include "../Components/BulletComponent.hpp"
 
-class BombWeapon : public WeaponClass
+class BombWeapon : public Weapon
 {
 
 private:
@@ -29,8 +28,6 @@ private:
     Canis::Camera2DComponent camera;
 
 public:
-
-
     void OnCreate()
     {
         bombId = GetAssetManager().LoadSpriteAnimation("assets/animations/bomb_weapon.anim");
