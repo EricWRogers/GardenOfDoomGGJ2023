@@ -69,7 +69,7 @@ class FireBallWeapon : public Weapon
         }
     }
 
-    Canis::Entity FindClosestEnemy()
+    /*Canis::Entity FindClosestEnemy()
     {
         std::vector<entt::entity> hits = GetSystem<Canis::CollisionSystem2D>()->GetHits(m_Entity.entityHandle);
         Canis::Entity closestEntity;
@@ -93,5 +93,7 @@ class FireBallWeapon : public Weapon
                 }
             }
         }
-    }
+
+        return closestEntity;
+    }*/
 };

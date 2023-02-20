@@ -142,5 +142,7 @@ class Weapon : public Canis::ScriptableEntity
                 }
             }
         }
+
+        return closestEntity;
     }
 };

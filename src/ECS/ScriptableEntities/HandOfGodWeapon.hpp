@@ -65,10 +65,17 @@ class HandOfGodWeapon : public Weapon
     
     void DropProjectile()
     {
+        Canis::Entity hitEntity = FindRandomEnemyOnScreen();
+
+        if (hitEntity.entityHandle == entt::null)
+            return;
+        
+        hitEntity.GetComponent<Canis::ColorComponent>().color = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
+        
         auto e = CreateEntity();
 
         auto& rect = e.AddComponent<Canis::RectTransformComponent>();
-        rect.position = Weapon::FindRandomEnemyOnScreen().GetComponent<Canis::RectTransformComponent>().position;
+        rect.position = hitEntity.GetComponent<Canis::RectTransformComponent>().position;
         rect.size = size;
         rect.depth = 0.2f;
 
