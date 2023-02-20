@@ -88,6 +88,6 @@ class HandOfGodWeapon : public Weapon
 
         auto& hand = e.AddComponent<HandOfGodComponent>();
         hand.damage = damage;
-        hand.timeLeft = 0.3f;
+        hand.timeLeft = 1.2f;
     }
 };

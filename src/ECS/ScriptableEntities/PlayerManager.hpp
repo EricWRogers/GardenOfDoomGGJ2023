@@ -60,7 +60,7 @@ struct Stats
 
 Stats static PlayerStats = 
 {
-    {1.0f, FLT_MAX},    //movementSpeed (multipler value)
+    {2.0f, FLT_MAX},    //movementSpeed (multipler value)
     {1000.0f, FLT_MAX},    //maxHealth (raw value)
     {0.0f, FLT_MAX},       //healthRegen (raw value)
     {0.0f, FLT_MAX},       //armor (raw value)
@@ -95,7 +95,7 @@ private:
     const unsigned int MAXWEAPONS = 5;
     std::vector<Canis::Entity> m_weaponSlotEntities = {};
     std::vector<Canis::Entity> m_weaponSlotIconEntities = {};
-    std::vector<unsigned int> m_weaponIDoNotHave = {4,6,3,1,0,2};
+    std::vector<unsigned int> m_weaponIDoNotHave = {1};
     float currentXp = 0.0f;
     const float MAXEXP = 1000.0f;
 
