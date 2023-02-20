@@ -514,7 +514,7 @@ void App::Run()
 }
 void App::Load()
 {
-	sceneManager.ForceLoad("engine_splash");
+	sceneManager.ForceLoad("main");
 
 	// start timer
 	previousTime = high_resolution_clock::now();

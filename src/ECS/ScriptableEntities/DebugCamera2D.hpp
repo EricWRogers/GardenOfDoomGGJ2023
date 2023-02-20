@@ -80,5 +80,6 @@ public:
         {
             Canis::Log("Load Scene");
             ((Canis::SceneManager*)m_Entity.scene->sceneManager)->HotReload();
+        }
     }
 };

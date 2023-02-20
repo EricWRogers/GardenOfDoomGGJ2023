@@ -39,10 +39,10 @@ public:
             return;
         
         if (m_state != nullptr)
-            m_state->Exit();
+            m_state->Exit(*this);
         
         m_state = _state;
-        m_state->Enter();
+        m_state->Enter(*this);
     }
 
     void ChangeState(std::string _name)

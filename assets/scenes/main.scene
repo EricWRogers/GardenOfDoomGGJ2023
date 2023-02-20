@@ -11,8 +11,8 @@ Systems:
   - HandOfGodSystem
 RenderSystems:
   - Canis::SpriteRenderer2DSystem
-  - Canis::RenderTextSystem
   - Canis::RenderHUDSystem
+  - Canis::RenderTextSystem
 Entities:
   - 0:
     Canis::TagComponent: Camera
