@@ -28,7 +28,7 @@ class Weapon : public Canis::ScriptableEntity
     bool enabled;
     float rarity;
     Canis::Entity player;
-    Canis::Camera2DComponent camera;
+    Canis::Entity camera;
     float damage;
     glm::vec2 size;
     float speed;
@@ -44,7 +44,7 @@ class Weapon : public Canis::ScriptableEntity
     void OnReady()
     {
         player = m_Entity.GetEntityWithTag("Player");
-        camera = m_Entity.GetEntityWithTag("Camera").GetComponent<Canis::Camera2DComponent>();
+        camera = m_Entity.GetEntityWithTag("Camera");
     }
     
     void OnDestroy()
@@ -99,11 +99,12 @@ class Weapon : public Canis::ScriptableEntity
     {
         entt::entity enttSelection;
         Canis::Entity canisSelection;
+        Canis::Camera2DComponent cameraComponent = camera.GetComponent<Canis::Camera2DComponent>();
 
         canisSelection.scene = m_Entity.scene;
 
         Canis::CollisionSystem2D* collisionSystem = GetSystem<Canis::CollisionSystem2D>();
-        std::vector<entt::entity> results = collisionSystem->BoxCast(glm::vec2(camera.position.x, camera.position.y), glm::vec2(GetWindow().GetScreenWidth(), GetWindow().GetScreenHeight()), glm::vec2(0.0f), 0.0f, Canis::BIT::TWO);
+        std::vector<entt::entity> results = collisionSystem->BoxCast(glm::vec2(cameraComponent.position.x, cameraComponent.position.y), glm::vec2(GetWindow().GetScreenWidth(), GetWindow().GetScreenHeight()), glm::vec2(0.0f), 0.0f, Canis::BIT::TWO);
         
         if (results.size() > 0)
         {
@@ -118,12 +119,16 @@ class Weapon : public Canis::ScriptableEntity
         return canisSelection;
     }
 
-    Canis::Entity FindClosestEnemy()
+    Canis::Entity FindClosestEnemy(const glm::vec2 &_playerPostion)
     {
         std::vector<entt::entity> hits = GetSystem<Canis::CollisionSystem2D>()->GetHits(m_Entity.entityHandle);
         Canis::Entity closestEntity;
         Canis::Entity hitEntity;
         hitEntity.scene = m_Entity.scene;
+        closestEntity.scene = m_Entity.scene;
+
+        if (hitEntity.scene == nullptr)
+            Canis::FatalError("scene null");
 
         float closestDistance = 100000000.0f;
 
@@ -132,13 +137,12 @@ class Weapon : public Canis::ScriptableEntity
             hitEntity.entityHandle = hits[i];
             if (hits[i] != entt::tombstone && m_Entity.scene->entityRegistry.valid(hits[i]))
             {
-                float distance = glm::distance(hitEntity.GetComponent<Canis::RectTransformComponent>().position, GetComponent<Canis::RectTransformComponent>().position);
+                float distance = glm::distance(hitEntity.GetComponent<Canis::RectTransformComponent>().position, _playerPostion);
 
                 if(distance <= closestDistance)
                 {
                     closestDistance = distance;
                     closestEntity = hitEntity;
-                    return closestEntity;
                 }
             }
         }

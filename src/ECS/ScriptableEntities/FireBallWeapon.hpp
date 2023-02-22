@@ -10,7 +10,6 @@ class FireBallWeapon : public Weapon
     float timer = 0.0f;
     bool canShoot = true;
     int fireballId = 0;
-    Canis::Entity closestEntity;
 
     public:
     void OnCreate()
@@ -45,7 +44,7 @@ class FireBallWeapon : public Weapon
         
         GetComponent<Canis::RectTransformComponent>().position = player.GetComponent<Canis::RectTransformComponent>().position;
 
-        closestEntity = FindClosestEnemy();
+        Canis::Entity closestEnemy = FindClosestEnemy(GetComponent<Canis::RectTransformComponent>().position);
 
         timer -= _dt;
         if(timer <= 0)
@@ -55,10 +54,10 @@ class FireBallWeapon : public Weapon
 
         if (canShoot)
         {
-            if(closestEntity.entityHandle != entt::null && closestEntity.entityHandle != entt::tombstone && m_Entity.scene->entityRegistry.valid(closestEntity.entityHandle))
+            if(closestEnemy.entityHandle != entt::null && closestEnemy.entityHandle != entt::tombstone && m_Entity.scene->entityRegistry.valid(closestEnemy.entityHandle))
             {
                 Weapon::Shoot(
-                    glm::normalize(closestEntity.GetComponent<Canis::RectTransformComponent>().position - 
+                    glm::normalize(closestEnemy.GetComponent<Canis::RectTransformComponent>().position - 
                     GetComponent<Canis::RectTransformComponent>().position), 
                     player.GetComponent<Canis::RectTransformComponent>().position, 
                     fireballId);
