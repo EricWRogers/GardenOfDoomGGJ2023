@@ -119,16 +119,14 @@ class Weapon : public Canis::ScriptableEntity
         return canisSelection;
     }
 
-    Canis::Entity FindClosestEnemy(const glm::vec2 &_playerPostion)
+    Canis::Entity FindClosestEnemy()
     {
         std::vector<entt::entity> hits = GetSystem<Canis::CollisionSystem2D>()->GetHits(m_Entity.entityHandle);
         Canis::Entity closestEntity;
         Canis::Entity hitEntity;
         hitEntity.scene = m_Entity.scene;
         closestEntity.scene = m_Entity.scene;
-
-        if (hitEntity.scene == nullptr)
-            Canis::FatalError("scene null");
+        glm::vec2 playerPostion = GetComponent<Canis::RectTransformComponent>().position;
 
         float closestDistance = 100000000.0f;
 
@@ -137,7 +135,7 @@ class Weapon : public Canis::ScriptableEntity
             hitEntity.entityHandle = hits[i];
             if (hits[i] != entt::tombstone && m_Entity.scene->entityRegistry.valid(hits[i]))
             {
-                float distance = glm::distance(hitEntity.GetComponent<Canis::RectTransformComponent>().position, _playerPostion);
+                float distance = glm::distance(hitEntity.GetComponent<Canis::RectTransformComponent>().position, playerPostion);
 
                 if(distance <= closestDistance)
                 {

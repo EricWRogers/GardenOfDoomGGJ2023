@@ -44,7 +44,7 @@ class FireBallWeapon : public Weapon
         
         GetComponent<Canis::RectTransformComponent>().position = player.GetComponent<Canis::RectTransformComponent>().position;
 
-        Canis::Entity closestEnemy = FindClosestEnemy(GetComponent<Canis::RectTransformComponent>().position);
+        Canis::Entity closestEnemy = FindClosestEnemy();
 
         timer -= _dt;
         if(timer <= 0)
