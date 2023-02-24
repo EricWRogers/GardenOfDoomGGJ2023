@@ -38,12 +38,13 @@ class Weapon : public Canis::ScriptableEntity
 
     void OnCreate()
     {
-        player = m_Entity.GetEntityWithTag("Player");
+        
     }
 
     void OnReady()
     {
         camera = m_Entity.GetEntityWithTag("Camera");
+        player = m_Entity.GetEntityWithTag("Player");
     }
     
     void OnDestroy()

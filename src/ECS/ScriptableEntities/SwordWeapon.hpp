@@ -24,7 +24,7 @@ class SwordWeapon : public Weapon
         Weapon::SetBaseStats(
             15.0f,              //damage
             glm::vec2(16.0f),   //weapon effect size
-            160.0f,             //speed
+            200.0f,             //speed
             6.0f,               //duration
             1,                  //amount
             0.4f                //cooldown
@@ -38,7 +38,6 @@ class SwordWeapon : public Weapon
 
     void OnUpdate(float _dt)
     {
-        Weapon::OnUpdate(_dt);
         if (GetComponent<Canis::RectTransformComponent>().active == false) // add to all weapons
             return;
 
@@ -54,23 +53,7 @@ class SwordWeapon : public Weapon
 
         if (canShoot)
         {
-            // if (!player.GetComponent<Canis::SpriteAnimationComponent>().flipX)
-            // {
-            //     Weapon::Shoot(
-            //         glm::vec2(1.0f, 0.0f), 
-            //         player.GetComponent<Canis::RectTransformComponent>().position, 
-            //         swordId);
-            // }
-
-            // if (player.GetComponent<Canis::SpriteAnimationComponent>().flipX)
-            // {
-            //     Weapon::Shoot(
-            //         glm::vec2(-1.0f, 0.0f), 
-            //         player.GetComponent<Canis::RectTransformComponent>().position, 
-            //         swordId);
-            // }
             Shoot( 
-                //glm::vec2(-1.0f, 0.0f),
                 ((PlayerManager*)player.GetComponent<Canis::ScriptComponent>().Instance)->GetInputDirection(),
                 player.GetComponent<Canis::RectTransformComponent>().position,
                 swordId);

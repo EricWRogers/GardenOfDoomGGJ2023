@@ -3,7 +3,6 @@
 #include <Canis/ECS/Components/RectTransformComponent.hpp>
 #include <Canis/ECS/Components/RectTransformComponent.hpp>
 #include <Canis/ECS/Components/Sprite2DComponent.hpp>
-#include "../Components/HandOfGodComponent.hpp"
 
 class HandOfGodWeapon : public Weapon
 {
@@ -11,7 +10,6 @@ class HandOfGodWeapon : public Weapon
     float timer = 0.0f;
     bool canDrop = true;
     int handId = 0;
-    Canis::Camera2DComponent camera;
 
     public:
     void OnCreate()
@@ -43,8 +41,6 @@ class HandOfGodWeapon : public Weapon
             return;
         
         Weapon::OnUpdate(_dt);
-
-        camera = m_Entity.GetEntityWithTag("Camera").GetComponent<Canis::Camera2DComponent>();
         
         GetComponent<Canis::RectTransformComponent>().position = player.GetComponent<Canis::RectTransformComponent>().position;
 
@@ -56,7 +52,8 @@ class HandOfGodWeapon : public Weapon
 
         if (canDrop)
         {
-            DropProjectile();
+            for (int i = 0; i < amount; i++)
+                DropProjectile();
 
             timer = cooldown;
             canDrop = false;

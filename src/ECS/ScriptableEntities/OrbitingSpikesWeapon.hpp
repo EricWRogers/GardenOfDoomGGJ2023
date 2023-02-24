@@ -13,33 +13,41 @@ class OrbitingSpikesWeapon : public Weapon
     private:
         float timer = 0.0f;
         bool canDamage = true;
-        
-        Canis::Entity closestEntity;
-
-        Canis::Entity player;
 
     public:
     
         void OnCreate()
         {
-            
+            Weapon::OnCreate();
         }
 
         void OnReady()
         {
-            player = m_Entity.GetEntityWithTag("Player");
-            damage = 50.0f;
+            Weapon::OnReady();
+            SetBaseStats(
+            20.0f,              //damage
+            glm::vec2(256.0f),  //weapon effect size
+            0.0f,               //speed
+            0.0f,               //duration
+            1,                  //amount
+            0.3f                //cooldown
+            );
         }
         
         void OnDestroy()
         {
-
+            Weapon::OnDestroy();
         }
 
         void OnUpdate(float _dt)
         {
             if (GetComponent<Canis::RectTransformComponent>().active == false) // add to all weapons
                 return;
+
+            Weapon::OnUpdate(_dt);
+
+            GetComponent<Canis::CircleColliderComponent>().radius = size.x / 2.0f;
+            GetComponent<Canis::RectTransformComponent>().size = size;
             
             GetComponent<Canis::RectTransformComponent>().position = player.GetComponent<Canis::RectTransformComponent>().position;
 
@@ -59,18 +67,18 @@ class OrbitingSpikesWeapon : public Weapon
                 {
                     hitEntity.entityHandle = hits[i];
                     
-                    if (hits[i] != entt::tombstone && m_Entity.scene->entityRegistry.valid(hits[i]))
-                    {
+                    //if (hitEntity.entityHandle != entt::null)
+                    //{
                         if (glm::distance(GetComponent<Canis::RectTransformComponent>().position, 
                         hitEntity.GetComponent<Canis::RectTransformComponent>().position) >= 
                         GetComponent<Canis::CircleColliderComponent>().radius)
                         {
                             hitEntity.GetComponent<EnemyHealthComponent>().currentHealth -= damage;
                         }
-                    }
+                    //}
                 }
 
-                timer = 1.0f;
+                timer = cooldown;
                 canDamage = false;
             }
         }

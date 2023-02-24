@@ -50,7 +50,7 @@ struct Stats
 
 Stats static PlayerStats = 
 {
-    {2.0f, FLT_MAX},    //movementSpeed (multipler value)
+    {1.0f, FLT_MAX},    //movementSpeed (multipler value)
     {1000.0f, FLT_MAX},    //maxHealth (raw value)
     {0.0f, FLT_MAX},       //healthRegen (raw value)
     {0.0f, FLT_MAX},       //armor (raw value)
@@ -85,9 +85,10 @@ private:
     const unsigned int MAXWEAPONS = 5;
     std::vector<Canis::Entity> m_weaponSlotEntities = {};
     std::vector<Canis::Entity> m_weaponSlotIconEntities = {};
-    std::vector<unsigned int> m_weaponIDoNotHave = {0,1,2,3,4,5};
+    std::vector<unsigned int> m_weaponIDoNotHave = {0,2};
     float currentXp = 0.0f;
     const float MAXEXP = 1000.0f;
+    glm::vec2 lastDirection = glm::vec2(-1.0f, 0.0f);
 
 public:
     void AddWeaponToSlot(unsigned int _weaponType) {
@@ -173,7 +174,7 @@ public:
         m_weaponSlotEntities.push_back(m_Entity.GetEntityWithTag("WeaponSlot2"));
         m_weaponSlotEntities.push_back(m_Entity.GetEntityWithTag("WeaponSlot3"));
         m_weaponSlotEntities.push_back(m_Entity.GetEntityWithTag("WeaponSlot4"));
-        AddWeaponToSlot(6);
+        AddWeaponToSlot(4);
     }
     
     void OnDestroy()
@@ -323,10 +324,20 @@ public:
                 m_inputDirection.y = GetInputManager().GetLeftStick(0).y;
             }
         }
+
+        if (m_inputDirection != glm::vec2(0.0f))
+        {
+            lastDirection = m_inputDirection;
+        }
     }
 
     glm::vec2 GetInputDirection()
     {
+        if (m_inputDirection == glm::vec2(0.0f))
+        {
+            return lastDirection;
+        }
+        
         return m_inputDirection;
     }
 };

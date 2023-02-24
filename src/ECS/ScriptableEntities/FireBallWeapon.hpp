@@ -15,6 +15,7 @@ class FireBallWeapon : public Weapon
     public:
     void OnCreate()
     {
+        Weapon::OnCreate();
         fireballId = GetAssetManager().LoadSpriteAnimation("assets/animations/fireball_weapon.anim");
     }
 
@@ -33,7 +34,7 @@ class FireBallWeapon : public Weapon
     
     void OnDestroy()
     {
-
+        Weapon::OnDestroy();
     }
 
     void OnUpdate(float _dt)
@@ -55,14 +56,14 @@ class FireBallWeapon : public Weapon
 
         if (canShoot)
         {
-            if(closestEnemy.entityHandle != entt::null && closestEnemy.entityHandle != entt::tombstone && m_Entity.scene->entityRegistry.valid(closestEnemy.entityHandle))
-            {
+            //if(closestEnemy.entityHandle != entt::null)
+            //{
                 Weapon::Shoot(
                     glm::normalize(closestEnemy.GetComponent<Canis::RectTransformComponent>().position - 
                     GetComponent<Canis::RectTransformComponent>().position), 
                     player.GetComponent<Canis::RectTransformComponent>().position, 
                     fireballId);
-            }
+            //}
 
             timer = cooldown;
             canShoot = false;
