@@ -14,6 +14,7 @@ class SwordWeapon : public Weapon
     public:
     void OnCreate()
     {
+        Weapon::OnCreate();
         swordId = GetAssetManager().LoadSpriteAnimation("assets/animations/sword_weapon.anim");
     }
 
@@ -32,11 +33,12 @@ class SwordWeapon : public Weapon
     
     void OnDestroy()
     {
-
+        Weapon::OnDestroy();
     }
 
     void OnUpdate(float _dt)
     {
+        Weapon::OnUpdate(_dt);
         if (GetComponent<Canis::RectTransformComponent>().active == false) // add to all weapons
             return;
 
@@ -67,9 +69,9 @@ class SwordWeapon : public Weapon
             //         player.GetComponent<Canis::RectTransformComponent>().position, 
             //         swordId);
             // }
-            Shoot(
+            Shoot( 
                 //glm::vec2(-1.0f, 0.0f),
-                player.GetComponent<PlayerManager>().GetInputDirection(),
+                ((PlayerManager*)player.GetComponent<Canis::ScriptComponent>().Instance)->GetInputDirection(),
                 player.GetComponent<Canis::RectTransformComponent>().position,
                 swordId);
 
