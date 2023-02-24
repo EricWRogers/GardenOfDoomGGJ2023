@@ -46,16 +46,6 @@ struct Stats
     Stat reroll;
     Stat skip;
     Stat banish;
-
-    // float movementSpeed = 100.0f;
-    // float maxHealth = 10.0f;
-    // float healthRegen = 0.0f;
-    // float armor = 0.0f;
-    // float might = 100.0f;
-    // float area = 100.0f;
-    // float speed = 100.0f;
-    // float duration = 100.0f;
-    // float amount = 
 };
 
 Stats static PlayerStats = 
@@ -95,7 +85,7 @@ private:
     const unsigned int MAXWEAPONS = 5;
     std::vector<Canis::Entity> m_weaponSlotEntities = {};
     std::vector<Canis::Entity> m_weaponSlotIconEntities = {};
-    std::vector<unsigned int> m_weaponIDoNotHave = {1};
+    std::vector<unsigned int> m_weaponIDoNotHave = {0,1,2,3,4,5};
     float currentXp = 0.0f;
     const float MAXEXP = 1000.0f;
 
@@ -183,7 +173,7 @@ public:
         m_weaponSlotEntities.push_back(m_Entity.GetEntityWithTag("WeaponSlot2"));
         m_weaponSlotEntities.push_back(m_Entity.GetEntityWithTag("WeaponSlot3"));
         m_weaponSlotEntities.push_back(m_Entity.GetEntityWithTag("WeaponSlot4"));
-        AddWeaponToSlot(5);
+        AddWeaponToSlot(6);
     }
     
     void OnDestroy()
@@ -333,5 +323,10 @@ public:
                 m_inputDirection.y = GetInputManager().GetLeftStick(0).y;
             }
         }
+    }
+
+    glm::vec2 GetInputDirection()
+    {
+        return m_inputDirection;
     }
 };

@@ -10,6 +10,7 @@ class FireBallWeapon : public Weapon
     float timer = 0.0f;
     bool canShoot = true;
     int fireballId = 0;
+    Canis::Entity closestEnemy;
 
     public:
     void OnCreate()
@@ -44,7 +45,7 @@ class FireBallWeapon : public Weapon
         
         GetComponent<Canis::RectTransformComponent>().position = player.GetComponent<Canis::RectTransformComponent>().position;
 
-        Canis::Entity closestEnemy = FindClosestEnemy();
+        closestEnemy = FindClosestEnemy();
 
         timer -= _dt;
         if(timer <= 0)
@@ -67,32 +68,4 @@ class FireBallWeapon : public Weapon
             canShoot = false;
         }
     }
-
-    /*Canis::Entity FindClosestEnemy()
-    {
-        std::vector<entt::entity> hits = GetSystem<Canis::CollisionSystem2D>()->GetHits(m_Entity.entityHandle);
-        Canis::Entity closestEntity;
-        Canis::Entity hitEntity;
-        hitEntity.scene = m_Entity.scene;
-
-        float closestDistance = 100000000.0f;
-
-        for(int i = 0; i < hits.size(); i++)
-        {
-            hitEntity.entityHandle = hits[i];
-            if (hits[i] != entt::tombstone && m_Entity.scene->entityRegistry.valid(hits[i]))
-            {
-                float distance = glm::distance(hitEntity.GetComponent<Canis::RectTransformComponent>().position, GetComponent<Canis::RectTransformComponent>().position);
-
-                if(distance <= closestDistance)
-                {
-                    closestDistance = distance;
-                    closestEntity = hitEntity;
-                    return closestEntity;
-                }
-            }
-        }
-
-        return closestEntity;
-    }*/
 };

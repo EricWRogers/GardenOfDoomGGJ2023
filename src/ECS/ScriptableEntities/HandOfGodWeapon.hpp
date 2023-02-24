@@ -70,8 +70,6 @@ class HandOfGodWeapon : public Weapon
         if (hitEntity.entityHandle == entt::null)
             return;
         
-        hitEntity.GetComponent<Canis::ColorComponent>().color = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
-        
         auto e = CreateEntity();
 
         auto& rect = e.AddComponent<Canis::RectTransformComponent>();

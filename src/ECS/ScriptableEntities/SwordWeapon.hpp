@@ -52,21 +52,26 @@ class SwordWeapon : public Weapon
 
         if (canShoot)
         {
-            if (!player.GetComponent<Canis::SpriteAnimationComponent>().flipX)
-            {
-                Weapon::Shoot(
-                    glm::vec2(1.0f, 0.0f), 
-                    player.GetComponent<Canis::RectTransformComponent>().position, 
-                    swordId);
-            }
+            // if (!player.GetComponent<Canis::SpriteAnimationComponent>().flipX)
+            // {
+            //     Weapon::Shoot(
+            //         glm::vec2(1.0f, 0.0f), 
+            //         player.GetComponent<Canis::RectTransformComponent>().position, 
+            //         swordId);
+            // }
 
-            if (player.GetComponent<Canis::SpriteAnimationComponent>().flipX)
-            {
-                Weapon::Shoot(
-                    glm::vec2(-1.0f, 0.0f), 
-                    player.GetComponent<Canis::RectTransformComponent>().position, 
-                    swordId);
-            }
+            // if (player.GetComponent<Canis::SpriteAnimationComponent>().flipX)
+            // {
+            //     Weapon::Shoot(
+            //         glm::vec2(-1.0f, 0.0f), 
+            //         player.GetComponent<Canis::RectTransformComponent>().position, 
+            //         swordId);
+            // }
+            Shoot(
+                //glm::vec2(-1.0f, 0.0f),
+                player.GetComponent<PlayerManager>().GetInputDirection(),
+                player.GetComponent<Canis::RectTransformComponent>().position,
+                swordId);
 
             timer = cooldown;
             canShoot = false;
