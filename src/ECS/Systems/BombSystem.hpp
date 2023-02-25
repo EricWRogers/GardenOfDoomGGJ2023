@@ -6,7 +6,7 @@
 #include "../Components/BombComponent.hpp"
 #include "../Components/EnemyHealthComponent.hpp"
 #include "../Components/SmokeComponent.hpp"
-#include "ECS/ScriptableEntities/Weapon.hpp"
+#include "../ScriptableEntities/Weapon.hpp"
 
 class BombSystem : public Canis::System
 {
@@ -15,7 +15,7 @@ class BombSystem : public Canis::System
     Canis::Entity m_player;
     Canis::Entity camera;
     float bombTimer = 0.0f;
-    Weapon weapon;
+    Canis::Entity weaponEntity;
     
 
     public:
@@ -31,12 +31,14 @@ class BombSystem : public Canis::System
         m_player = m_player.GetEntityWithTag("Player");
         camera.scene = scene;
         camera = camera.GetEntityWithTag("Camera");
-        if (((Weapon*)camera.GetEntityWithTag("BombWeapon").GetComponent<Canis::ScriptComponent>().Instance) != NULL)
-            weapon = (*((Weapon*)camera.GetEntityWithTag("BombWeapon").GetComponent<Canis::ScriptComponent>().Instance));
+        weaponEntity.scene = scene;
+        weaponEntity = weaponEntity.GetEntityWithTag("Bomb");
     }
 
     void Update(entt::registry &_registry, float _deltaTime)
     {
+        Weapon &weapon = (*((Weapon*)weaponEntity.GetComponent<Canis::ScriptComponent>().Instance));
+
         auto view = _registry.view<BombComponent, Canis::SpriteAnimationComponent, Canis::RectTransformComponent>();
         for (auto [entity, bomb, animation, transform] : view.each())
         {            

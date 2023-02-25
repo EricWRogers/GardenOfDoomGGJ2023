@@ -6,7 +6,7 @@
 #include <Canis/ECS/Components/RectTransformComponent.hpp>
 #include <Canis/ECS/Components/RectTransformComponent.hpp>
 #include <Canis/ECS/Components/Sprite2DComponent.hpp>
-#include "ECS/ScriptableEntities/Weapon.hpp"
+#include "Weapon.hpp"
 
 class BombWeapon : public Weapon
 {
