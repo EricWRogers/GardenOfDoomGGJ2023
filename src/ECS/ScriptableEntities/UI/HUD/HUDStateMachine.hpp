@@ -1,13 +1,29 @@
 #pragma once
 #include <string>
 #include <vector>
+#include <SDL_keycode.h>
 
+#include <Canis/ECS/Components/ButtonComponent.hpp>
 #include <Canis/ECS/Components/RectTransformComponent.hpp>
 #include <Canis/ECS/Components/ColorComponent.hpp>
 #include <Canis/ECS/Components/UIImageComponent.hpp>
 #include <Canis/ECS/Components/TextComponent.hpp>
 
 #include "../../StateMachine/StateMachine.hpp"
+
+static void OnClickPausePanelToMainMenu(void *instance)
+{
+    ((Canis::ScriptableEntity * )instance)->GetAssetManager().Get<Canis::SoundAsset>(((Canis::ScriptableEntity * )instance)->GetAssetManager().LoadSound("assets/sounds/click.wav"))->Play();
+
+    ((Canis::SceneManager *)((Canis::ScriptableEntity * )instance)->m_Entity.scene->sceneManager)->Load("main_menu");
+
+    ((Canis::ScriptableEntity * )instance)->m_Entity.scene->SetTimeScale(1.0f);
+}
+
+static void OnClickPausePanelToResume(void *instance)
+{
+    ((StateMachine* )instance)->ChangeState("HUDState");
+}
 
 class HUDState : public State
 {
@@ -84,12 +100,60 @@ public:
 
         if (!m_resumeButton)
         {
-
+            m_resumeButton = _scriptableEntity.CreateEntity();
+            auto& playRect = m_resumeButton.AddComponent<Canis::RectTransformComponent>(
+                true,
+                Canis::RectAnchor::CENTER,
+                glm::vec2(-70.0f,60.0f),
+                glm::vec2(150.0f, 40.0f),
+                glm::vec2(0.0f,0.0f),
+                0.0f,
+                1.0f,
+                -1.0f
+            );
+            auto& playColor = m_resumeButton.AddComponent<Canis::ColorComponent>(
+                glm::vec4(1.0f, 1.0f, 1.0f, 1.0f)
+            );
+            auto& playText = m_resumeButton.AddComponent<Canis::TextComponent>(
+                _scriptableEntity.GetAssetManager().LoadText("assets/fonts/Antonio-Bold.ttf", 48),
+                new std::string("Resume"), // text
+                0u
+            );
+            auto& playB = m_resumeButton.AddComponent<Canis::ButtonComponent>(
+                OnClickPausePanelToResume,
+                (void*)&_scriptableEntity,
+                glm::vec4(1.0f, 1.0f, 1.0f, 1.0f),
+                glm::vec4(0.24f, 0.37f, 0.25f, 1.0f) //Green, #3c5e40
+            );
         }
 
         if (!m_mainMenuButton)
         {
-
+            m_mainMenuButton = _scriptableEntity.CreateEntity();
+            auto& playRect = m_mainMenuButton.AddComponent<Canis::RectTransformComponent>(
+                true,
+                Canis::RectAnchor::CENTER,
+                glm::vec2(-100.0f,-40.0f),
+                glm::vec2(150.0f, 40.0f),
+                glm::vec2(0.0f,0.0f),
+                0.0f,
+                1.0f,
+                -1.0f
+            );
+            auto& playColor = m_mainMenuButton.AddComponent<Canis::ColorComponent>(
+                glm::vec4(1.0f, 1.0f, 1.0f, 1.0f)
+            );
+            auto& playText = m_mainMenuButton.AddComponent<Canis::TextComponent>(
+                _scriptableEntity.GetAssetManager().LoadText("assets/fonts/Antonio-Bold.ttf", 48),
+                new std::string("Main Menu"), // text
+                0u
+            );
+            auto& playB = m_mainMenuButton.AddComponent<Canis::ButtonComponent>(
+                OnClickPausePanelToMainMenu,
+                (void*)&_scriptableEntity,
+                glm::vec4(1.0f, 1.0f, 1.0f, 1.0f),
+                glm::vec4(0.24f, 0.37f, 0.25f, 1.0f) //Green, #3c5e40
+            );
         }
 
         if (!m_titleText)
@@ -98,7 +162,7 @@ public:
             m_titleText.AddComponent<Canis::RectTransformComponent>(
                 true,
                 Canis::RectAnchor::CENTER,
-                glm::vec2(-50.0f,140.0f),
+                glm::vec2(-60.0f,140.0f),
                 glm::vec2(400.0f),
                 glm::vec2(0.0f,0.0f),
                 0.0f,
@@ -106,7 +170,7 @@ public:
                 -1.0f
             );
             m_titleText.AddComponent<Canis::ColorComponent>(
-                glm::vec4(1.0f)
+                glm::vec4(0.0f)
             );
             m_titleText.AddComponent<Canis::TextComponent>(
                 _scriptableEntity.GetAssetManager().LoadText("assets/fonts/Antonio-Bold.ttf", 48),
@@ -116,8 +180,8 @@ public:
         }
 
         m_panel.GetComponent<Canis::RectTransformComponent>().active = true;
-        //m_resumeButton.GetComponent<Canis::RectTransformComponent>().active = true;
-        //m_mainMenuButton.GetComponent<Canis::RectTransformComponent>().active = true;
+        m_resumeButton.GetComponent<Canis::RectTransformComponent>().active = true;
+        m_mainMenuButton.GetComponent<Canis::RectTransformComponent>().active = true;
         m_titleText.GetComponent<Canis::RectTransformComponent>().active = true;
     }
 
@@ -137,8 +201,8 @@ public:
         _scriptableEntity.m_Entity.scene->SetTimeScale(1.0);
 
         m_panel.GetComponent<Canis::RectTransformComponent>().active = false;
-        //m_resumeButton.GetComponent<Canis::RectTransformComponent>().active = false;
-        //m_mainMenuButton.GetComponent<Canis::RectTransformComponent>().active = false;
+        m_resumeButton.GetComponent<Canis::RectTransformComponent>().active = false;
+        m_mainMenuButton.GetComponent<Canis::RectTransformComponent>().active = false;
         m_titleText.GetComponent<Canis::RectTransformComponent>().active = false;
     }
 };

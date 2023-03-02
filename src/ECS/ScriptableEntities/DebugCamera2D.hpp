@@ -1,4 +1,5 @@
 #pragma once
+#include <SDL_keyboard.h>
 #include <string>
 #include <Canis/ScriptableEntity.hpp>
 #include <Canis/ECS/Components/Camera2DComponent.hpp>
