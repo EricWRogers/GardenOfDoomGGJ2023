@@ -23,6 +23,10 @@ public:
 
     void OnUpdate(float _dt)
     {
-        (*GetComponent<Canis::TextComponent>().text) = "FPS : " + std::to_string((int)m_Entity.scene->window->fps);
+        (*GetComponent<Canis::TextComponent>().text) = "FPS : " + std::to_string((int)m_Entity.scene->window->fps);/* + 
+            " drawTime : " + std::to_string(((Canis::SceneManager*)m_Entity.scene->sceneManager)->drawTime) + 
+            " updateTime : " + std::to_string(((Canis::SceneManager*)m_Entity.scene->sceneManager)->updateTime);*/
+        //(*GetComponent<Canis::TextComponent>().text) = "FPS : " + std::to_string(((Canis::SceneManager*)m_Entity.scene->sceneManager)->drawTime);
+        //(*GetComponent<Canis::TextComponent>().text) = "FPS : " + std::to_string(((Canis::SceneManager*)m_Entity.scene->sceneManager)->updateTime);
     }
 };

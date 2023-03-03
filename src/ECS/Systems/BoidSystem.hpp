@@ -1,5 +1,4 @@
 #pragma once
-#include <execution>
 
 #include <Canis/DataStucture/QuadTree.hpp>
 #include <Canis/External/entt.hpp>
@@ -35,7 +34,7 @@ struct BoidThreadInfo
 class BoidSystem : public Canis::System
 {
 private:
-
+    Canis::Entity m_player;
 public:
 
     //BoidSystem() : Canis::System() {}
@@ -50,16 +49,13 @@ public:
 
     void Ready()
     {
-
+        m_player.scene = scene;
+        m_player = m_player.GetEntityWithTag("Player");
     }
 
     void Update(entt::registry &registry, const float _deltaTime)
     {
-
-        Canis::Entity player;
-        player.scene = scene;
-        player = player.GetEntityWithTag("Player");
-        glm::vec2 playerPosition = player.GetComponent<Canis::RectTransformComponent>().position;
+        glm::vec2 playerPosition = m_player.GetComponent<Canis::RectTransformComponent>().position;
 
         auto cam = registry.view<const Canis::Camera2DComponent>();
 
@@ -79,6 +75,7 @@ public:
         glm::vec2 cohesion = glm::vec2(0.0f);
         glm::vec2 separation = glm::vec2(0.0f);
         glm::vec2 acceleration;
+        glm::vec4 weights = glm::vec4(USER_BEHAVIOR_WEIGHT,ALIGNMENT_WEIGHT,COHESION_WEIGHT,SEPARATION_WEIGHT);
 
         int alignNumNeighbors = 0;
         int cohNumNeighbors = 0;
@@ -128,11 +125,14 @@ public:
             // Separation
             separationTarget = (separation != glm::vec2(0.0f)) ? glm::normalize(separation) : glm::vec2(0.0f);
 
-            acceleration = ((seekTarget * USER_BEHAVIOR_WEIGHT) +
+            acceleration.x = glm::dot(glm::vec4(seekTarget.x,alignmentTarget.x,cohesionTarget.x,separationTarget.x), weights);
+            acceleration.y = glm::dot(glm::vec4(seekTarget.y,alignmentTarget.y,cohesionTarget.y,separationTarget.y), weights);
+            acceleration *= boid.speed;
+            /*acceleration = ((seekTarget * USER_BEHAVIOR_WEIGHT) +
                             (alignmentTarget * ALIGNMENT_WEIGHT) +
                             (cohesionTarget * COHESION_WEIGHT) +
                             (separationTarget * SEPARATION_WEIGHT)) *
-                           boid.speed;
+                           boid.speed;*/
 
             // update velocity
             boid.velocity += acceleration;
