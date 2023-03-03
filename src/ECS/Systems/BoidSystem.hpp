@@ -37,13 +37,10 @@ private:
     Canis::Entity m_player;
 public:
 
-    BoidSystem() : Canis::System() {
-        
-    }
+    //BoidSystem() : Canis::System() {}
 
     glm::vec2 cameraPosition;
     std::vector<entt::entity> boidEntities = {};
-    Canis::QuadTree quadTree = Canis::QuadTree(glm::vec2(0.0f), 4000.0f);
 
     void Create()
     {
@@ -86,12 +83,6 @@ public:
 
         float distance = 0.0f;
         std::vector<Canis::QuadPoint> quadPoints = {};
-        quadTree.Reset();
-
-        for (auto [entity, rect_transform, boid] : view.each())
-        {
-            quadTree.AddPoint(rect_transform.position, entity, boid.velocity);
-        }
 
         for (auto [entity, rect_transform, boid] : view.each())
         {
@@ -100,25 +91,25 @@ public:
             separation = glm::vec2(0.0f);
             alignNumNeighbors = 0;
             cohNumNeighbors = 0;
-            quadTree.PointsQuery(rect_transform.position, MAX_COHESION_DISTANCE, quadPoints);
-            for (Canis::QuadPoint qp : quadPoints)
+
+            for (auto [other_entity, other_rect_transform, other_boid] : view.each())
             {
-                if(entity != qp.entity)
+                if(entity != other_entity)
                 {
-                    distance = glm::distance(rect_transform.position, qp.position);
+                    distance = glm::distance(rect_transform.position, other_rect_transform.position);
                     if (distance <= MAX_COHESION_DISTANCE)
                     {
                         cohNumNeighbors++;
-                        cohesion += qp.position;
+                        cohesion += other_rect_transform.position;
 
                         if (distance <= MAX_ALIGNMENT_DISTANCE)
                         {
                             alignNumNeighbors++;
-                            alignment += qp.velocity;
+                            alignment += other_boid.velocity;
 
                             if (distance <= MAX_SEPARATION_DISTANCE)
                             {
-                                separation += (rect_transform.position - qp.position);
+                                separation += (rect_transform.position - other_rect_transform.position);
                             }
                         }
                     }
