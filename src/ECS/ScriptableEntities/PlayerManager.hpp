@@ -85,7 +85,7 @@ private:
     const unsigned int MAXWEAPONS = 5;
     std::vector<Canis::Entity> m_weaponSlotEntities = {};
     std::vector<Canis::Entity> m_weaponSlotIconEntities = {};
-    std::vector<unsigned int> m_weaponIDoNotHave = {0,2};
+    std::vector<unsigned int> m_weaponIDoNotHave = {1,2,5,6};
     float currentXp = 0.0f;
     const float MAXEXP = 1000.0f;
     glm::vec2 lastDirection = glm::vec2(-1.0f, 0.0f);
@@ -174,7 +174,7 @@ public:
         m_weaponSlotEntities.push_back(m_Entity.GetEntityWithTag("WeaponSlot2"));
         m_weaponSlotEntities.push_back(m_Entity.GetEntityWithTag("WeaponSlot3"));
         m_weaponSlotEntities.push_back(m_Entity.GetEntityWithTag("WeaponSlot4"));
-        AddWeaponToSlot(4);
+        AddWeaponToSlot(0);
     }
     
     void OnDestroy()

@@ -38,6 +38,7 @@
 #include "ECS/ScriptableEntities/SplashLoader2.hpp"
 #include "ECS/ScriptableEntities/GasAuraWeapon.hpp"
 #include "ECS/ScriptableEntities/OrbitingSpikesWeapon.hpp"
+#include "ECS/ScriptableEntities/SeedPickup.hpp"
 #include "ECS/Decode.hpp"
 
 App::App()

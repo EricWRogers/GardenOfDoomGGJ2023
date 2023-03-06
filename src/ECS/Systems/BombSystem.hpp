@@ -72,8 +72,6 @@ class BombSystem : public Canis::System
                 s.damage = weapon.damage;
 
                 _registry.destroy(entity);
-
-                continue;
             }
         }
     

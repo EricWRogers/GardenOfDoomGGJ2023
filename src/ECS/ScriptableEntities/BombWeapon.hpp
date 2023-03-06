@@ -27,7 +27,7 @@ class BombWeapon : public Weapon
         Weapon::OnReady();
         Weapon::SetBaseStats(
             30.0f,              //damage
-            glm::vec2(32.0f),   //weapon effect size
+            glm::vec2(64.0f),   //weapon effect size
             0.0f,               //speed
             2.0f,               //duration
             1,                  //amount
@@ -76,7 +76,7 @@ class BombWeapon : public Weapon
 
         auto& rect = e.AddComponent<Canis::RectTransformComponent>();
         rect.position = hitEntity.GetComponent<Canis::RectTransformComponent>().position;
-        rect.size = size;
+        rect.size = glm::vec2(32.0f);
         rect.depth = 0.2f;
 
         auto& sprite = e.AddComponent<Canis::Sprite2DComponent>();
@@ -87,11 +87,6 @@ class BombWeapon : public Weapon
 
         auto& anim = e.AddComponent<Canis::SpriteAnimationComponent>();
         anim.animationId = bombId;
-
-        auto& circleCollider = e.AddComponent<Canis::CircleColliderComponent>();
-        circleCollider.layer = Canis::BIT::ZERO;
-        circleCollider.mask = Canis::BIT::TWO;
-        circleCollider.radius = size.x / 2.0f;
 
         auto& bomb = e.AddComponent<BombComponent>();
         bomb.damage = damage;

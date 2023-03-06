@@ -261,6 +261,7 @@ Entities:
       speed: 1.0
     Canis::ScriptComponent: OrbitingSpikesWeapon
   - 12:
+    Canis::TagComponent: WaveManager
     Canis::ScriptComponent: WaveManager
   - 13:
     Canis::TagComponent: WeaponSlot0
