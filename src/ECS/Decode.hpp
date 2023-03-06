@@ -4,6 +4,7 @@
 #include "Components/PlayerHealthComponent.hpp"
 #include "Components/EnemyHealthComponent.hpp"
 #include "Components/BulletComponent.hpp"
+#include "Components/SeedComponent.hpp"
 
 void DecodePlayerHealthComponent(YAML::Node &_n, Canis::Entity &_entity, Canis::SceneManager *_sceneManager)
 {
@@ -44,5 +45,14 @@ void DecodeBombComponent(YAML::Node &_n, Canis::Entity &_entity, Canis::SceneMan
         auto &bc = _entity.AddComponent<BombComponent>();
         bc.timeLeft = bombComponent["timeLeft"].as<float>();
         bc.damage = bombComponent["damage"].as<float>();
+    }
+}
+
+void DecodeSeedComponent(YAML::Node &_n, Canis::Entity &_entity, Canis::SceneManager *_sceneManager)
+{
+    if (auto seedComponent = _n["SeedComponent"])
+    {
+        auto &sc = _entity.AddComponent<BombComponent>();
+        sc.timeLeft = seedComponent["temp"].as<int>();
     }
 }

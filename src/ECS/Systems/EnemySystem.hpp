@@ -6,6 +6,7 @@
 #include "../Components/PlayerHealthComponent.hpp"
 #include "../Components/EnemyHealthComponent.hpp"
 #include "../Components/EnemyHealthComponent.hpp"
+#include "../Components/SeedComponent.hpp"
 #include "../ScriptableEntities/PlayerManager.hpp"
 #include "../ScriptableEntities/WaveManager.hpp"
 #include "../ScriptableEntities/SeedPickup.hpp"
@@ -19,19 +20,21 @@ class EnemySystem : public Canis::System
     int blueXpIdleId = 0;
     int purpleXpIdleId = 0;
     int rainbowXpIdleId = 0;
+    bool seedDropped = false;
 
     bool SpawnSeed(glm::vec2 position)
     {
-        if (((WaveManager*)waveManagerEntity.GetComponent<Canis::ScriptComponent>().Instance)->currentEnemy.seedDropChance >= 0)
+        if (((WaveManager*)waveManagerEntity.GetComponent<Canis::ScriptComponent>().Instance)->currentEnemy.seedDropChance >= 0 && !seedDropped)
         {
             auto e = scene->CreateEntity();
 
             auto& transform = e.AddComponent<Canis::RectTransformComponent>();
             transform.size = glm::vec2(16.0f);
             transform.position = position;
+            transform.anchor = 6;
 
             auto& collider = e.AddComponent<Canis::CircleColliderComponent>();
-            collider.layer = Canis::BIT::FOUR;
+            collider.layer = Canis::BIT::THREE;
             collider.mask = Canis::BIT::ONE;
             collider.radius = 16.0f;
 
@@ -46,8 +49,9 @@ class EnemySystem : public Canis::System
             anim.animationId = assetManager->LoadSpriteAnimation("assets/animations/apple_a_day.anim");
             anim.index = 0;
 
-            auto& seed = (*((SeedPickup*)e.AddComponent<Canis::ScriptComponent>().Instance));
-            seed.seedOnGround = true;
+            auto& seed = e.AddComponent<SeedComponent>();
+
+            seedDropped = true;
 
             return true;
         }
@@ -116,7 +120,10 @@ class EnemySystem : public Canis::System
                 bool success = SpawnSeed(transform.position);
 
                 if (success)
+                {
+                    _registry.destroy(entity);
                     continue;
+                }
 
                 auto e = scene->CreateEntity();
 

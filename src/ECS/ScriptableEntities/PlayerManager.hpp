@@ -89,6 +89,8 @@ private:
     float currentXp = 0.0f;
     const float MAXEXP = 1000.0f;
     glm::vec2 lastDirection = glm::vec2(-1.0f, 0.0f);
+    bool holdingSeed = false;
+    Canis::Entity seed;
 
 public:
     void AddWeaponToSlot(unsigned int _weaponType) {
@@ -165,6 +167,7 @@ public:
 
     void OnReady()//Start
     {
+        seed.scene = m_Entity.scene;
         std::default_random_engine rng(m_Entity.scene->seed);
         std::shuffle(std::begin(m_weaponIDoNotHave), std::end(m_weaponIDoNotHave), rng);
         m_healthSlider = m_Entity.GetEntityWithTag("HealthSlider");
@@ -268,6 +271,8 @@ public:
                 m_weaponIDoNotHave.erase(m_weaponIDoNotHave.begin());
             }
         }
+
+        ManageSeed();
     }
 
     void UpdateInput(Canis::RectTransformComponent &_rect) {
@@ -339,5 +344,32 @@ public:
         }
         
         return m_inputDirection;
+    }
+
+    void ManageSeed()
+    {
+        glm::vec2 holdPos = glm::vec2(GetComponent<Canis::RectTransformComponent>().position.x, 
+            GetComponent<Canis::RectTransformComponent>().position.y + 50.0f);
+
+        std::vector<entt::entity> hits = GetSystem<Canis::CollisionSystem2D>()->GetHits(m_Entity.entityHandle);
+
+        if (holdingSeed)
+        {
+            seed.GetComponent<Canis::RectTransformComponent>().position = holdPos;
+        }
+
+        if (!holdingSeed)
+        {
+            for(int i = 0; i < hits.size(); i++)
+            {
+                seed.entityHandle = hits[i];
+                if (seed.HasComponent<SeedComponent>())
+                {
+                    seed.GetComponent<Canis::RectTransformComponent>().position = holdPos;
+                    holdingSeed = true;
+                    break;
+                }
+            }
+        }
     }
 };
