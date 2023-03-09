@@ -213,6 +213,12 @@ public:
 
                 if (levelUpEvent != nullptr)
                 {
+                    if (weaponIDoNotHave.size() > 1)
+                    {
+                        std::default_random_engine rng(m_Entity.scene->seed);
+                        std::shuffle(std::begin(weaponIDoNotHave), std::end(weaponIDoNotHave), rng);
+                    }
+
                     levelUpEvent();
                 }
                 else

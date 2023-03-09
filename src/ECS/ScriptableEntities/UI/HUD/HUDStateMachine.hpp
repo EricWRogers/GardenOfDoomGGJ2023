@@ -254,6 +254,9 @@ public:
 
         _scriptableEntity.m_Entity.scene->SetTimeScale(0.0);
 
+        Canis::Entity player = _scriptableEntity.m_Entity.GetEntityWithTag("Player");
+        PlayerManager& playerManager = *((PlayerManager*)player.GetComponent<Canis::ScriptComponent>().Instance);
+
         if (!m_panel)
         {
             m_panel = _scriptableEntity.m_Entity.scene->CreateEntity();
@@ -280,25 +283,36 @@ public:
         if (!m_LeftButton)
         {
             m_LeftButton = _scriptableEntity.CreateEntity();
-            auto& playRect = m_LeftButton.AddComponent<Canis::RectTransformComponent>(
+            auto& buttonRect = m_LeftButton.AddComponent<Canis::RectTransformComponent>(
                 true,
                 Canis::RectAnchor::CENTER,
-                glm::vec2(-70.0f,60.0f),
-                glm::vec2(150.0f, 40.0f),
+                glm::vec2(0.0f,-50.0f),
+                glm::vec2(128.0f, 128.0f),
                 glm::vec2(0.0f,0.0f),
                 0.0f,
                 1.0f,
                 -1.0f
             );
-            auto& playColor = m_LeftButton.AddComponent<Canis::ColorComponent>(
+            auto& buttonColor = m_LeftButton.AddComponent<Canis::ColorComponent>(
                 glm::vec4(1.0f, 1.0f, 1.0f, 1.0f)
             );
-            auto& playText = m_LeftButton.AddComponent<Canis::TextComponent>(
-                _scriptableEntity.GetAssetManager().LoadText("assets/fonts/Antonio-Bold.ttf", 48),
-                new std::string("Resume"), // text
-                0u
+            auto& buttonImage = m_LeftButton.AddComponent<Canis::UIImageComponent>();
+            buttonImage.texture = _scriptableEntity.GetAssetManager().Get<Canis::TextureAsset>(
+            _scriptableEntity.GetAssetManager().LoadTexture("assets/textures/UI/level_up_icons_sprite_sheet.png"))->GetTexture();
+
+            GetUIImageFromTextureAtlas(
+                buttonImage,
+                0,
+                0,
+                playerManager.weaponIDoNotHave[0],
+                0,
+                64,
+                64,
+                false,
+                false
             );
-            auto& playB = m_LeftButton.AddComponent<Canis::ButtonComponent>(
+
+            auto& buttonB = m_LeftButton.AddComponent<Canis::ButtonComponent>(
                 OnClickAward,
                 (void*)&buttonInfoZero,
                 glm::vec4(1.0f, 1.0f, 1.0f, 1.0f),
@@ -306,28 +320,39 @@ public:
             );
         }
 
-        if (!m_RightButton)
+        if (!m_RightButton && (playerManager.weaponIDoNotHave.size() > 1))
         {
             m_RightButton = _scriptableEntity.CreateEntity();
-            auto& playRect = m_RightButton.AddComponent<Canis::RectTransformComponent>(
+            auto& buttonRect = m_RightButton.AddComponent<Canis::RectTransformComponent>(
                 true,
                 Canis::RectAnchor::CENTER,
-                glm::vec2(-100.0f,-40.0f),
-                glm::vec2(150.0f, 40.0f),
+                glm::vec2(-130.0f,-50.0f),
+                glm::vec2(128.0f, 128.0f),
                 glm::vec2(0.0f,0.0f),
                 0.0f,
                 1.0f,
                 -1.0f
             );
-            auto& playColor = m_RightButton.AddComponent<Canis::ColorComponent>(
+            auto& buttonColor = m_RightButton.AddComponent<Canis::ColorComponent>(
                 glm::vec4(1.0f, 1.0f, 1.0f, 1.0f)
             );
-            auto& playText = m_RightButton.AddComponent<Canis::TextComponent>(
-                _scriptableEntity.GetAssetManager().LoadText("assets/fonts/Antonio-Bold.ttf", 48),
-                new std::string("Main Menu"), // text
-                0u
+            auto& buttonImage = m_RightButton.AddComponent<Canis::UIImageComponent>();
+            buttonImage.texture = _scriptableEntity.GetAssetManager().Get<Canis::TextureAsset>(
+            _scriptableEntity.GetAssetManager().LoadTexture("assets/textures/UI/level_up_icons_sprite_sheet.png"))->GetTexture();
+
+            GetUIImageFromTextureAtlas(
+                buttonImage,
+                0,
+                0,
+                playerManager.weaponIDoNotHave[1],
+                0,
+                64,
+                64,
+                false,
+                false
             );
-            auto& playB = m_RightButton.AddComponent<Canis::ButtonComponent>(
+
+            auto& buttonB = m_RightButton.AddComponent<Canis::ButtonComponent>(
                 OnClickAward,
                 (void*)&buttonInfoOne,
                 glm::vec4(1.0f, 1.0f, 1.0f, 1.0f),
@@ -358,14 +383,51 @@ public:
             );
         }
 
+        auto& buttonImage = m_LeftButton.GetComponent<Canis::UIImageComponent>();
+        buttonImage.texture = _scriptableEntity.GetAssetManager().Get<Canis::TextureAsset>(
+        _scriptableEntity.GetAssetManager().LoadTexture("assets/textures/UI/level_up_icons_sprite_sheet.png"))->GetTexture();
+
+        GetUIImageFromTextureAtlas(
+            buttonImage,
+            0,
+            0,
+            playerManager.weaponIDoNotHave[0],
+            0,
+            64,
+            64,
+            false,
+            false
+        );
+
+        
+
         m_panel.GetComponent<Canis::RectTransformComponent>().active = true;
         m_LeftButton.GetComponent<Canis::RectTransformComponent>().active = true;
-        Canis::Entity player = _scriptableEntity.m_Entity.GetEntityWithTag("Player");
-        PlayerManager& playerManager = *((PlayerManager*)player.GetComponent<Canis::ScriptComponent>().Instance);
         if (playerManager.weaponIDoNotHave.size() > 1)
+        {
             m_RightButton.GetComponent<Canis::RectTransformComponent>().active = true;
+
+            auto& buttonImage2 = m_RightButton.GetComponent<Canis::UIImageComponent>();
+            buttonImage2.texture = _scriptableEntity.GetAssetManager().Get<Canis::TextureAsset>(
+            _scriptableEntity.GetAssetManager().LoadTexture("assets/textures/UI/level_up_icons_sprite_sheet.png"))->GetTexture();
+
+            GetUIImageFromTextureAtlas(
+                buttonImage2,
+                0,
+                0,
+                playerManager.weaponIDoNotHave[1],
+                0,
+                64,
+                64,
+                false,
+                false
+            );
+        }
         else
+        {
             m_RightButton.GetComponent<Canis::RectTransformComponent>().active = false;
+        }
+            
         m_titleText.GetComponent<Canis::RectTransformComponent>().active = true;
     }
 
