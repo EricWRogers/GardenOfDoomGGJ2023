@@ -2,5 +2,6 @@
 
 struct SmokeComponent
 {
-    float timeLeft = 0.65f;
+    float damage;
+    float timeLeft;
 };

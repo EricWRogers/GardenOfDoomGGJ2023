@@ -20,10 +20,62 @@ enum WeaponType
     SWORD           = 6u
 };
 
+struct Stat
+{
+    float value;
+    float maxValue;
+};
+
+struct Stats
+{
+    Stat movementSpeed;
+    Stat maxHealth;
+    Stat healthRegen;
+    Stat armor;
+    Stat might;
+    Stat area;
+    Stat weaponSpeed;
+    Stat duration;
+    Stat amount;
+    Stat cooldown;
+    Stat luck;
+    Stat growth;
+    Stat greed;
+    Stat curse;
+    Stat pickupRange;
+    Stat revives;
+    Stat reroll;
+    Stat skip;
+    Stat banish;
+};
+
+Stats static PlayerStats = 
+{
+    {1.0f, FLT_MAX},    //movementSpeed (multipler value)
+    {1000.0f, FLT_MAX},    //maxHealth (raw value)
+    {0.0f, FLT_MAX},       //healthRegen (raw value)
+    {0.0f, FLT_MAX},       //armor (raw value)
+    {1.0f, 5.0f},       //might (multiplier value)
+    {1.0f, 5.0},        //area (multiplier value)
+    {1.0f, 5.0f},       //weaponSpeed (multiplier value)
+    {1.0f, 5.0f},       //duration (multiplier value)
+    {0.0f, 10.0f},      //amount (in terms of extra projectiles)
+    {1.0f, 0.1f},       //cooldown (multiplier value in reverse)
+    {1.0f, 5.0f},       //luck (multiplier value)
+    {1.0f, 5.0f},       //growth (multiplier value)
+    {1.0f, 5.0f},       //greed (multiplier value)
+    {1.0f, 5.0f},       //curse (multiplier value)
+    {20.0f, FLT_MAX},      //pickupRange (raw value as a radius)
+    {0.0f, FLT_MAX},       //revives (raw value)
+    {0.0f, FLT_MAX},       //reroll (raw value)
+    {0.0f, FLT_MAX},       //skip (raw value)
+    {0.0f, FLT_MAX},       //banish (raw value)
+};
+
 class PlayerManager : public Canis::ScriptableEntity
 {
 private:
-    float speed = 100.0f;
+    float baseMovementSpeed = 100.0f;
     glm::vec2 m_inputDirection;
     glm::vec2 direction;
     Canis::Entity m_healthSlider;
@@ -36,9 +88,12 @@ private:
     std::vector<Canis::Entity> m_weaponSlotIconEntities = {};
     float currentXp = 0.0f;
     const float MAXEXP = 1000.0f;
+    glm::vec2 lastDirection = glm::vec2(-1.0f, 0.0f);
+    bool holdingSeed = false;
+    Canis::Entity seed;
 
 public:
-    std::vector<unsigned int> weaponIDoNotHave = {4,5,6,1,0,2};
+    std::vector<unsigned int> weaponIDoNotHave = {4,5,6,1,3,2};
     std::function<void()> levelUpEvent = nullptr;
 
     void AddWeaponToSlot(unsigned int _weaponType) {
@@ -110,10 +165,12 @@ public:
     {
         idleId = GetAssetManager().LoadSpriteAnimation("assets/animations/player_idle.anim");
         runId = GetAssetManager().LoadSpriteAnimation("assets/animations/player_run.anim");
+        GetComponent<PlayerHealthComponent>().maxHealth = PlayerStats.maxHealth.value;
     }
 
     void OnReady()//Start
     {
+        seed.scene = m_Entity.scene;
         std::default_random_engine rng(m_Entity.scene->seed);
         std::shuffle(std::begin(weaponIDoNotHave), std::end(weaponIDoNotHave), rng);
         m_healthSlider = m_Entity.GetEntityWithTag("HealthSlider");
@@ -123,7 +180,7 @@ public:
         m_weaponSlotEntities.push_back(m_Entity.GetEntityWithTag("WeaponSlot2"));
         m_weaponSlotEntities.push_back(m_Entity.GetEntityWithTag("WeaponSlot3"));
         m_weaponSlotEntities.push_back(m_Entity.GetEntityWithTag("WeaponSlot4"));
-        AddWeaponToSlot(3);
+        AddWeaponToSlot(0);
     }
     
     void OnDestroy()
@@ -162,7 +219,7 @@ public:
         }
 
         direction = (!moving) ? glm::vec2(0.0f) : ( (glm::length(m_inputDirection) > 1.0f) ? glm::normalize(m_inputDirection) : m_inputDirection);
-        rect.position += (direction * (speed * _dt));
+        rect.position += (direction * (baseMovementSpeed * PlayerStats.movementSpeed.value * _dt));
 
         if (moving && !wasMoving) // change to run
         {
@@ -228,6 +285,8 @@ public:
                 }
             }
         }
+
+        ManageSeed();
     }
 
     void UpdateInput(Canis::RectTransformComponent &_rect) {
@@ -282,6 +341,48 @@ public:
             if (GetInputManager().GetLeftStick(0).y < 0.0f)
             {
                 m_inputDirection.y = GetInputManager().GetLeftStick(0).y;
+            }
+        }
+
+        if (m_inputDirection != glm::vec2(0.0f))
+        {
+            lastDirection = m_inputDirection;
+        }
+    }
+
+    glm::vec2 GetInputDirection()
+    {
+        if (m_inputDirection == glm::vec2(0.0f))
+        {
+            return lastDirection;
+        }
+        
+        return m_inputDirection;
+    }
+
+    void ManageSeed()
+    {
+        glm::vec2 holdPos = glm::vec2(GetComponent<Canis::RectTransformComponent>().position.x, 
+            GetComponent<Canis::RectTransformComponent>().position.y + 50.0f);
+
+        std::vector<entt::entity> hits = GetSystem<Canis::CollisionSystem2D>()->GetHits(m_Entity.entityHandle);
+
+        if (holdingSeed)
+        {
+            seed.GetComponent<Canis::RectTransformComponent>().position = holdPos;
+        }
+
+        if (!holdingSeed)
+        {
+            for(int i = 0; i < hits.size(); i++)
+            {
+                seed.entityHandle = hits[i];
+                if (seed.HasComponent<SeedComponent>())
+                {
+                    seed.GetComponent<Canis::RectTransformComponent>().position = holdPos;
+                    holdingSeed = true;
+                    break;
+                }
             }
         }
     }

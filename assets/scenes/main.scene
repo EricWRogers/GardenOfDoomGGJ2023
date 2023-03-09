@@ -4,11 +4,11 @@ Systems:
   - Canis::UISliderSystem
   - BoidSystem
   - Canis::ButtonSystem
-  - Canis::SpriteAnimationSystem
   - BulletSystem
   - BombSystem
   - EnemySystem
   - HandOfGodSystem
+  - Canis::SpriteAnimationSystem
 RenderSystems:
   - Canis::SpriteRenderer2DSystem
   - Canis::RenderHUDSystem
@@ -121,7 +121,7 @@ Entities:
     Canis::TagComponent: PeaShooter
     Canis::RectTransformComponent:
       active: false
-      anchor: 0
+      anchor: 6
       position: [30.0, -70.0]
       size: [0.0, 0.0]
       originOffset: [0.0, 0.0]
@@ -140,7 +140,7 @@ Entities:
     Canis::TagComponent: FireBall
     Canis::RectTransformComponent:
       active: false
-      anchor: 0
+      anchor: 6
       position: [30.0, -70.0]
       size: [0.0, 0.0]
       originOffset: [0.0, 0.0]
@@ -263,6 +263,7 @@ Entities:
       speed: 1.0
     Canis::ScriptComponent: OrbitingSpikesWeapon
   - 12:
+    Canis::TagComponent: WaveManager
     Canis::ScriptComponent: WaveManager
   - 13:
     Canis::TagComponent: WeaponSlot0

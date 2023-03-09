@@ -25,7 +25,7 @@
 #include "ECS/ScriptableEntities/MainMenuButtons.hpp"
 #include "ECS/ScriptableEntities/MainMenuButton.hpp"
 #include "ECS/ScriptableEntities/MapBuilder.hpp"
-#include "ECS/ScriptableEntities/WeaponClass.hpp"
+#include "ECS/ScriptableEntities/Weapon.hpp"
 #include "ECS/ScriptableEntities/PeaShooterWeapon.hpp"
 #include "ECS/ScriptableEntities/WaveManager.hpp"
 #include "ECS/ScriptableEntities/XP.hpp"
@@ -38,6 +38,7 @@
 #include "ECS/ScriptableEntities/SplashLoader2.hpp"
 #include "ECS/ScriptableEntities/GasAuraWeapon.hpp"
 #include "ECS/ScriptableEntities/OrbitingSpikesWeapon.hpp"
+#include "ECS/ScriptableEntities/SeedPickup.hpp"
 #include "ECS/ScriptableEntities/UI/HUD/HUDStateMachine.hpp"
 #include "ECS/Decode.hpp"
 
@@ -293,9 +294,9 @@ App::App()
 
 		sceneManager.decodeScriptableEntity.push_back(
             [](const std::string &_name, Canis::Entity &_entity) {
-                if(_name == "WeaponClass"){
+                if(_name == "Weapon"){
                     Canis::ScriptComponent scriptComponent = {};
-                    scriptComponent.Bind<WeaponClass>();
+                    scriptComponent.Bind<Weapon>();
                     _entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
                     return true;
                 }
@@ -428,6 +429,18 @@ App::App()
                 if(_name == "SplashLoader2"){
                     Canis::ScriptComponent scriptComponent = {};
                     scriptComponent.Bind<SplashLoader2>();
+                    _entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
+                    return true;
+                }
+                return false;
+            }
+        );
+
+		sceneManager.decodeScriptableEntity.push_back(
+            [](const std::string &_name, Canis::Entity &_entity) {
+                if(_name == "SeedPickup"){
+                    Canis::ScriptComponent scriptComponent = {};
+                    scriptComponent.Bind<SeedPickup>();
                     _entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
                     return true;
                 }

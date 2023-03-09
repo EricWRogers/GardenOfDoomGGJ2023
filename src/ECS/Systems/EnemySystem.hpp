@@ -1,20 +1,63 @@
 #pragma once
 #include <Canis/External/entt.hpp>
 #include <Canis/ECS/Systems/System.hpp>
+#include <Canis/ScriptableEntity.hpp>
 #include "../Components/EnemyComponent.hpp"
 #include "../Components/PlayerHealthComponent.hpp"
 #include "../Components/EnemyHealthComponent.hpp"
 #include "../Components/EnemyHealthComponent.hpp"
+#include "../Components/SeedComponent.hpp"
 #include "../ScriptableEntities/PlayerManager.hpp"
+#include "../ScriptableEntities/WaveManager.hpp"
+#include "../ScriptableEntities/SeedPickup.hpp"
 
 class EnemySystem : public Canis::System
 {
     private:
     Canis::Entity m_player;
+    Canis::Entity waveManagerEntity;
     Canis::CollisionSystem2D *m_collisionSystem2D = nullptr;
     int blueXpIdleId = 0;
     int purpleXpIdleId = 0;
     int rainbowXpIdleId = 0;
+    bool seedDropped = false;
+
+    bool SpawnSeed(glm::vec2 position)
+    {
+        if (((WaveManager*)waveManagerEntity.GetComponent<Canis::ScriptComponent>().Instance)->currentEnemy.seedDropChance >= 0 && !seedDropped)
+        {
+            auto e = scene->CreateEntity();
+
+            auto& transform = e.AddComponent<Canis::RectTransformComponent>();
+            transform.size = glm::vec2(16.0f);
+            transform.position = position;
+            transform.anchor = 6;
+
+            auto& collider = e.AddComponent<Canis::CircleColliderComponent>();
+            collider.layer = Canis::BIT::THREE;
+            collider.mask = Canis::BIT::ONE;
+            collider.radius = 16.0f;
+
+            auto& sprite = e.AddComponent<Canis::Sprite2DComponent>();
+            sprite.texture = assetManager->Get<Canis::TextureAsset>( 
+                assetManager->LoadTexture("assets/textures/weapons/explosion.png"))->GetTexture();
+            
+            auto& color = e.AddComponent<Canis::ColorComponent>();
+            color.color = glm::vec4(1.0, 1.0, 1.0, 1.0);
+
+            auto& anim = e.AddComponent<Canis::SpriteAnimationComponent>();
+            anim.animationId = assetManager->LoadSpriteAnimation("assets/animations/apple_a_day.anim");
+            anim.index = 0;
+
+            auto& seed = e.AddComponent<SeedComponent>();
+
+            seedDropped = true;
+
+            return true;
+        }
+
+        else return false;
+    }
 
     public:
     void Create() 
@@ -28,6 +71,8 @@ class EnemySystem : public Canis::System
     {
         m_player.scene = scene;
         m_player = m_player.GetEntityWithTag("Player");
+        waveManagerEntity.scene = scene;
+        waveManagerEntity = waveManagerEntity.GetEntityWithTag("WaveManager");
         m_collisionSystem2D = scene->GetSystem<Canis::CollisionSystem2D>();
     }
 
@@ -72,6 +117,14 @@ class EnemySystem : public Canis::System
 
             if (health.currentHealth <= 0)
             {
+                bool success = SpawnSeed(transform.position);
+
+                if (success)
+                {
+                    _registry.destroy(entity);
+                    continue;
+                }
+
                 auto e = scene->CreateEntity();
 
                 auto& rectTransform = e.AddComponent<Canis::RectTransformComponent>();
@@ -93,8 +146,6 @@ class EnemySystem : public Canis::System
 
                 auto& xp = e.AddComponent<XP>();
                 xp.SetXP(enemy.xpValue);
-
-                
 
                 auto& anim = e.AddComponent<Canis::SpriteAnimationComponent>();
                 anim.animationId = blueXpIdleId;
