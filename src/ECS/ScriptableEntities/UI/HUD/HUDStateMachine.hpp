@@ -11,6 +11,11 @@
 
 #include "../../StateMachine/StateMachine.hpp"
 
+struct ButtonInfo{
+    void* classObject = nullptr;
+    void* data = nullptr;
+};
+
 static void OnClickPausePanelToMainMenu(void *instance)
 {
     ((Canis::ScriptableEntity * )instance)->GetAssetManager().Get<Canis::SoundAsset>(((Canis::ScriptableEntity * )instance)->GetAssetManager().LoadSound("assets/sounds/click.wav"))->Play();
@@ -45,8 +50,9 @@ public:
     {
         State::Update(_scriptableEntity, _deltaTime);
 
-        if (_scriptableEntity.GetInputManager().JustPressedKey(SDLK_ESCAPE)) {
-            m_changeState("HUDPauseState");
+        if (_scriptableEntity.GetInputManager().JustPressedKey(SDLK_ESCAPE) ||
+            _scriptableEntity.GetInputManager().GetButton(0, Canis::ControllerButton::START)) {
+            ChangeState("HUDPauseState");
         }
     }
 
@@ -190,7 +196,7 @@ public:
         State::Update(_scriptableEntity, _deltaTime);
 
         if (_scriptableEntity.GetInputManager().JustPressedKey(SDLK_ESCAPE)) {
-            m_changeState("HUDState");
+            ChangeState("HUDState");
         }
     }
 
@@ -211,12 +217,36 @@ class HUDLevelUpState : public State
 {
 private:
     Canis::Entity m_panel;
+    Canis::Entity m_LeftButton;
+    Canis::Entity m_RightButton;
     Canis::Entity m_titleText;
+    ButtonInfo buttonInfoZero = {};
+    ButtonInfo buttonInfoOne = {};
+    int slotNumberZero = 0;
+    int slotNumberOne = 1;
 public:
+    int chosenIndex = -1;
     HUDLevelUpState(std::function<void(std::string _name)> _changeState, std::string _name) :
-        State(_changeState, _name) {}
+        State(_changeState, _name) {
+        buttonInfoZero.classObject = (void*)this;
+        buttonInfoZero.data = &slotNumberZero;
+
+        buttonInfoOne.classObject = (void*)this;
+        buttonInfoOne.data = &slotNumberOne;
+    }
     
-    ~HUDLevelUpState() {}
+    ~HUDLevelUpState() {
+
+    }
+
+    static void OnClickAward(void *instance)
+    {
+        ButtonInfo buttonInfo = *(ButtonInfo*)instance;
+        HUDLevelUpState& levelUpState = *(HUDLevelUpState*)buttonInfo.classObject;
+        int data = *(int*)buttonInfo.data;
+
+        levelUpState.chosenIndex = data;
+    }
     
     void Enter(Canis::ScriptableEntity &_scriptableEntity)
     {
@@ -247,6 +277,64 @@ public:
                 ))->GetTexture();
         }
 
+        if (!m_LeftButton)
+        {
+            m_LeftButton = _scriptableEntity.CreateEntity();
+            auto& playRect = m_LeftButton.AddComponent<Canis::RectTransformComponent>(
+                true,
+                Canis::RectAnchor::CENTER,
+                glm::vec2(-70.0f,60.0f),
+                glm::vec2(150.0f, 40.0f),
+                glm::vec2(0.0f,0.0f),
+                0.0f,
+                1.0f,
+                -1.0f
+            );
+            auto& playColor = m_LeftButton.AddComponent<Canis::ColorComponent>(
+                glm::vec4(1.0f, 1.0f, 1.0f, 1.0f)
+            );
+            auto& playText = m_LeftButton.AddComponent<Canis::TextComponent>(
+                _scriptableEntity.GetAssetManager().LoadText("assets/fonts/Antonio-Bold.ttf", 48),
+                new std::string("Resume"), // text
+                0u
+            );
+            auto& playB = m_LeftButton.AddComponent<Canis::ButtonComponent>(
+                OnClickAward,
+                (void*)&buttonInfoZero,
+                glm::vec4(1.0f, 1.0f, 1.0f, 1.0f),
+                glm::vec4(0.24f, 0.37f, 0.25f, 1.0f) //Green, #3c5e40
+            );
+        }
+
+        if (!m_RightButton)
+        {
+            m_RightButton = _scriptableEntity.CreateEntity();
+            auto& playRect = m_RightButton.AddComponent<Canis::RectTransformComponent>(
+                true,
+                Canis::RectAnchor::CENTER,
+                glm::vec2(-100.0f,-40.0f),
+                glm::vec2(150.0f, 40.0f),
+                glm::vec2(0.0f,0.0f),
+                0.0f,
+                1.0f,
+                -1.0f
+            );
+            auto& playColor = m_RightButton.AddComponent<Canis::ColorComponent>(
+                glm::vec4(1.0f, 1.0f, 1.0f, 1.0f)
+            );
+            auto& playText = m_RightButton.AddComponent<Canis::TextComponent>(
+                _scriptableEntity.GetAssetManager().LoadText("assets/fonts/Antonio-Bold.ttf", 48),
+                new std::string("Main Menu"), // text
+                0u
+            );
+            auto& playB = m_RightButton.AddComponent<Canis::ButtonComponent>(
+                OnClickAward,
+                (void*)&buttonInfoOne,
+                glm::vec4(1.0f, 1.0f, 1.0f, 1.0f),
+                glm::vec4(0.24f, 0.37f, 0.25f, 1.0f) //Green, #3c5e40
+            );
+        }
+
         if (!m_titleText)
         {
             m_titleText = _scriptableEntity.m_Entity.scene->CreateEntity();
@@ -265,18 +353,35 @@ public:
             );
             m_titleText.AddComponent<Canis::TextComponent>(
                 _scriptableEntity.GetAssetManager().LoadText("assets/fonts/Antonio-Bold.ttf", 48),
-                new std::string("Pause"),
+                new std::string("Level Up"),
                 0u
             );
         }
 
         m_panel.GetComponent<Canis::RectTransformComponent>().active = true;
+        m_LeftButton.GetComponent<Canis::RectTransformComponent>().active = true;
+        Canis::Entity player = _scriptableEntity.m_Entity.GetEntityWithTag("Player");
+        PlayerManager& playerManager = *((PlayerManager*)player.GetComponent<Canis::ScriptComponent>().Instance);
+        if (playerManager.weaponIDoNotHave.size() > 1)
+            m_RightButton.GetComponent<Canis::RectTransformComponent>().active = true;
+        else
+            m_RightButton.GetComponent<Canis::RectTransformComponent>().active = false;
         m_titleText.GetComponent<Canis::RectTransformComponent>().active = true;
     }
 
     void Update(Canis::ScriptableEntity &_scriptableEntity, float _deltaTime)
     {
         State::Update(_scriptableEntity, _deltaTime);
+
+        if (chosenIndex != -1)
+        {
+            Canis::Entity player = _scriptableEntity.m_Entity.GetEntityWithTag("Player");
+            PlayerManager& playerManager = *((PlayerManager*)player.GetComponent<Canis::ScriptComponent>().Instance);
+            playerManager.AddWeaponToSlot(playerManager.weaponIDoNotHave[chosenIndex]);
+            playerManager.weaponIDoNotHave.erase(playerManager.weaponIDoNotHave.begin()+chosenIndex);
+            chosenIndex = -1;
+            ChangeState("HUDState");
+        }
     }
 
     void Exit(Canis::ScriptableEntity &_scriptableEntity)
@@ -286,6 +391,8 @@ public:
         _scriptableEntity.m_Entity.scene->SetTimeScale(1.0);
 
         m_panel.GetComponent<Canis::RectTransformComponent>().active = false;
+        m_LeftButton.GetComponent<Canis::RectTransformComponent>().active = false;
+        m_RightButton.GetComponent<Canis::RectTransformComponent>().active = false;
         m_titleText.GetComponent<Canis::RectTransformComponent>().active = false;
     }
 };
@@ -308,6 +415,10 @@ public:
     void OnReady()
     {
         StateMachine::OnReady();
+
+        Canis::Entity player = m_Entity.GetEntityWithTag("Player");
+        PlayerManager& playerManager = *((PlayerManager*)player.GetComponent<Canis::ScriptComponent>().Instance);
+        playerManager.levelUpEvent = [this](){this->ChangeState("HUDLevelUpState");};
     }
     
     void OnDestroy()

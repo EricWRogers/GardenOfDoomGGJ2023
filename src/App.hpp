@@ -6,7 +6,6 @@
 
 #include <Canis/Canis.hpp>
 #include <Canis/SceneManager.hpp>
-#include "ECS/ScriptableEntities/UI/HUD/HUDStateMachine.hpp"
 
 
 enum AppState

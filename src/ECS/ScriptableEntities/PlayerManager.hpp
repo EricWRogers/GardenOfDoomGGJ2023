@@ -34,11 +34,12 @@ private:
     const unsigned int MAXWEAPONS = 5;
     std::vector<Canis::Entity> m_weaponSlotEntities = {};
     std::vector<Canis::Entity> m_weaponSlotIconEntities = {};
-    std::vector<unsigned int> m_weaponIDoNotHave = {4,5,6,1,0,2};
     float currentXp = 0.0f;
     const float MAXEXP = 1000.0f;
 
 public:
+    std::vector<unsigned int> weaponIDoNotHave = {4,5,6,1,0,2};
+    std::function<void()> levelUpEvent = nullptr;
 
     void AddWeaponToSlot(unsigned int _weaponType) {
         if (m_weaponSlotIconEntities.size() >= MAXWEAPONS)
@@ -114,7 +115,7 @@ public:
     void OnReady()//Start
     {
         std::default_random_engine rng(m_Entity.scene->seed);
-        std::shuffle(std::begin(m_weaponIDoNotHave), std::end(m_weaponIDoNotHave), rng);
+        std::shuffle(std::begin(weaponIDoNotHave), std::end(weaponIDoNotHave), rng);
         m_healthSlider = m_Entity.GetEntityWithTag("HealthSlider");
         m_expSlider = m_Entity.GetEntityWithTag("ExpSlider");
         m_weaponSlotEntities.push_back(m_Entity.GetEntityWithTag("WeaponSlot0"));
@@ -135,17 +136,9 @@ public:
         auto& rect = GetComponent<Canis::RectTransformComponent>();
         auto& anim = GetComponent<Canis::SpriteAnimationComponent>();
 
-        //Canis::CollisionSystem2D *collsionSystem2d = GetSystem<Canis::CollisionSystem2D>();
-        //int size = collsionSystem2d->BoxCast(rect.position, rect.size, glm::vec2(0.0f), rect.rotation, Canis::BIT::TWO).size();
-        //Canis::Log("Hit : " + std::to_string(size));
-
         UpdateInput(rect);
 
         bool moving = false;
-
-
-
-        
         
         if (m_inputDirection.x < 0.0f) //Left
         {
@@ -212,12 +205,21 @@ public:
         {
              
             if (m_weaponSlotIconEntities.size() < 5)
-            if (m_weaponIDoNotHave.size() > 0)
+            if (weaponIDoNotHave.size() > 0)
             {
                 GetAssetManager().Get<Canis::SoundAsset>(GetAssetManager().LoadSound("assets/sounds/powerUp.wav"))->Play();
                 currentXp = 0;
-                AddWeaponToSlot(m_weaponIDoNotHave[0]);
-                m_weaponIDoNotHave.erase(m_weaponIDoNotHave.begin());
+                int wIndex = 0;
+
+                if (levelUpEvent != nullptr)
+                {
+                    levelUpEvent();
+                }
+                else
+                {
+                    AddWeaponToSlot(weaponIDoNotHave[wIndex]);
+                    weaponIDoNotHave.erase(weaponIDoNotHave.begin()+wIndex);
+                }
             }
         }
     }

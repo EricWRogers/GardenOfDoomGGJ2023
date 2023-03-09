@@ -41,6 +41,8 @@
 #include "ECS/ScriptableEntities/UI/HUD/HUDStateMachine.hpp"
 #include "ECS/Decode.hpp"
 
+#include "ECS/ScriptableEntities/UI/HUD/HUDStateMachine.hpp"
+
 App::App()
 {
 	{ // decode systems

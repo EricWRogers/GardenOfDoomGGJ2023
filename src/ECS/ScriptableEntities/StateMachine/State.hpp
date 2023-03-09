@@ -7,12 +7,12 @@ class State
 {
 protected:
     bool m_hasBeenEntered = false;
-    std::function<void(std::string _name)> m_changeState = nullptr;
 public:
     std::string name = "";
+    std::function<void(std::string _name)> ChangeState = nullptr;
 
     State(std::function<void(std::string _name)> _changeState, std::string _name) {
-        m_changeState = _changeState;
+        ChangeState = _changeState;
         name = _name;
     }
 
