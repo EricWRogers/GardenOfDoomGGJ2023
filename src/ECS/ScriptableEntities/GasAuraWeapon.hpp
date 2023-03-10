@@ -66,10 +66,7 @@ class GasAuraWeapon : public Weapon
                 {
                     hitEntity.entityHandle = hits[i];
                     
-                    //if (hitEntity.entityHandle != entt::null)
-                    //{
-                        hitEntity.GetComponent<EnemyHealthComponent>().currentHealth -= damage;
-                    //}
+                    EnemyHealth::DamageEnemy(hitEntity.GetComponent<EnemyHealthComponent>(), damage);
                 }
 
                 timer = cooldown;

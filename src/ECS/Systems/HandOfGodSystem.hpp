@@ -45,7 +45,7 @@ class HandOfGodSystem : public Canis::System
                     hitEntity.entityHandle = hit;
                     if (hit != entt::tombstone && scene->entityRegistry.valid(hit))
                     {
-                        hitEntity.GetComponent<EnemyHealthComponent>().currentHealth -= hand.damage;
+                        EnemyHealth::DamageEnemy(hitEntity.GetComponent<EnemyHealthComponent>() ,hand.damage);
                     }
                 }
 

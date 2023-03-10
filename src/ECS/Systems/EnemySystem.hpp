@@ -165,6 +165,22 @@ class EnemySystem : public Canis::System
                 anim.index = 0;
 
                 _registry.destroy(entity);
+            } else {
+                if (health.tookDamage) {
+                    health.tookDamage = false;
+                    enemy.hitCountDown = ENEMYHITTIME;
+                }
+                if (enemy.hitCountDown > 0.0f)
+                {
+                    enemy.hitCountDown -= _deltaTime;
+                    Canis::ColorComponent& c = _registry.get<Canis::ColorComponent>(entity);
+
+                    if (enemy.hitCountDown <= 0.0f) {
+                        c.color = glm::vec4(1.0f);
+                    } else {
+                        c.color = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
+                    }
+                }
             }
         }
     }

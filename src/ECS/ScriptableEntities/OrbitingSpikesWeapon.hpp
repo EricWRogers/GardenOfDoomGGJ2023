@@ -73,7 +73,7 @@ class OrbitingSpikesWeapon : public Weapon
                         hitEntity.GetComponent<Canis::RectTransformComponent>().position) >= 
                         GetComponent<Canis::CircleColliderComponent>().radius)
                         {
-                            hitEntity.GetComponent<EnemyHealthComponent>().currentHealth -= damage;
+                            EnemyHealth::DamageEnemy(hitEntity.GetComponent<EnemyHealthComponent>(), damage);
                         }
                     //}
                 }
