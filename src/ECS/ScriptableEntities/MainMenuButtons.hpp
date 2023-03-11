@@ -9,7 +9,6 @@ class MainMenuButtons : public Canis::ScriptableEntity
 {
     static void OnClickPlay(void *instance)
     {
-        Canis::Log("Click");
         ((MainMenuButtons * )instance)->GetAssetManager().Get<Canis::SoundAsset>(((MainMenuButtons * )instance)->GetAssetManager().LoadSound("assets/sounds/click.wav"))->Play();
         ((Canis::SceneManager *)((MainMenuButtons * )instance)->m_Entity.scene->sceneManager)->Load("main");
     }

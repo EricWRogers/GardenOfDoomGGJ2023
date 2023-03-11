@@ -15,6 +15,7 @@
 #include "ECS/Systems/BulletSystem.hpp"
 #include "ECS/Systems/BombSystem.hpp"
 #include "ECS/Systems/HandOfGodSystem.hpp"
+#include "ECS/Systems/DamageTextSystem.hpp"
 
 #include "ECS/ScriptableEntities/DebugCamera2D.hpp"
 #include "ECS/ScriptableEntities/BeachBall.hpp"
@@ -164,6 +165,16 @@ App::App()
 			[](YAML::Node _n, int _index, Canis::Scene *scene) {
 				if(_n[_index].as<std::string>() == "Canis::SpriteRenderer2DSystem"){
 					scene->CreateRenderSystem<Canis::SpriteRenderer2DSystem>();
+					return true;
+				}
+				return false;
+			}
+		);
+
+		sceneManager.decodeRenderSystem.push_back(
+			[](YAML::Node _n, int _index, Canis::Scene *scene) {
+				if(_n[_index].as<std::string>() == "DamageTextSystem"){
+					scene->CreateRenderSystem<DamageTextSystem>();
 					return true;
 				}
 				return false;
@@ -477,10 +488,8 @@ App::App()
 		sceneManager.decodeEntity.push_back(DecodeBombComponent);
 	}
 }
-App::~App()
-{
-	
-}
+
+App::~App() {}
 
 void App::Run()
 {
@@ -518,8 +527,6 @@ void App::Run()
 		&assetManager,
 		seed
 	);
-
-	Canis::Log("Q App 0");
 
 	Load();
 

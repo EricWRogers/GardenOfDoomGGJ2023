@@ -11,15 +11,9 @@ protected:
     std::vector<State*> m_states = {};
     State* m_state = nullptr;
 public:
-    void OnCreate()
-    {
-        Canis::Log("OnCreate StateMachine");
-    }
+    void OnCreate() { }
 
-    void OnReady()
-    {
-        
-    }
+    void OnReady() { }
     
     void OnDestroy()
     {

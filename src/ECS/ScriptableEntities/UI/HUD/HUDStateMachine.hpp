@@ -42,8 +42,6 @@ public:
     void Enter(Canis::ScriptableEntity &_scriptableEntity)
     {
         State::Enter(_scriptableEntity);
-
-        Canis::Log("Enter HUDState");
     }
 
     void Update(Canis::ScriptableEntity &_scriptableEntity, float _deltaTime)
@@ -52,7 +50,6 @@ public:
 
         if (_scriptableEntity.GetInputManager().JustPressedKey(SDLK_ESCAPE) ||
             _scriptableEntity.GetInputManager().GetButton(0, Canis::ControllerButton::START)) {
-            ChangeState("HUDPauseState");
         }
     }
 

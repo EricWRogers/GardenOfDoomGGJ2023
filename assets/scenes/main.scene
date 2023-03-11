@@ -11,6 +11,7 @@ Systems:
   - Canis::SpriteAnimationSystem
 RenderSystems:
   - Canis::SpriteRenderer2DSystem
+  - DamageTextSystem
   - Canis::RenderHUDSystem
   - Canis::RenderTextSystem
 Entities:

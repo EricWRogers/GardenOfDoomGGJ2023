@@ -115,6 +115,38 @@ class EnemySystem : public Canis::System
                 }
             }
 
+            if (health.tookThisFrame > 0) {
+                // spawn in damage text
+                // TODO : Object Pool this later
+                Canis::Entity damageTextEntity = GetScene().CreateEntity();
+                Canis::RectTransformComponent& rtc = damageTextEntity.AddComponent<Canis::RectTransformComponent>();
+                rtc = transform;
+                Canis::ColorComponent& cc = damageTextEntity.AddComponent<Canis::ColorComponent>();
+
+                if (health.tookThisFrame/health.maxHealth > 0.75f)
+                    cc.color = glm::vec4(1.0f,0.0f,0.0f,1.0f);
+                else
+                    cc.color = glm::vec4(1.0f,0.64f,0.0f,1.0f);
+
+                DamageTextComponent& dtc = damageTextEntity.AddComponent<DamageTextComponent>();
+                DamageText::SetText(dtc, (unsigned short)health.tookThisFrame);
+
+                enemy.hitCountDown = ENEMYHITTIME;
+                health.tookThisFrame = 0;
+            }
+
+            if (enemy.hitCountDown > 0.0f)
+            {
+                enemy.hitCountDown -= _deltaTime;
+                Canis::ColorComponent& c = _registry.get<Canis::ColorComponent>(entity);
+
+                if (enemy.hitCountDown <= 0.0f) {
+                    c.color = glm::vec4(1.0f);
+                } else {
+                    c.color = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
+                }
+            }
+
             if (health.currentHealth <= 0)
             {
                 bool success = SpawnSeed(transform.position);
@@ -165,22 +197,6 @@ class EnemySystem : public Canis::System
                 anim.index = 0;
 
                 _registry.destroy(entity);
-            } else {
-                if (health.tookDamage) {
-                    health.tookDamage = false;
-                    enemy.hitCountDown = ENEMYHITTIME;
-                }
-                if (enemy.hitCountDown > 0.0f)
-                {
-                    enemy.hitCountDown -= _deltaTime;
-                    Canis::ColorComponent& c = _registry.get<Canis::ColorComponent>(entity);
-
-                    if (enemy.hitCountDown <= 0.0f) {
-                        c.color = glm::vec4(1.0f);
-                    } else {
-                        c.color = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
-                    }
-                }
             }
         }
     }

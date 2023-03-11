@@ -7,6 +7,7 @@
 #include <Canis/Canis.hpp>
 #include <Canis/SceneManager.hpp>
 
+#include "ECS/Components/DamageTextComponent.hpp"
 
 enum AppState
 {

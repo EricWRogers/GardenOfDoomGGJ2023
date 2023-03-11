@@ -4,14 +4,14 @@ struct EnemyHealthComponent
 {
     float currentHealth = 0.0f;
     float maxHealth = 0.0f;
-    bool tookDamage = false;
+    unsigned short tookThisFrame = 0;
 };
 
 namespace EnemyHealth
 {
-    inline void DamageEnemy(EnemyHealthComponent &health, const float &damage)
+    inline void DamageEnemy(EnemyHealthComponent &_health, const float &_damage)
     {
-        health.tookDamage = true;
-        health.currentHealth -= damage;
+        _health.tookThisFrame += _damage;
+        _health.currentHealth -= _damage;
     }
 }
