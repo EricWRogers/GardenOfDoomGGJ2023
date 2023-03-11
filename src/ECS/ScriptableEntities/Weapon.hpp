@@ -109,11 +109,8 @@ class Weapon : public Canis::ScriptableEntity
         if (results.size() > 0)
         {
             enttSelection = results[rand() % results.size()];
-            if (enttSelection != entt::tombstone && m_Entity.scene->entityRegistry.valid(enttSelection))
-            {
-                canisSelection.entityHandle = enttSelection;
-                return canisSelection;
-            }
+            canisSelection.entityHandle = enttSelection;
+            return canisSelection;
         }
 
         return canisSelection;
