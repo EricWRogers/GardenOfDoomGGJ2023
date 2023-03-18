@@ -490,3 +490,14 @@ public:
         StateMachine::OnUpdate(_dt);
     }
 };
+
+bool DecodeHUDStateMachine(const std::string &_name, Canis::Entity &_entity)
+{
+    if(_name == "HUDStateMachine"){
+        Canis::ScriptComponent scriptComponent = {};
+        scriptComponent.Bind<HUDStateMachine>();
+        _entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
+        return true;
+    }
+    return false;
+}

@@ -37,5 +37,5 @@ Entities:
   - 3:
     Canis::ScriptComponent: MainMenuButtons
   - 4:
-    Canis::ScriptComponent: Music
+    Canis::ScriptComponent: MusicScriptableEntity
   

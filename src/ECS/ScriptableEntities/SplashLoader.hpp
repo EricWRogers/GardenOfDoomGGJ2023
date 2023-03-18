@@ -34,3 +34,15 @@ public:
         }
     }
 };
+
+bool DecodeSplashLoader(const std::string &_name, Canis::Entity &_entity)
+{
+    if (_name == "SplashLoader")
+    {
+        Canis::ScriptComponent scriptComponent = {};
+        scriptComponent.Bind<SplashLoader>();
+        _entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
+        return true;
+    }
+    return false;
+}

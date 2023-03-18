@@ -6,12 +6,12 @@
 
 class HandOfGodWeapon : public Weapon
 {
-    private:
+private:
     float timer = 0.0f;
     bool canDrop = true;
     int handId = 0;
 
-    public:
+public:
     void OnCreate()
     {
         handId = GetAssetManager().LoadSpriteAnimation("assets/animations/hand_of_god.anim");
@@ -21,31 +21,30 @@ class HandOfGodWeapon : public Weapon
     {
         Weapon::OnReady();
         Weapon::SetBaseStats(
-            30.0f,              //damage
-            glm::vec2(64.0f),   //weapon effect size
-            0.0f,               //speed
-            0.0f,                  //duration
-            1,                  //amount
-            0.8f                //cooldown
+            30.0f,            // damage
+            glm::vec2(64.0f), // weapon effect size
+            0.0f,             // speed
+            0.0f,             // duration
+            1,                // amount
+            0.8f              // cooldown
         );
     }
-    
+
     void OnDestroy()
     {
-
     }
 
     void OnUpdate(float _dt)
     {
         if (GetComponent<Canis::RectTransformComponent>().active == false) // add to all weapons
             return;
-        
+
         Weapon::OnUpdate(_dt);
-        
+
         GetComponent<Canis::RectTransformComponent>().position = player.GetComponent<Canis::RectTransformComponent>().position;
 
         timer -= _dt;
-        if(timer <= 0)
+        if (timer <= 0)
         {
             canDrop = true;
         }
@@ -59,37 +58,49 @@ class HandOfGodWeapon : public Weapon
             canDrop = false;
         }
     }
-    
+
     void DropProjectile()
     {
         Canis::Entity hitEntity = FindRandomEnemyOnScreen();
 
         if (hitEntity.entityHandle == entt::null)
             return;
-        
+
         auto e = CreateEntity();
 
-        auto& rect = e.AddComponent<Canis::RectTransformComponent>();
+        auto &rect = e.AddComponent<Canis::RectTransformComponent>();
         rect.position = hitEntity.GetComponent<Canis::RectTransformComponent>().position;
         rect.size = size;
         rect.depth = 0.2f;
 
-        auto& sprite = e.AddComponent<Canis::Sprite2DComponent>();
+        auto &sprite = e.AddComponent<Canis::Sprite2DComponent>();
         sprite.texture = GetAssetManager().Get<Canis::TextureAsset>(GetAssetManager().LoadTexture("assets/textures/enemies/let_it_bee.png"))->GetTexture();
 
-        auto& color = e.AddComponent<Canis::ColorComponent>();
+        auto &color = e.AddComponent<Canis::ColorComponent>();
         color.color = glm::vec4(1.0, 1.0, 1.0, 1.0);
 
-        auto& anim = e.AddComponent<Canis::SpriteAnimationComponent>();
+        auto &anim = e.AddComponent<Canis::SpriteAnimationComponent>();
         anim.animationId = handId;
 
-        auto& circleCollider = e.AddComponent<Canis::CircleColliderComponent>();
+        auto &circleCollider = e.AddComponent<Canis::CircleColliderComponent>();
         circleCollider.layer = Canis::BIT::ZERO;
         circleCollider.mask = Canis::BIT::TWO;
         circleCollider.radius = size.x / 2.0f;
 
-        auto& hand = e.AddComponent<HandOfGodComponent>();
+        auto &hand = e.AddComponent<HandOfGodComponent>();
         hand.damage = damage;
         hand.timeLeft = 1.2f;
     }
 };
+
+bool DecodeHandOfGodWeapon(const std::string &_name, Canis::Entity &_entity)
+{
+    if (_name == "HandOfGodWeapon")
+    {
+        Canis::ScriptComponent scriptComponent = {};
+        scriptComponent.Bind<HandOfGodWeapon>();
+        _entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
+        return true;
+    }
+    return false;
+}

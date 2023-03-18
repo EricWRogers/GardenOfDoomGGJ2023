@@ -6,12 +6,12 @@
 
 class SwordWeapon : public Weapon
 {
-    private:
+private:
     float timer = 0.0f;
     bool canShoot = true;
     int swordId = 0;
 
-    public:
+public:
     void OnCreate()
     {
         Weapon::OnCreate();
@@ -22,15 +22,15 @@ class SwordWeapon : public Weapon
     {
         Weapon::OnReady();
         Weapon::SetBaseStats(
-            15.0f,              //damage
-            glm::vec2(16.0f),   //weapon effect size
-            200.0f,             //speed
-            6.0f,               //duration
-            1,                  //amount
-            0.4f                //cooldown
+            15.0f,            // damage
+            glm::vec2(16.0f), // weapon effect size
+            200.0f,           // speed
+            6.0f,             // duration
+            1,                // amount
+            0.4f              // cooldown
         );
     }
-    
+
     void OnDestroy()
     {
         Weapon::OnDestroy();
@@ -42,19 +42,19 @@ class SwordWeapon : public Weapon
             return;
 
         Weapon::OnUpdate(_dt);
-        
+
         GetComponent<Canis::RectTransformComponent>().position = player.GetComponent<Canis::RectTransformComponent>().position;
 
         timer -= _dt;
-        if(timer <= 0)
+        if (timer <= 0)
         {
             canShoot = true;
         }
 
         if (canShoot)
         {
-            Shoot( 
-                ((PlayerManager*)player.GetComponent<Canis::ScriptComponent>().Instance)->GetInputDirection(),
+            Shoot(
+                ((PlayerManager *)player.GetComponent<Canis::ScriptComponent>().Instance)->GetInputDirection(),
                 player.GetComponent<Canis::RectTransformComponent>().position,
                 swordId);
 
@@ -63,3 +63,15 @@ class SwordWeapon : public Weapon
         }
     }
 };
+
+bool DecodeSwordWeapon(const std::string &_name, Canis::Entity &_entity)
+{
+    if (_name == "SwordWeapon")
+    {
+        Canis::ScriptComponent scriptComponent = {};
+        scriptComponent.Bind<SwordWeapon>();
+        _entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
+        return true;
+    }
+    return false;
+}
