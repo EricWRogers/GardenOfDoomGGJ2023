@@ -79,3 +79,11 @@ public:
         m_renderTextSystem->textShader.UnUse();
     }
 };
+
+bool DecodeDamageTextSystem(const std::string &_name, Canis::Scene *_scene) {
+    if(_name == "DamageTextSystem"){
+        _scene->CreateRenderSystem<DamageTextSystem>();
+        return true;
+    }
+    return false;
+}

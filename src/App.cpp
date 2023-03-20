@@ -140,45 +140,10 @@ App::App()
 	}
 
 	{ // decode render systems
-		sceneManager.decodeRenderSystem.push_back(
-			[](YAML::Node _n, int _index, Canis::Scene *scene) {
-				if(_n[_index].as<std::string>() == "Canis::RenderHUDSystem"){
-					scene->CreateRenderSystem<Canis::RenderHUDSystem>();
-					return true;
-				}
-				return false;
-			}
-		);
-
-		sceneManager.decodeRenderSystem.push_back(
-			[](YAML::Node _n, int _index, Canis::Scene *scene) {
-				if(_n[_index].as<std::string>() == "Canis::RenderTextSystem"){
-					scene->CreateRenderSystem<Canis::RenderTextSystem>();
-					return true;
-				}
-				return false;
-			}
-		);
-
-		sceneManager.decodeRenderSystem.push_back(
-			[](YAML::Node _n, int _index, Canis::Scene *scene) {
-				if(_n[_index].as<std::string>() == "Canis::SpriteRenderer2DSystem"){
-					scene->CreateRenderSystem<Canis::SpriteRenderer2DSystem>();
-					return true;
-				}
-				return false;
-			}
-		);
-
-		sceneManager.decodeRenderSystem.push_back(
-			[](YAML::Node _n, int _index, Canis::Scene *scene) {
-				if(_n[_index].as<std::string>() == "DamageTextSystem"){
-					scene->CreateRenderSystem<DamageTextSystem>();
-					return true;
-				}
-				return false;
-			}
-		);
+		sceneManager.decodeRenderSystem.push_back(Canis::DecodeRenderHUDSystem);
+		sceneManager.decodeRenderSystem.push_back(Canis::DecodeRenderTextSystem);
+		sceneManager.decodeRenderSystem.push_back(Canis::DecodeSpriteRenderer2DSystem);
+		sceneManager.decodeRenderSystem.push_back(DecodeDamageTextSystem);
 	}
 	
 	{ // decode scriptable entities
