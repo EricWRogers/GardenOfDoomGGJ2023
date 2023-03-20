@@ -84,3 +84,15 @@ public:
         }
     }
 };
+
+bool DecodeDebugCamera2D(const std::string &_name, Canis::Entity &_entity)
+{
+    if (_name == "DebugCamera2D")
+    {
+        Canis::ScriptComponent scriptComponent = {};
+        scriptComponent.Bind<DebugCamera2D>();
+        _entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
+        return true;
+    }
+    return false;
+}
