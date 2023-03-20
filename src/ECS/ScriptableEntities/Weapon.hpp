@@ -145,3 +145,15 @@ class Weapon : public Canis::ScriptableEntity
         return closestEntity;
     }
 };
+
+bool DecodeWeapon(const std::string &_name, Canis::Entity &_entity)
+{
+    if (_name == "Weapon")
+    {
+        Canis::ScriptComponent scriptComponent = {};
+        scriptComponent.Bind<Weapon>();
+        _entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
+        return true;
+    }
+    return false;
+}

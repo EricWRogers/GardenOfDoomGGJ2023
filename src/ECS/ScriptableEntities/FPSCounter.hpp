@@ -31,3 +31,15 @@ public:
         //(*GetComponent<Canis::TextComponent>().text) = "FPS : " + std::to_string(((Canis::SceneManager*)m_Entity.scene->sceneManager)->updateTime);
     }
 };
+
+bool DecodeFPSCounter(const std::string &_name, Canis::Entity &_entity)
+{
+    if (_name == "FPSCounter")
+    {
+        Canis::ScriptComponent scriptComponent = {};
+        scriptComponent.Bind<FPSCounter>();
+        _entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
+        return true;
+    }
+    return false;
+}

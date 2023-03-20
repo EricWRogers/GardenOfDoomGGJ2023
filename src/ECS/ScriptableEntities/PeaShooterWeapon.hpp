@@ -69,3 +69,15 @@ class PeaShooterWeapon : public Weapon
         }
     }
 };
+
+bool DecodePeaShooterWeapon(const std::string &_name, Canis::Entity &_entity)
+{
+    if (_name == "PeaShooterWeapon")
+    {
+        Canis::ScriptComponent scriptComponent = {};
+        scriptComponent.Bind<PeaShooterWeapon>();
+        _entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
+        return true;
+    }
+    return false;
+}

@@ -103,3 +103,15 @@ public:
         }
     }
 };
+
+bool DecodeBeachBall(const std::string &_name, Canis::Entity &_entity)
+{
+    if (_name == "BeachBall")
+    {
+        Canis::ScriptComponent scriptComponent = {};
+        scriptComponent.Bind<BeachBall>();
+        _entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
+        return true;
+    }
+    return false;
+}

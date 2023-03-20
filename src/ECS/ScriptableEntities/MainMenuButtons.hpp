@@ -90,3 +90,15 @@ public:
 
 
 };
+
+bool DecodeMainMenuButtons(const std::string &_name, Canis::Entity &_entity)
+{
+    if (_name == "MainMenuButtons")
+    {
+        Canis::ScriptComponent scriptComponent = {};
+        scriptComponent.Bind<MainMenuButtons>();
+        _entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
+        return true;
+    }
+    return false;
+}

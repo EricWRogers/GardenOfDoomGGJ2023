@@ -182,162 +182,19 @@ App::App()
 	}
 	
 	{ // decode scriptable entities
-		sceneManager.decodeScriptableEntity.push_back(
-			[](const std::string &_name, Canis::Entity &_entity) {
-				if(_name == "DebugCamera2D"){
-					Canis::ScriptComponent scriptComponent = {};
-            		scriptComponent.Bind<DebugCamera2D>();
-					_entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
-					return true;
-				}
-				return false;
-			}
-		);
-
-		sceneManager.decodeScriptableEntity.push_back(
-			[](const std::string &_name, Canis::Entity &_entity) {
-				if(_name == "BeachBall"){
-					Canis::ScriptComponent scriptComponent = {};
-            		scriptComponent.Bind<BeachBall>();
-					_entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
-					return true;
-				}
-				return false;
-			}
-		);
-
-		sceneManager.decodeScriptableEntity.push_back(
-			[](const std::string &_name, Canis::Entity &_entity) {
-				if(_name == "EnemySpawnManager"){
-					Canis::ScriptComponent scriptComponent = {};
-            		scriptComponent.Bind<EnemySpawnManager>();
-					_entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
-					return true;
-				}
-				return false;
-			}
-		);
-
-		sceneManager.decodeScriptableEntity.push_back(
-			[](const std::string &_name, Canis::Entity &_entity) {
-				if(_name == "PlayerManager"){
-					Canis::ScriptComponent scriptComponent = {};
-            		scriptComponent.Bind<PlayerManager>();
-					_entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
-					return true;
-				}
-				return false;
-			}
-		);
-
-		sceneManager.decodeScriptableEntity.push_back(
-			[](const std::string &_name, Canis::Entity &_entity) {
-				if(_name == "FPSCounter"){
-					Canis::ScriptComponent scriptComponent = {};
-            		scriptComponent.Bind<FPSCounter>();
-					_entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
-					return true;
-				}
-				return false;
-			}
-		);
-
-		sceneManager.decodeScriptableEntity.push_back(
-			[](const std::string &_name, Canis::Entity &_entity) {
-				if(_name == "Timer"){
-					Canis::ScriptComponent scriptComponent = {};
-            		scriptComponent.Bind<Timer>();
-					_entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
-					return true;
-				}
-				return false;
-			}
-		);
-
-		sceneManager.decodeScriptableEntity.push_back(
-			[](const std::string &_name, Canis::Entity &_entity) {
-				if(_name == "MainMenuButtons"){
-					Canis::ScriptComponent scriptComponent = {};
-            		scriptComponent.Bind<MainMenuButtons>();
-					_entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
-					return true;
-				}
-				return false;
-			}
-		);
-
-		sceneManager.decodeScriptableEntity.push_back(
-			[](const std::string &_name, Canis::Entity &_entity) {
-				if(_name == "MainMenuButton"){
-					Canis::ScriptComponent scriptComponent = {};
-            		scriptComponent.Bind<MainMenuButton>();
-					_entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
-					return true;
-				}
-				return false;
-			}
-		);
-
-		sceneManager.decodeScriptableEntity.push_back(
-			[](const std::string &_name, Canis::Entity &_entity) {
-				if(_name == "MapBuilder"){
-					Canis::ScriptComponent scriptComponent = {};
-            		scriptComponent.Bind<MapBuilder>();
-					_entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
-					return true;
-				}
-				return false;
-			}
-		);
-		
-		sceneManager.decodeScriptableEntity.push_back(
-			[](const std::string &_name, Canis::Entity &_entity) {
-				if(_name == "PeaShooterWeapon"){
-					Canis::ScriptComponent scriptComponent = {};
-            		scriptComponent.Bind<PeaShooterWeapon>();
-					_entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
-					return true;
-				}
-				return false;
-			}
-		);
-
-		sceneManager.decodeScriptableEntity.push_back(
-            [](const std::string &_name, Canis::Entity &_entity) {
-                if(_name == "Weapon"){
-                    Canis::ScriptComponent scriptComponent = {};
-                    scriptComponent.Bind<Weapon>();
-                    _entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
-                    return true;
-                }
-                return false;
-            }
-        );
-
-		sceneManager.decodeScriptableEntity.push_back(
-            [](const std::string &_name, Canis::Entity &_entity) {
-                if(_name == "WaveManager"){
-                    Canis::ScriptComponent scriptComponent = {};
-                    scriptComponent.Bind<WaveManager>();
-                    _entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
-                    return true;
-                }
-                return false;
-            }
-        );
-
-		sceneManager.decodeScriptableEntity.push_back(
-            [](const std::string &_name, Canis::Entity &_entity) {
-                if(_name == "XP"){
-                    Canis::ScriptComponent scriptComponent = {};
-                    scriptComponent.Bind<XP>();
-                    _entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
-                    return true;
-                }
-                return false;
-            }
-        );
-
+		sceneManager.decodeScriptableEntity.push_back(DecodeDebugCamera2D);
+		sceneManager.decodeScriptableEntity.push_back(DecodeBeachBall);
+		sceneManager.decodeScriptableEntity.push_back(DecodeEnemySpawnManager);
+		sceneManager.decodeScriptableEntity.push_back(DecodePlayerManager);
+		sceneManager.decodeScriptableEntity.push_back(DecodeFPSCounter);
+		sceneManager.decodeScriptableEntity.push_back(DecodeTimer);
+		sceneManager.decodeScriptableEntity.push_back(DecodeMainMenuButtons);
+		sceneManager.decodeScriptableEntity.push_back(DecodeMainMenuButton);
+		sceneManager.decodeScriptableEntity.push_back(DecodeMapBuilder);		
+		sceneManager.decodeScriptableEntity.push_back(DecodePeaShooterWeapon);
+		sceneManager.decodeScriptableEntity.push_back(DecodeWeapon);
+		sceneManager.decodeScriptableEntity.push_back(DecodeWaveManager);
+		sceneManager.decodeScriptableEntity.push_back(DecodeXP);
 		sceneManager.decodeScriptableEntity.push_back(DecodeMusicScriptableEntity);
 		sceneManager.decodeScriptableEntity.push_back(DecodeFireBallWeapon);
 		sceneManager.decodeScriptableEntity.push_back(DecodeSwordWeapon);

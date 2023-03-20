@@ -110,3 +110,15 @@ class EnemySpawnManager : public Canis::ScriptableEntity
         anim.index = 0;
     }
 };
+
+bool DecodeEnemySpawnManager(const std::string &_name, Canis::Entity &_entity)
+{
+    if (_name == "EnemySpawnManager")
+    {
+        Canis::ScriptComponent scriptComponent = {};
+        scriptComponent.Bind<EnemySpawnManager>();
+        _entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
+        return true;
+    }
+    return false;
+}

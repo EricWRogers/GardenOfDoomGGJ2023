@@ -63,3 +63,15 @@ public:
         return time;
     }
 };
+
+bool DecodeTimer(const std::string &_name, Canis::Entity &_entity)
+{
+    if (_name == "Timer")
+    {
+        Canis::ScriptComponent scriptComponent = {};
+        scriptComponent.Bind<Timer>();
+        _entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
+        return true;
+    }
+    return false;
+}

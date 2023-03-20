@@ -264,3 +264,15 @@ class WaveManager : public Canis::ScriptableEntity
         m_timeSinceLastWave += _dt;
     }
 };
+
+bool DecodeWaveManager(const std::string &_name, Canis::Entity &_entity)
+{
+    if (_name == "WaveManager")
+    {
+        Canis::ScriptComponent scriptComponent = {};
+        scriptComponent.Bind<WaveManager>();
+        _entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
+        return true;
+    }
+    return false;
+}
