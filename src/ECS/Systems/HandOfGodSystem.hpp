@@ -62,3 +62,11 @@ class HandOfGodSystem : public Canis::System
         }
     }   
 };
+
+bool DecodeHandOfGodSystem(const std::string &_name, Canis::Scene *_scene) {
+    if(_name == "HandOfGodSystem"){
+        _scene->CreateSystem<HandOfGodSystem>();
+        return true;
+    }
+    return false;
+}

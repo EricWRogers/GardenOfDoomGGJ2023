@@ -100,3 +100,11 @@ class BombSystem : public Canis::System
         }
     }   
 };
+
+bool DecodeBombSystem(const std::string &_name, Canis::Scene *_scene) {
+    if(_name == "BombSystem"){
+        _scene->CreateSystem<BombSystem>();
+        return true;
+    }
+    return false;
+}

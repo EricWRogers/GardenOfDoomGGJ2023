@@ -151,3 +151,11 @@ public:
         }
     }
 };
+
+bool DecodeBoidSystem(const std::string &_name, Canis::Scene *_scene) {
+    if(_name == "BoidSystem"){
+        _scene->CreateSystem<BoidSystem>();
+        return true;
+    }
+    return false;
+}

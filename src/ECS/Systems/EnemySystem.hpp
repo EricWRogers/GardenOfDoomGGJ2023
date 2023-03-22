@@ -201,3 +201,11 @@ class EnemySystem : public Canis::System
         }
     }
 };
+
+bool DecodeEnemySystem(const std::string &_name, Canis::Scene *_scene) {
+    if(_name == "EnemySystem"){
+        _scene->CreateSystem<EnemySystem>();
+        return true;
+    }
+    return false;
+}

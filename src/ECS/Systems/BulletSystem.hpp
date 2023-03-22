@@ -56,3 +56,11 @@ class BulletSystem : public Canis::System
         }
     }
 };
+
+bool DecodeBulletSystem(const std::string &_name, Canis::Scene *_scene) {
+    if(_name == "BulletSystem"){
+        _scene->CreateSystem<BulletSystem>();
+        return true;
+    }
+    return false;
+}

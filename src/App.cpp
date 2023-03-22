@@ -48,95 +48,15 @@
 App::App()
 {
 	{ // decode systems
-		sceneManager.decodeSystem.push_back(
-			[](YAML::Node _n, int _index, Canis::Scene *scene) {
-				if(_n[_index].as<std::string>() == "Canis::ButtonSystem"){
-					scene->CreateSystem<Canis::ButtonSystem>();
-					return true;
-				}
-				return false;
-			}
-        );
-
-		sceneManager.decodeSystem.push_back(
-			[](YAML::Node _n, int _index, Canis::Scene *scene) {
-				if(_n[_index].as<std::string>() == "Canis::CollisionSystem2D"){
-					scene->CreateSystem<Canis::CollisionSystem2D>();
-					return true;
-				}
-				return false;
-			}
-		);
-
-		sceneManager.decodeSystem.push_back(
-			[](YAML::Node _n, int _index, Canis::Scene *scene) {
-				if(_n[_index].as<std::string>() == "Canis::SpriteAnimationSystem"){
-					scene->CreateSystem<Canis::SpriteAnimationSystem>();
-					return true;
-				}
-				return false;
-			}
-		);
-
-		sceneManager.decodeSystem.push_back(
-			[](YAML::Node _n, int _index, Canis::Scene *scene) {
-				if(_n[_index].as<std::string>() == "Canis::UISliderSystem"){
-					scene->CreateSystem<Canis::UISliderSystem>();
-					return true;
-				}
-				return false;
-			}
-		);
-
-		sceneManager.decodeSystem.push_back(
-			[](YAML::Node _n, int _index, Canis::Scene *scene) {
-				if(_n[_index].as<std::string>() == "BoidSystem"){
-					scene->CreateSystem<BoidSystem>();
-					return true;
-				}
-				return false;
-			}
-		);
-
-		sceneManager.decodeSystem.push_back(
-			[](YAML::Node _n, int _index, Canis::Scene *scene) {
-				if(_n[_index].as<std::string>() == "BulletSystem"){
-					scene->CreateSystem<BulletSystem>();
-					return true;
-				}
-				return false;
-			}
-		);
-
-		sceneManager.decodeSystem.push_back(
-			[](YAML::Node _n, int _index, Canis::Scene *scene) {
-				if(_n[_index].as<std::string>() == "EnemySystem"){
-					scene->CreateSystem<EnemySystem>();
-					return true;
-				}
-				return false;
-			}
-		);
-
-		sceneManager.decodeSystem.push_back(
-			[](YAML::Node _n, int _index, Canis::Scene *scene) {
-				if(_n[_index].as<std::string>() == "BombSystem"){
-					scene->CreateSystem<BombSystem>();
-					return true;
-				}
-				return false;
-			}
-		);
-		
-		sceneManager.decodeSystem.push_back(
-			[](YAML::Node _n, int _index, Canis::Scene *scene) {
-				if(_n[_index].as<std::string>() == "HandOfGodSystem"){
-					scene->CreateSystem<HandOfGodSystem>();
-					return true;
-				}
-				return false;
-			}
-		);
+		sceneManager.decodeSystem.push_back(Canis::DecodeButtonSystem);
+		sceneManager.decodeSystem.push_back(Canis::DecodeCollisionSystem2D);
+		sceneManager.decodeSystem.push_back(Canis::DecodeSpriteAnimationSystem);
+		sceneManager.decodeSystem.push_back(Canis::DecodeUISliderSystem);
+		sceneManager.decodeSystem.push_back(DecodeBoidSystem);
+		sceneManager.decodeSystem.push_back(DecodeBulletSystem);
+		sceneManager.decodeSystem.push_back(DecodeEnemySystem);
+		sceneManager.decodeSystem.push_back(DecodeBombSystem);		
+		sceneManager.decodeSystem.push_back(DecodeHandOfGodSystem);
 	}
 
 	{ // decode render systems
