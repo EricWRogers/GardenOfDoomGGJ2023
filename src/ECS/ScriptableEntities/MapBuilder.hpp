@@ -2,6 +2,8 @@
 #include <string>
 #include <Canis/ScriptableEntity.hpp>
 
+class PlantableGroundComponent;
+
 class MapBuilder : public Canis::ScriptableEntity
 {
 private:
@@ -18,6 +20,8 @@ public:
         int halfWidth = width/2;
         int halfHeight = height/2;
         int border = 20;
+        float chance = 0.0f;
+
         Canis::GLTexture texture = GetAssetManager().Get<Canis::TextureAsset>(
                 GetAssetManager().LoadTexture("assets/textures/environment/background_sprite_sheet.png"))->GetTexture();
         Canis::GLTexture borderTexture = GetAssetManager().Get<Canis::TextureAsset>(
@@ -44,17 +48,38 @@ public:
                    y > ((GetWindow().GetScreenHeight()/64.0f) - halfHeight))
                 {
                     sprite.texture = texture;
-                    GetSpriteFromTextureAtlas(
-                        sprite,
-                        0,
-                        0,
-                        rand() % 3,
-                        rand() % 3,
-                        16,
-                        16,
-                        (0 == rand() % 2),
-                        (0 == rand() % 2)
-                    );
+
+                    if (chance < Canis::RandomFloat(0.0f, 100.0f))
+                    {
+                        GetSpriteFromTextureAtlas(
+                            sprite,
+                            0,
+                            0,
+                            rand() % 3,
+                            rand() % 3,
+                            16,
+                            16,
+                            (0 == rand() % 2),
+                            (0 == rand() % 2)
+                        );
+                        chance += 0.01f;
+                    }
+                    else
+                    {
+                        GetSpriteFromTextureAtlas(
+                            sprite,
+                            0,
+                            0,
+                            3,
+                            1,
+                            16,
+                            16,
+                            (0 == rand() % 2),
+                            (0 == rand() % 2)
+                        );
+                        auto& pgc = tile.AddComponent<PlantableGroundComponent>();
+                        chance = 0.0f;
+                    }
                 }else{
                     sprite.texture = borderTexture;
                     GetSpriteFromTextureAtlas(
