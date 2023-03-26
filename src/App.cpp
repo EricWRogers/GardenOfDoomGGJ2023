@@ -107,6 +107,7 @@ App::App()
 		sceneManager.decodeEntity.push_back(DecodePlayerHealthComponent);
 		sceneManager.decodeEntity.push_back(DecodeEnemyHealthComponent);
 		sceneManager.decodeEntity.push_back(DecodeBombComponent);
+		sceneManager.decodeEntity.push_back(DecodePlantableGroundComponent);
 	}
 }
 
@@ -196,8 +197,6 @@ void App::InputUpdate()
 	if(!inputManager.Update(window.GetScreenWidth(), window.GetScreenHeight())) {
 		appState = AppState::OFF;
 	}
-
-	
 
 	sceneManager.InputUpdate();
 }
