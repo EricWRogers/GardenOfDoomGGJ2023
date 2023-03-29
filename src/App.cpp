@@ -16,6 +16,7 @@
 #include "ECS/Systems/BombSystem.hpp"
 #include "ECS/Systems/HandOfGodSystem.hpp"
 #include "ECS/Systems/DamageTextSystem.hpp"
+#include "ECS/Systems/PlantableTileSystem.hpp"
 
 #include "ECS/ScriptableEntities/DebugCamera2D.hpp"
 #include "ECS/ScriptableEntities/BeachBall.hpp"
@@ -57,6 +58,7 @@ App::App()
 		sceneManager.decodeSystem.push_back(DecodeEnemySystem);
 		sceneManager.decodeSystem.push_back(DecodeBombSystem);		
 		sceneManager.decodeSystem.push_back(DecodeHandOfGodSystem);
+		sceneManager.decodeSystem.push_back(DecodePlantableTileSystem);
 	}
 
 	{ // decode render systems
