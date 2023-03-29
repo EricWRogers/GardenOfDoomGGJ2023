@@ -20,7 +20,6 @@ class EnemySystem : public Canis::System
     int blueXpIdleId = 0;
     int purpleXpIdleId = 0;
     int rainbowXpIdleId = 0;
-    bool seedDropped = false;
 
     bool SpawnSeed(glm::vec2 position)
     {
@@ -60,6 +59,8 @@ class EnemySystem : public Canis::System
     }
 
     public:
+    bool seedDropped = false;
+
     void Create() 
     {
         blueXpIdleId = assetManager->LoadSpriteAnimation("assets/animations/exp_orb_blue.anim");

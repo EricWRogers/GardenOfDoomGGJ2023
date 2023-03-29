@@ -4,9 +4,12 @@
 #include <random>
 #include <algorithm>
 #include <vector>
+#include <Canis/Scene.hpp>
 #include <Canis/ScriptableEntity.hpp>
+#include <Canis/ECS/Systems/System.hpp>
 #include <Canis/ECS/Components/RectTransformComponent.hpp>
 #include "../Components/PlayerHealthComponent.hpp"
+#include "../Systems/EnemySystem.hpp"
 #include "XP.hpp"
 
 enum WeaponType
@@ -89,7 +92,6 @@ private:
     float currentXp = 0.0f;
     const float MAXEXP = 1000.0f;
     glm::vec2 lastDirection = glm::vec2(-1.0f, 0.0f);
-    
     Canis::Entity seed;
 
 public:
@@ -386,6 +388,13 @@ public:
                 }
             }
         }
+    }
+
+    void DestroySeed()
+    {
+        holdingSeed = false;
+        m_Entity.scene->GetSystem<EnemySystem>()->seedDropped = false;
+        m_Entity.scene->entityRegistry.destroy(seed);
     }
 };
 

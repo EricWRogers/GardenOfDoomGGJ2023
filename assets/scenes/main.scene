@@ -9,6 +9,7 @@ Systems:
   - EnemySystem
   - HandOfGodSystem
   - Canis::SpriteAnimationSystem
+  - PlantableTileSystem
 RenderSystems:
   - Canis::SpriteRenderer2DSystem
   - DamageTextSystem
