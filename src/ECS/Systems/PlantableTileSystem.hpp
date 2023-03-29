@@ -9,7 +9,7 @@
 #include "../Components/PlantableGroundComponent.hpp"
 #include "../ScriptableEntities/PlayerManager.hpp"
 
-class PlantableTileSystem : Canis::System
+class PlantableTileSystem : public Canis::System
 {
     private:
     Canis::Entity m_player;
