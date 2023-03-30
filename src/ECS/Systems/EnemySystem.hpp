@@ -1,7 +1,5 @@
 #pragma once
-#include <Canis/External/entt.hpp>
 #include <Canis/ECS/Systems/System.hpp>
-#include <Canis/ScriptableEntity.hpp>
 #include "../Components/EnemyComponent.hpp"
 #include "../Components/PlayerHealthComponent.hpp"
 #include "../Components/EnemyHealthComponent.hpp"

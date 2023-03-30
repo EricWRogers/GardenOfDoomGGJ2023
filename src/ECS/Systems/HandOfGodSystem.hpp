@@ -1,5 +1,4 @@
 #pragma once
-#include <Canis/External/entt.hpp>
 #include <Canis/ECS/Systems/System.hpp>
 #include <Canis/Math.hpp>
 #include "../Components/HandOfGodComponent.hpp"
