@@ -1,9 +1,6 @@
 #pragma once
 #include <SDL_keycode.h>
-#include <string>
 #include <random>
-#include <algorithm>
-#include <vector>
 #include <Canis/ScriptableEntity.hpp>
 #include <Canis/ECS/Components/RectTransformComponent.hpp>
 #include "../Components/PlayerHealthComponent.hpp"

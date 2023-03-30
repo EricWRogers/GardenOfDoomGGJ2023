@@ -197,7 +197,5 @@ void App::InputUpdate()
 		appState = AppState::OFF;
 	}
 
-	
-
 	sceneManager.InputUpdate();
 }
