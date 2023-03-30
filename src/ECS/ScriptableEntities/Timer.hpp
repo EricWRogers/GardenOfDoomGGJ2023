@@ -1,6 +1,4 @@
 #pragma once
-#include <string>
-#include <vector>
 #include <Canis/ScriptableEntity.hpp>
 #include <Canis/ECS/Components/TextComponent.hpp>
 

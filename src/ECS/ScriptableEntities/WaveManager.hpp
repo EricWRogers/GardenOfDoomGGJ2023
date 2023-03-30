@@ -1,7 +1,4 @@
 #pragma once
-#include <vector>
-#include <string>
-#include <map>
 #include <Canis/Math.hpp>
 #include <Canis/ScriptableEntity.hpp>
 #include "Timer.hpp"

@@ -6,6 +6,18 @@
 
 #include <Canis/Canis.hpp>
 #include <Canis/SceneManager.hpp>
+#include <Canis/Scene.hpp>
+
+#include <Canis/ECS/Systems/RenderHUDSystem.hpp>
+#include <Canis/ECS/Systems/RenderTextSystem.hpp>
+#include <Canis/ECS/Systems/SpriteRenderer2DSystem.hpp>
+#include <Canis/ECS/Systems/SpriteAnimationSystem.hpp>
+
+#include <Canis/ECS/Systems/CollisionSystem2D.hpp>
+#include <Canis/ECS/Systems/ButtonSystem.hpp>
+#include <Canis/ECS/Systems/UISliderSystem.hpp>
+
+#include "ECS/Systems/BoidSystem.hpp"
 
 #include "ECS/Components/DamageTextComponent.hpp"
 

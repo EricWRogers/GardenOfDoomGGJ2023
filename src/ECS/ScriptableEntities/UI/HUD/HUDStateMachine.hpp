@@ -1,6 +1,4 @@
 #pragma once
-#include <string>
-#include <vector>
 #include <SDL_keycode.h>
 
 #include <Canis/ECS/Components/ButtonComponent.hpp>

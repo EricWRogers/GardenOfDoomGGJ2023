@@ -1,6 +1,4 @@
 #pragma once
-#include <Canis/Entity.hpp>
-#include <Canis/Yaml.hpp>
 #include "Components/PlayerHealthComponent.hpp"
 #include "Components/EnemyHealthComponent.hpp"
 #include "Components/BulletComponent.hpp"

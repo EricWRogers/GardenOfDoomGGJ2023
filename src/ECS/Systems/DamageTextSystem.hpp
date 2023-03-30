@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Canis/ECS/Systems/System.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 class DamageTextSystem : public Canis::System
 {

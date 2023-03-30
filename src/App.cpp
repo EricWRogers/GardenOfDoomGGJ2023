@@ -1,16 +1,6 @@
 #include "App.hpp"
-#include <Canis/ECS/Systems/RenderHUDSystem.hpp>
-#include <Canis/ECS/Systems/RenderTextSystem.hpp>
-#include <Canis/ECS/Systems/SpriteRenderer2DSystem.hpp>
-#include <Canis/ECS/Systems/SpriteAnimationSystem.hpp>
-
-#include <Canis/ECS/Systems/CollisionSystem2D.hpp>
-#include <Canis/ECS/Systems/ButtonSystem.hpp>
-#include <Canis/ECS/Systems/UISliderSystem.hpp>
-
 #include <Canis/ECS/Decode.hpp>
 
-#include "ECS/Systems/BoidSystem.hpp"
 #include "ECS/Systems/EnemySystem.hpp"
 #include "ECS/Systems/BulletSystem.hpp"
 #include "ECS/Systems/BombSystem.hpp"
@@ -42,8 +32,6 @@
 #include "ECS/ScriptableEntities/SeedPickup.hpp"
 #include "ECS/ScriptableEntities/UI/HUD/HUDStateMachine.hpp"
 #include "ECS/Decode.hpp"
-
-#include "ECS/ScriptableEntities/UI/HUD/HUDStateMachine.hpp"
 
 App::App()
 {

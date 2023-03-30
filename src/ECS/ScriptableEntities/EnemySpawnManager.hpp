@@ -1,5 +1,4 @@
 #pragma once
-#include <vector>
 #include <Canis/Math.hpp>
 #include <Canis/ScriptableEntity.hpp>
 #include <Canis/ECS/Components/RectTransformComponent.hpp>
