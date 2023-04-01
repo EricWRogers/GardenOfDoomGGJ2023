@@ -104,15 +104,14 @@ class PlantableTileSystem : public Canis::System
                         Canis::Log(std::to_string(sprite.uv.y));
                         Canis::Log(std::to_string(sprite.uv.z));
                         Canis::Log(std::to_string(sprite.uv.w));
-                        sprite.texture = GetAssetManager().Get<Canis::TextureAsset>(
-                            GetAssetManager().LoadTexture("assets/textures/environment/planters.png"))->GetTexture();
+                        //sprite.texture = GetAssetManager().Get<Canis::TextureAsset>(GetAssetManager().LoadTexture("assets/textures/environment/planters.png"))->GetTexture();
 
                         Canis::Log("Break");
                         Canis::Log(std::to_string(sprite.uv.x));
                         Canis::Log(std::to_string(sprite.uv.y));
                         Canis::Log(std::to_string(sprite.uv.z));
                         Canis::Log(std::to_string(sprite.uv.w));
-                        Canis::GetSpriteFromTextureAtlas(sprite, 0, 0, 0, 1, 16, 16, false, false);
+                        Canis::GetSpriteFromTextureAtlas(sprite, 0, 0, 1, 0, 16, 16, false, false);
                         Canis::Log("Got here");
                         currentTime = 0.0f;
                         doneWithFirstStage = false;
