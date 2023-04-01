@@ -20,6 +20,7 @@ class EnemySystem : public Canis::System
     int blueXpIdleId = 0;
     int purpleXpIdleId = 0;
     int rainbowXpIdleId = 0;
+    bool seedDropped = false;
 
     bool SpawnSeed(glm::vec2 position)
     {
@@ -49,6 +50,8 @@ class EnemySystem : public Canis::System
             anim.index = 0;
 
             auto& seed = e.AddComponent<SeedComponent>();
+            seed.timeToFirstStage = 4.0f;
+            seed.timeToSecondStage = 6.0f;
 
             seedDropped = true;
 
@@ -59,7 +62,13 @@ class EnemySystem : public Canis::System
     }
 
     public:
-    bool seedDropped = false;
+
+    void DestroySeed()
+    {
+        ((PlayerManager*)m_player.GetComponent<Canis::ScriptComponent>().Instance)->holdingSeed = false;
+        scene->GetSystem<EnemySystem>()->seedDropped = false;
+        scene->entityRegistry.destroy(((PlayerManager*)m_player.GetComponent<Canis::ScriptComponent>().Instance)->seed);
+    }
 
     void Create() 
     {
