@@ -1,10 +1,4 @@
 #pragma once
-#include <Canis/ScriptableEntity.hpp>
-#include <Canis/ECS/Components/TagComponent.hpp>
-#include <Canis/ECS/Components/RectTransformComponent.hpp>
-#include "EnemySpawnManager.hpp"
-
-
 class EnemyMovement : public Canis::ScriptableEntity
 {
     private:

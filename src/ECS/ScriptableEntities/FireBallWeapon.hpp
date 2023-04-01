@@ -1,8 +1,4 @@
 #pragma once
-#include <Canis/ECS/Components/CircleColliderComponent.hpp>
-#include <Canis/ECS/Components/RectTransformComponent.hpp>
-#include <Canis/ECS/Components/RectTransformComponent.hpp>
-#include <Canis/ECS/Components/Sprite2DComponent.hpp>
 
 class FireBallWeapon : public Weapon
 {

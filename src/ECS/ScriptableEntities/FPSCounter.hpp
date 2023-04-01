@@ -1,7 +1,4 @@
 #pragma once
-#include <string>
-#include <Canis/ScriptableEntity.hpp>
-#include <Canis/ECS/Components/TextComponent.hpp>
 
 class FPSCounter : public Canis::ScriptableEntity
 {

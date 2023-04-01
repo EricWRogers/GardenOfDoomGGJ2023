@@ -1,6 +1,5 @@
 #pragma once
-#include <Canis/Math.hpp>
-#include <Canis/ScriptableEntity.hpp>
+
 #include "Timer.hpp"
 #include "EnemySpawnManager.hpp"
 

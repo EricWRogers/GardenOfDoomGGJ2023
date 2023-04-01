@@ -1,10 +1,4 @@
 #pragma once
-#include <string>
-#include <Canis/ScriptableEntity.hpp>
-#include <Canis/ECS/Components/RectTransformComponent.hpp>
-#include <Canis/ECS/Components/TextComponent.hpp>
-#include <Canis/ECS/Components/ButtonComponent.hpp>
-
 class MainMenuButtons : public Canis::ScriptableEntity
 {
     static void OnClickPlay(void *instance)

@@ -1,6 +1,4 @@
 #pragma once
-#include <Canis/ScriptableEntity.hpp>
-#include <Canis/ECS/Components/TextComponent.hpp>
 
 class Timer : public Canis::ScriptableEntity
 {

@@ -1,9 +1,4 @@
 #pragma once
-#include <string>
-#include <Canis/ScriptableEntity.hpp>
-#include <Canis/ECS/Components/RectTransformComponent.hpp>
-#include <Canis/ECS/Components/TextComponent.hpp>
-#include <Canis/ECS/Components/ButtonComponent.hpp>
 
 class MainMenuButton : public Canis::ScriptableEntity
 {

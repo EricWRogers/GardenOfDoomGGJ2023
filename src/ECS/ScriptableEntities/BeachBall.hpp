@@ -1,10 +1,8 @@
 #pragma once
-#include <Canis/ScriptableEntity.hpp>
-#include <Canis/ECS/Components/RectTransformComponent.hpp>
 
 class BeachBall : public Canis::ScriptableEntity
 {
-private:
+private: 
     glm::vec2   m_direction;
     float       m_speed;
     float       m_timeBetweenAnimation = 3.0f;

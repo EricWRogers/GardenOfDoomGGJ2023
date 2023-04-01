@@ -1,6 +1,10 @@
 #include "App.hpp"
+
+#include <Canis/ECS/Components/ButtonComponent.hpp>
+
 #include <Canis/ECS/Decode.hpp>
 
+#include "ECS/Systems/BoidSystem.hpp"
 #include "ECS/Systems/EnemySystem.hpp"
 #include "ECS/Systems/BulletSystem.hpp"
 #include "ECS/Systems/BombSystem.hpp"
@@ -32,6 +36,7 @@
 #include "ECS/ScriptableEntities/OrbitingSpikesWeapon.hpp"
 #include "ECS/ScriptableEntities/SeedPickup.hpp"
 #include "ECS/ScriptableEntities/UI/HUD/HUDStateMachine.hpp"
+
 #include "ECS/Decode.hpp"
 
 App::App()

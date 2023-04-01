@@ -1,6 +1,4 @@
 #pragma once
-#include <Canis/ScriptableEntity.hpp>
-
 class XP : public Canis::ScriptableEntity
 {
     private:

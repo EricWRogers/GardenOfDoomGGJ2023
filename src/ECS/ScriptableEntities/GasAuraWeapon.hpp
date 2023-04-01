@@ -1,12 +1,4 @@
 #pragma once
-#include <string>
-#include <Canis/ScriptableEntity.hpp>
-#include <Canis/Math.hpp>
-#include <Canis/ECS/Components/CircleColliderComponent.hpp>
-#include <Canis/ECS/Components/RectTransformComponent.hpp>
-#include <Canis/ECS/Components/RectTransformComponent.hpp>
-#include <Canis/ECS/Components/Sprite2DComponent.hpp>
-#include "../Components/EnemyHealthComponent.hpp"
 
 class GasAuraWeapon : public Weapon
 {

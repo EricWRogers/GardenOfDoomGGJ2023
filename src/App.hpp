@@ -17,8 +17,6 @@
 #include <Canis/ECS/Systems/ButtonSystem.hpp>
 #include <Canis/ECS/Systems/UISliderSystem.hpp>
 
-#include "ECS/Systems/BoidSystem.hpp"
-
 #include "ECS/Components/DamageTextComponent.hpp"
 
 enum AppState

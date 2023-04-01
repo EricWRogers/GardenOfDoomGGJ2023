@@ -1,15 +1,6 @@
 #pragma once
-#include <Canis/Math.hpp>
-#include <Canis/ScriptableEntity.hpp>
-#include <Canis/ECS/Components/RectTransformComponent.hpp>
-#include <Canis/ECS/Components/Sprite2DComponent.hpp>
-#include <Canis/ECS/Components/ColorComponent.hpp>
-#include <Canis/ECS/Components/Camera2DComponent.hpp>
-#include <Canis/ECS/Components/CircleColliderComponent.hpp>
-#include "../Components/EnemyHealthComponent.hpp"
-
 #include "../Components/BoidComponent.hpp"
-#include "../Components/EnemyComponent.hpp"
+#include <Canis/Math.hpp>
 
 class EnemyMovement;
 
