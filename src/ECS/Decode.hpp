@@ -3,7 +3,7 @@
 #include "Components/EnemyHealthComponent.hpp"
 #include "Components/BulletComponent.hpp"
 #include "Components/SeedComponent.hpp"
-#include "Components/PlantableGroundComponents.hpp"
+#include "Components/PlantableGroundComponent.hpp"
 
 void DecodePlayerHealthComponent(YAML::Node &_n, Canis::Entity &_entity, Canis::SceneManager *_sceneManager)
 {

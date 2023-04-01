@@ -86,12 +86,12 @@ private:
     float currentXp = 0.0f;
     const float MAXEXP = 1000.0f;
     glm::vec2 lastDirection = glm::vec2(-1.0f, 0.0f);
-    bool holdingSeed = false;
-    Canis::Entity seed;
 
 public:
     std::vector<unsigned int> weaponIDoNotHave = {4,5,6,1,3,2};
     std::function<void()> levelUpEvent = nullptr;
+    bool holdingSeed = false;
+    Canis::Entity seed;
 
     void AddWeaponToSlot(unsigned int _weaponType) {
         if (m_weaponSlotIconEntities.size() >= MAXWEAPONS)

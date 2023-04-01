@@ -3,6 +3,7 @@
 struct PlantableGroundComponent
 {
     unsigned short stageOfGrowth = 0;
+    bool occupied = false;
 };
 
 void DecodePlantableGroundComponent(YAML::Node &_n, Canis::Entity &_entity, Canis::SceneManager *_sceneManager)

@@ -78,6 +78,10 @@ public:
                             (0 == rand() % 2)
                         );
                         auto& pgc = tile.AddComponent<PlantableGroundComponent>();
+                        auto& col = tile.AddComponent<Canis::CircleColliderComponent>();
+                        col.layer = Canis::BIT::SEVEN;
+                        col.mask = Canis::BIT::ONE;
+                        col.radius = tileRect.size.x / 2.0f;
                         chance = 0.0f;
                     }
                 }else{

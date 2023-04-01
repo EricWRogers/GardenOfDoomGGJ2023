@@ -2,5 +2,6 @@
 
 struct SeedComponent
 {
-    int temp = 0;
+    float timeToFirstStage;
+    float timeToSecondStage;
 };
