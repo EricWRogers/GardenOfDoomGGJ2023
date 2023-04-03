@@ -21,6 +21,7 @@ class PlantableTileSystem : public Canis::System
     float secondStageTime = 0.0f;
     float currentTime = 0.0f;
     bool doneWithFirstStage = false;
+    bool seedGrown = false;
 
     bool Timer(float deltaTime, float timeToWait, std::function<void()> callOnComplete)
     {//Eric show me how to function pointers
@@ -69,6 +70,16 @@ class PlantableTileSystem : public Canis::System
 
                     if (GetInputManager().GetKey(SDL_SCANCODE_F))
                     {
+                        if (seedGrown)
+                        {
+                            seedGrown = false;
+                            sprite.texture = GetAssetManager().Get<Canis::TextureAsset>(
+                                GetAssetManager().LoadTexture("assets/textures/environment/background_sprite_sheet.png"))->GetTexture();
+                            Canis::GetSpriteFromTextureAtlas(sprite, 0, 0, 3, 0, 16, 16, false, false);
+
+                            //Reward menu here
+                        }
+
                         firstStageTime = ((PlayerManager*)m_player.GetComponent<Canis::ScriptComponent>().Instance)->seed.GetComponent<SeedComponent>().timeToFirstStage;
                         secondStageTime = ((PlayerManager*)m_player.GetComponent<Canis::ScriptComponent>().Instance)->seed.GetComponent<SeedComponent>().timeToSecondStage;
                         scene->GetSystem<EnemySystem>()->DestroySeed();
@@ -100,22 +111,11 @@ class PlantableTileSystem : public Canis::System
 
                     if (currentTime >= secondStageTime)
                     {
-                        Canis::Log(std::to_string(sprite.uv.x));
-                        Canis::Log(std::to_string(sprite.uv.y));
-                        Canis::Log(std::to_string(sprite.uv.z));
-                        Canis::Log(std::to_string(sprite.uv.w));
-                        //sprite.texture = GetAssetManager().Get<Canis::TextureAsset>(GetAssetManager().LoadTexture("assets/textures/environment/planters.png"))->GetTexture();
-
-                        Canis::Log("Break");
-                        Canis::Log(std::to_string(sprite.uv.x));
-                        Canis::Log(std::to_string(sprite.uv.y));
-                        Canis::Log(std::to_string(sprite.uv.z));
-                        Canis::Log(std::to_string(sprite.uv.w));
                         Canis::GetSpriteFromTextureAtlas(sprite, 0, 0, 1, 0, 16, 16, false, false);
-                        Canis::Log("Got here");
                         currentTime = 0.0f;
                         doneWithFirstStage = false;
                         tile.occupied = false;
+                        seedGrown = true;
                     }
                 }
             }
