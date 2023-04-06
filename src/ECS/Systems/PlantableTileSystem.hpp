@@ -58,6 +58,26 @@ class PlantableTileSystem : public Canis::System
         auto view = _registry.view<Canis::RectTransformComponent, PlantableGroundComponent, Canis::CircleColliderComponent, Canis::Sprite2DComponent>();
         for (auto [entity, rect, tile, col, sprite] : view.each())
         {
+            if (seedGrown)
+            {
+                std::vector<entt::entity> hits = colSys->GetHits(entity);
+                Canis::Entity hitEntity;
+                hitEntity.scene = scene;
+
+                if (hits.size() != 0)
+                {
+                    if (GetInputManager().GetKey(SDL_SCANCODE_F))
+                    {
+                        seedGrown = false;
+                        sprite.texture = GetAssetManager().Get<Canis::TextureAsset>(
+                            GetAssetManager().LoadTexture("assets/textures/environment/background_sprite_sheet.png"))->GetTexture();
+                        Canis::GetSpriteFromTextureAtlas(sprite, 0, 0, 3, 1, 16, 16, false, false);
+
+                        //Reward menu here
+                    }
+                }
+            }
+
             if (((PlayerManager*)m_player.GetComponent<Canis::ScriptComponent>().Instance)->holdingSeed)
             {
                 std::vector<entt::entity> hits = colSys->GetHits(entity);
@@ -70,16 +90,6 @@ class PlantableTileSystem : public Canis::System
 
                     if (GetInputManager().GetKey(SDL_SCANCODE_F))
                     {
-                        if (seedGrown)
-                        {
-                            seedGrown = false;
-                            sprite.texture = GetAssetManager().Get<Canis::TextureAsset>(
-                                GetAssetManager().LoadTexture("assets/textures/environment/background_sprite_sheet.png"))->GetTexture();
-                            Canis::GetSpriteFromTextureAtlas(sprite, 0, 0, 3, 0, 16, 16, false, false);
-
-                            //Reward menu here
-                        }
-
                         firstStageTime = ((PlayerManager*)m_player.GetComponent<Canis::ScriptComponent>().Instance)->seed.GetComponent<SeedComponent>().timeToFirstStage;
                         secondStageTime = ((PlayerManager*)m_player.GetComponent<Canis::ScriptComponent>().Instance)->seed.GetComponent<SeedComponent>().timeToSecondStage;
                         scene->GetSystem<EnemySystem>()->DestroySeed();
