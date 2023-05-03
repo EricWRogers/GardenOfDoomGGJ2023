@@ -14,7 +14,8 @@ enum WeaponType
     PEASHOOTER      = 3u,
     BOMBS           = 4u,
     FIREBALLS       = 5u,
-    SWORD           = 6u
+    SWORD           = 6u,
+    FINAL           = 7u    //make sure is the last element
 };
 
 struct Stat
@@ -49,7 +50,7 @@ struct Stats
 Stats static PlayerStats = 
 {
     {1.0f, FLT_MAX},    //movementSpeed (multipler value)
-    {1000.0f, FLT_MAX},    //maxHealth (raw value)
+    {100.0f, FLT_MAX},    //maxHealth (raw value)
     {0.0f, FLT_MAX},       //healthRegen (raw value)
     {0.0f, FLT_MAX},       //armor (raw value)
     {1.0f, 5.0f},       //might (multiplier value)
@@ -69,10 +70,40 @@ Stats static PlayerStats =
     {0.0f, FLT_MAX},       //banish (raw value)
 };
 
+struct Character
+{
+    std::string name;
+    std::string weaponIconPath;
+    std::string characterIconPath;
+    WeaponType startingWeapon;
+    Stats startingStats = 
+    {
+    {1.0f, FLT_MAX},       //movementSpeed (multipler value)
+    {1000.0f, FLT_MAX},    //maxHealth (raw value)
+    {0.0f, FLT_MAX},       //healthRegen (raw value)
+    {0.0f, FLT_MAX},       //armor (raw value)
+    {1.0f, 5.0f},          //might (multiplier value)
+    {1.0f, 5.0},           //area (multiplier value)
+    {1.0f, 5.0f},          //weaponSpeed (multiplier value)
+    {1.0f, 5.0f},          //duration (multiplier value)
+    {0.0f, 10.0f},         //amount (in terms of extra projectiles)
+    {1.0f, 0.1f},          //cooldown (multiplier value in reverse)
+    {1.0f, 5.0f},          //luck (multiplier value)
+    {1.0f, 5.0f},          //growth (multiplier value)
+    {1.0f, 5.0f},          //greed (multiplier value)
+    {1.0f, 5.0f},          //curse (multiplier value)
+    {20.0f, FLT_MAX},      //pickupRange (raw value as a radius)
+    {0.0f, FLT_MAX},       //revives (raw value)
+    {0.0f, FLT_MAX},       //reroll (raw value)
+    {0.0f, FLT_MAX},       //skip (raw value)
+    {0.0f, FLT_MAX},       //banish (raw value)
+};
+};
+
 class PlayerManager : public Canis::ScriptableEntity
 {
 private:
-    float baseMovementSpeed = 100.0f;
+    float baseMovementSpeed = 90.0f;
     glm::vec2 m_inputDirection;
     glm::vec2 direction;
     Canis::Entity m_healthSlider;
@@ -84,14 +115,36 @@ private:
     std::vector<Canis::Entity> m_weaponSlotEntities = {};
     std::vector<Canis::Entity> m_weaponSlotIconEntities = {};
     float currentXp = 0.0f;
-    const float MAXEXP = 1000.0f;
+    float MAXEXP = 125.0f;
+    float xpIncreaseLow = 200.0f;
+    float xpIncreaseMid = 550.0f;
     glm::vec2 lastDirection = glm::vec2(-1.0f, 0.0f);
 
 public:
-    std::vector<unsigned int> weaponIDoNotHave = {4,5,6,1,3,2};
+    std::vector<unsigned int> weaponIDoNotHave = {};
     std::function<void()> levelUpEvent = nullptr;
     bool holdingSeed = false;
     Canis::Entity seed;
+    Character character;
+    int level = 0;
+
+    void CurveExp()
+    {
+        if (level == 0)
+        {
+            return;
+        }
+
+        if (level == 1)
+        {
+            MAXEXP += xpIncreaseLow;
+        }
+
+        if (level == 3)
+        {
+            MAXEXP += xpIncreaseMid;
+        }
+    }
 
     void AddWeaponToSlot(unsigned int _weaponType) {
         if (m_weaponSlotIconEntities.size() >= MAXWEAPONS)
@@ -157,16 +210,16 @@ public:
             false
         );
     }
-
+    
     void OnCreate() //Awake
     {
         idleId = GetAssetManager().LoadSpriteAnimation("assets/animations/player_idle.anim");
         runId = GetAssetManager().LoadSpriteAnimation("assets/animations/player_run.anim");
-        GetComponent<PlayerHealthComponent>().maxHealth = PlayerStats.maxHealth.value;
     }
 
-    void OnReady()//Start
+    virtual void OnReady()//Start
     {
+        GetComponent<PlayerHealthComponent>().maxHealth = PlayerStats.maxHealth.value;
         seed.scene = m_Entity.scene;
         std::default_random_engine rng(m_Entity.scene->seed);
         std::shuffle(std::begin(weaponIDoNotHave), std::end(weaponIDoNotHave), rng);
@@ -177,7 +230,6 @@ public:
         m_weaponSlotEntities.push_back(m_Entity.GetEntityWithTag("WeaponSlot2"));
         m_weaponSlotEntities.push_back(m_Entity.GetEntityWithTag("WeaponSlot3"));
         m_weaponSlotEntities.push_back(m_Entity.GetEntityWithTag("WeaponSlot4"));
-        AddWeaponToSlot(0);
     }
     
     void OnDestroy()
@@ -257,10 +309,12 @@ public:
 
         if(currentXp >= MAXEXP)
         {
-             
             if (m_weaponSlotIconEntities.size() < 5)
             if (weaponIDoNotHave.size() > 0)
             {
+                level++;
+                //curve xp
+                CurveExp();
                 GetAssetManager().Get<Canis::SoundAsset>(GetAssetManager().LoadSound("assets/sounds/powerUp.wav"))->Play();
                 currentXp = 0;
                 int wIndex = 0;
@@ -385,12 +439,438 @@ public:
     }
 };
 
+class Ned : public PlayerManager
+{
+    public:
+    void OnReady() override
+    {
+        PlayerManager::OnReady();
+
+        Character character = {
+            "Ned",
+            "Tempweaponpath",
+            "Tempcharacterpath",
+            GASAURA,
+            {
+            {0.9f, FLT_MAX},       //movementSpeed (multipler value)
+            {80.0f, FLT_MAX},    //maxHealth (raw value)
+            {0.0f, FLT_MAX},       //healthRegen (raw value)
+            {0.0f, FLT_MAX},       //armor (raw value)
+            {1.0f, 5.0f},          //might (multiplier value)
+            {1.2f, 5.0},           //area (multiplier value)
+            {1.0f, 5.0f},          //weaponSpeed (multiplier value)
+            {1.0f, 5.0f},          //duration (multiplier value)
+            {0.0f, 10.0f},         //amount (in terms of extra projectiles)
+            {1.1f, 0.1f},          //cooldown (multiplier value in reverse)
+            {1.0f, 5.0f},          //luck (multiplier value)
+            {0.8f, 5.0f},          //growth (multiplier value)
+            {1.0f, 5.0f},          //greed (multiplier value)
+            {1.0f, 5.0f},          //curse (multiplier value)
+            {25.0f, FLT_MAX},      //pickupRange (raw value as a radius)
+            {0.0f, FLT_MAX},       //revives (raw value)
+            {0.0f, FLT_MAX},       //reroll (raw value)
+            {0.0f, FLT_MAX},       //skip (raw value)
+            {0.0f, FLT_MAX},       //banish (raw value)
+            }
+        };
+
+        PlayerStats = character.startingStats;
+        GetComponent<PlayerHealthComponent>().maxHealth = PlayerStats.maxHealth.value;
+        GetComponent<PlayerHealthComponent>().currentHealth = GetComponent<PlayerHealthComponent>().maxHealth;
+
+        AddWeaponToSlot(character.startingWeapon);
+        
+        for(int i = 0; i < FINAL; i++)
+        {
+            weaponIDoNotHave.push_back(i);
+        }
+        weaponIDoNotHave.erase(weaponIDoNotHave.begin() + character.startingWeapon);
+    }
+};
+
+class Nathanial : public PlayerManager
+{
+    public:
+    void OnReady() override
+    {
+        PlayerManager::OnReady();
+
+        Character character = {
+            "Nathanial",
+            "Tempweaponpath",
+            "Tempcharacterpath",
+            HANDOFGOD,
+            {
+            {1.0f, FLT_MAX},       //movementSpeed (multipler value)
+            {100.0f, FLT_MAX},    //maxHealth (raw value)
+            {0.0f, FLT_MAX},       //healthRegen (raw value)
+            {0.0f, FLT_MAX},       //armor (raw value)
+            {1.15f, 5.0f},          //might (multiplier value)
+            {0.95f, 5.0},           //area (multiplier value)
+            {0.9f, 5.0f},          //weaponSpeed (multiplier value)
+            {1.0f, 5.0f},          //duration (multiplier value)
+            {0.0f, 10.0f},         //amount (in terms of extra projectiles)
+            {0.9f, 0.1f},          //cooldown (multiplier value in reverse)
+            {1.5f, 5.0f},          //luck (multiplier value)
+            {1.0f, 5.0f},          //growth (multiplier value)
+            {0.8f, 5.0f},          //greed (multiplier value)
+            {1.1f, 5.0f},          //curse (multiplier value)
+            {20.0f, FLT_MAX},      //pickupRange (raw value as a radius)
+            {0.0f, FLT_MAX},       //revives (raw value)
+            {0.0f, FLT_MAX},       //reroll (raw value)
+            {0.0f, FLT_MAX},       //skip (raw value)
+            {0.0f, FLT_MAX},       //banish (raw value)
+            }
+        };
+
+        PlayerStats = character.startingStats;
+        GetComponent<PlayerHealthComponent>().maxHealth = PlayerStats.maxHealth.value;
+        GetComponent<PlayerHealthComponent>().currentHealth = GetComponent<PlayerHealthComponent>().maxHealth;
+
+        AddWeaponToSlot(character.startingWeapon);
+
+        for(int i = 0; i < FINAL; i++)
+        {
+            weaponIDoNotHave.push_back(i);
+        }
+        weaponIDoNotHave.erase(weaponIDoNotHave.begin() + character.startingWeapon);
+    }
+};
+
+class Rex : public PlayerManager
+{
+    public:
+    void OnReady() override
+    {
+        PlayerManager::OnReady();
+
+        Character character = {
+            "Rex",
+            "Tempweaponpath",
+            "Tempcharacterpath",
+            BOMBS,
+            {
+            {1.0f, FLT_MAX},       //movementSpeed (multipler value)
+            {125.0f, FLT_MAX},    //maxHealth (raw value)
+            {0.0f, FLT_MAX},       //healthRegen (raw value)
+            {0.0f, FLT_MAX},       //armor (raw value)
+            {1.2f, 5.0f},          //might (multiplier value)
+            {1.1f, 5.0},           //area (multiplier value)
+            {0.85f, 5.0f},          //weaponSpeed (multiplier value)
+            {0.9f, 5.0f},          //duration (multiplier value)
+            {0.0f, 10.0f},         //amount (in terms of extra projectiles)
+            {1.15f, 0.1f},          //cooldown (multiplier value in reverse)
+            {1.0f, 5.0f},          //luck (multiplier value)
+            {1.0f, 5.0f},          //growth (multiplier value)
+            {1.05f, 5.0f},          //greed (multiplier value)
+            {1.0f, 5.0f},          //curse (multiplier value)
+            {18.0f, FLT_MAX},      //pickupRange (raw value as a radius)
+            {0.0f, FLT_MAX},       //revives (raw value)
+            {0.0f, FLT_MAX},       //reroll (raw value)
+            {0.0f, FLT_MAX},       //skip (raw value)
+            {0.0f, FLT_MAX},       //banish (raw value)
+            }
+        };
+
+        PlayerStats = character.startingStats;
+        GetComponent<PlayerHealthComponent>().maxHealth = PlayerStats.maxHealth.value;
+        GetComponent<PlayerHealthComponent>().currentHealth = GetComponent<PlayerHealthComponent>().maxHealth;
+
+        AddWeaponToSlot(character.startingWeapon);
+
+        for(int i = 0; i < FINAL; i++)
+        {
+            weaponIDoNotHave.push_back(i);
+        }
+        weaponIDoNotHave.erase(weaponIDoNotHave.begin() + character.startingWeapon);
+    }
+};
+
+class Amber : public PlayerManager
+{
+    public:
+    void OnReady() override
+    {
+        PlayerManager::OnReady();
+
+        Character character = {
+            "Amber",
+            "Tempweaponpath",
+            "Tempcharacterpath",
+            ORBITINGSPIKES,
+            {
+            {1.1f, FLT_MAX},       //movementSpeed (multipler value)
+            {90.0f, FLT_MAX},    //maxHealth (raw value)
+            {0.0f, FLT_MAX},       //healthRegen (raw value)
+            {0.0f, FLT_MAX},       //armor (raw value)
+            {0.85f, 5.0f},          //might (multiplier value)
+            {1.1f, 5.0},           //area (multiplier value)
+            {1.1f, 5.0f},          //weaponSpeed (multiplier value)
+            {1.0f, 5.0f},          //duration (multiplier value)
+            {0.0f, 10.0f},         //amount (in terms of extra projectiles)
+            {0.85f, 0.1f},          //cooldown (multiplier value in reverse)
+            {1.05f, 5.0f},          //luck (multiplier value)
+            {1.0f, 5.0f},          //growth (multiplier value)
+            {0.8f, 5.0f},          //greed (multiplier value)
+            {1.05f, 5.0f},          //curse (multiplier value)
+            {20.0f, FLT_MAX},      //pickupRange (raw value as a radius)
+            {0.0f, FLT_MAX},       //revives (raw value)
+            {0.0f, FLT_MAX},       //reroll (raw value)
+            {0.0f, FLT_MAX},       //skip (raw value)
+            {0.0f, FLT_MAX},       //banish (raw value)
+            }
+        };
+
+        PlayerStats = character.startingStats;
+        GetComponent<PlayerHealthComponent>().maxHealth = PlayerStats.maxHealth.value;
+        GetComponent<PlayerHealthComponent>().currentHealth = GetComponent<PlayerHealthComponent>().maxHealth;
+
+        AddWeaponToSlot(character.startingWeapon);
+        
+        for(int i = 0; i < FINAL; i++)
+        {
+            weaponIDoNotHave.push_back(i);
+        }
+        weaponIDoNotHave.erase(weaponIDoNotHave.begin() + character.startingWeapon);
+    }
+};
+
+class David : public PlayerManager
+{
+    public:
+    void OnReady() override
+    {
+        PlayerManager::OnReady();
+
+        Character character = {
+            "David",
+            "Tempweaponpath",
+            "Tempcharacterpath",
+            PEASHOOTER,
+            {
+            {1.0f, FLT_MAX},       //movementSpeed (multipler value)
+            {70.0f, FLT_MAX},    //maxHealth (raw value)
+            {0.0f, FLT_MAX},       //healthRegen (raw value)
+            {0.0f, FLT_MAX},       //armor (raw value)
+            {1.5f, 5.0f},          //might (multiplier value)
+            {0.9f, 5.0},           //area (multiplier value)
+            {1.25f, 5.0f},          //weaponSpeed (multiplier value)
+            {0.8f, 5.0f},          //duration (multiplier value)
+            {0.0f, 10.0f},         //amount (in terms of extra projectiles)
+            {1.25f, 0.1f},          //cooldown (multiplier value in reverse)
+            {2.0f, 5.0f},          //luck (multiplier value)
+            {1.1f, 5.0f},          //growth (multiplier value)
+            {0.75f, 5.0f},          //greed (multiplier value)
+            {1.2f, 5.0f},          //curse (multiplier value)
+            {16.0f, FLT_MAX},      //pickupRange (raw value as a radius)
+            {0.0f, FLT_MAX},       //revives (raw value)
+            {0.0f, FLT_MAX},       //reroll (raw value)
+            {0.0f, FLT_MAX},       //skip (raw value)
+            {0.0f, FLT_MAX},       //banish (raw value)
+            }
+        };
+
+        PlayerStats = character.startingStats;
+        GetComponent<PlayerHealthComponent>().maxHealth = PlayerStats.maxHealth.value;
+        GetComponent<PlayerHealthComponent>().currentHealth = GetComponent<PlayerHealthComponent>().maxHealth;
+
+        AddWeaponToSlot(character.startingWeapon);
+        
+        for(int i = 0; i < FINAL; i++)
+        {
+            weaponIDoNotHave.push_back(i);
+        }
+        weaponIDoNotHave.erase(weaponIDoNotHave.begin() + character.startingWeapon);
+    }
+};
+
+class Ash : public PlayerManager
+{
+    public:
+    void OnReady() override
+    {
+        PlayerManager::OnReady();
+
+        Character character = {
+            "Ash",
+            "Tempweaponpath",
+            "Tempcharacterpath",
+            FIREBALLS,
+            {
+            {0.95f, FLT_MAX},       //movementSpeed (multipler value)
+            {95.0f, FLT_MAX},    //maxHealth (raw value)
+            {0.0f, FLT_MAX},       //healthRegen (raw value)
+            {0.0f, FLT_MAX},       //armor (raw value)
+            {1.2f, 5.0f},          //might (multiplier value)
+            {0.9f, 5.0},           //area (multiplier value)
+            {1.25f, 5.0f},          //weaponSpeed (multiplier value)
+            {0.9f, 5.0f},          //duration (multiplier value)
+            {0.0f, 10.0f},         //amount (in terms of extra projectiles)
+            {1.15f, 0.1f},          //cooldown (multiplier value in reverse)
+            {1.15f, 5.0f},          //luck (multiplier value)
+            {1.0f, 5.0f},          //growth (multiplier value)
+            {1.15f, 5.0f},          //greed (multiplier value)
+            {1.2f, 5.0f},          //curse (multiplier value)
+            {15.0f, FLT_MAX},      //pickupRange (raw value as a radius)
+            {0.0f, FLT_MAX},       //revives (raw value)
+            {0.0f, FLT_MAX},       //reroll (raw value)
+            {0.0f, FLT_MAX},       //skip (raw value)
+            {0.0f, FLT_MAX},       //banish (raw value)
+            }
+        };
+
+        PlayerStats = character.startingStats;
+        GetComponent<PlayerHealthComponent>().maxHealth = PlayerStats.maxHealth.value;
+        GetComponent<PlayerHealthComponent>().currentHealth = GetComponent<PlayerHealthComponent>().maxHealth;
+        AddWeaponToSlot(character.startingWeapon);
+        
+        for(int i = 0; i < FINAL; i++)
+        {
+            weaponIDoNotHave.push_back(i);
+        }
+        weaponIDoNotHave.erase(weaponIDoNotHave.begin() + character.startingWeapon);
+    }
+};
+
+class Tobias : public PlayerManager
+{
+    public:
+    void OnReady() override
+    {
+        PlayerManager::OnReady();
+
+        Character character = {
+            "Tobias",
+            "Tempweaponpath",
+            "Tempcharacterpath",
+            SWORD,
+            {
+            {1.6f, FLT_MAX},       //movementSpeed (multipler value)
+            {115.0f, FLT_MAX},    //maxHealth (raw value)
+            {0.0f, FLT_MAX},       //healthRegen (raw value)
+            {0.0f, FLT_MAX},       //armor (raw value)
+            {0.95f, 5.0f},          //might (multiplier value)
+            {0.95f, 5.0},           //area (multiplier value)
+            {1.35f, 5.0f},          //weaponSpeed (multiplier value)
+            {0.95f, 5.0f},          //duration (multiplier value)
+            {0.0f, 10.0f},         //amount (in terms of extra projectiles)
+            {0.85f, 0.1f},          //cooldown (multiplier value in reverse)
+            {0.9f, 5.0f},          //luck (multiplier value)
+            {1.1f, 5.0f},          //growth (multiplier value)
+            {1.05f, 5.0f},          //greed (multiplier value)
+            {1.3f, 5.0f},          //curse (multiplier value)
+            {25.0f, FLT_MAX},      //pickupRange (raw value as a radius)
+            {0.0f, FLT_MAX},       //revives (raw value)
+            {0.0f, FLT_MAX},       //reroll (raw value)
+            {0.0f, FLT_MAX},       //skip (raw value)
+            {0.0f, FLT_MAX},       //banish (raw value)
+            }
+        };
+
+        PlayerStats = character.startingStats;
+        GetComponent<PlayerHealthComponent>().maxHealth = PlayerStats.maxHealth.value;
+        GetComponent<PlayerHealthComponent>().currentHealth = GetComponent<PlayerHealthComponent>().maxHealth;
+
+        AddWeaponToSlot(character.startingWeapon);
+        
+        for(int i = 0; i < FINAL; i++)
+        {
+            weaponIDoNotHave.push_back(i);
+        }
+        weaponIDoNotHave.erase(weaponIDoNotHave.begin() + character.startingWeapon);
+    }
+};
+
 bool DecodePlayerManager(const std::string &_name, Canis::Entity &_entity)
 {
     if (_name == "PlayerManager")
     {
         Canis::ScriptComponent scriptComponent = {};
         scriptComponent.Bind<PlayerManager>();
+        _entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
+        return true;
+    }
+    return false;
+}
+
+bool DecodeCharacter1(const std::string &_name, Canis::Entity &_entity)
+{
+    if (_name == "Ned")
+    {
+        Canis::ScriptComponent scriptComponent = {};
+        scriptComponent.Bind<Ned>();
+        _entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
+        return true;
+    }
+    return false;
+}
+
+bool DecodeCharacter2(const std::string &_name, Canis::Entity &_entity)
+{
+    if (_name == "Nathanial")
+    {
+        Canis::ScriptComponent scriptComponent = {};
+        scriptComponent.Bind<Nathanial>();
+        _entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
+        return true;
+    }
+    return false;
+}
+
+bool DecodeCharacter3(const std::string &_name, Canis::Entity &_entity)
+{
+    if (_name == "Rex")
+    {
+        Canis::ScriptComponent scriptComponent = {};
+        scriptComponent.Bind<Rex>();
+        _entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
+        return true;
+    }
+    return false;
+}
+
+bool DecodeCharacter4(const std::string &_name, Canis::Entity &_entity)
+{
+    if (_name == "Amber")
+    {
+        Canis::ScriptComponent scriptComponent = {};
+        scriptComponent.Bind<Amber>();
+        _entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
+        return true;
+    }
+    return false;
+}
+
+bool DecodeCharacter5(const std::string &_name, Canis::Entity &_entity)
+{
+    if (_name == "David")
+    {
+        Canis::ScriptComponent scriptComponent = {};
+        scriptComponent.Bind<David>();
+        _entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
+        return true;
+    }
+    return false;
+}
+
+bool DecodeCharacter6(const std::string &_name, Canis::Entity &_entity)
+{
+    if (_name == "Ash")
+    {
+        Canis::ScriptComponent scriptComponent = {};
+        scriptComponent.Bind<Ash>();
+        _entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
+        return true;
+    }
+    return false;
+}
+
+bool DecodeCharacter7(const std::string &_name, Canis::Entity &_entity)
+{
+    if (_name == "Tobias")
+    {
+        Canis::ScriptComponent scriptComponent = {};
+        scriptComponent.Bind<Tobias>();
         _entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
         return true;
     }

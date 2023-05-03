@@ -20,6 +20,9 @@ struct WaveEnemy
     float xpAmount;
     float maxHealth = 0.0f;
     float seedDropChance; //in percent
+    float speed;
+    float maxSpeed;
+    float damage;
     std::string texPath;
     std::string animPath;
 };
@@ -45,154 +48,289 @@ class WaveManager : public Canis::ScriptableEntity
     std::vector<Wave> m_waves;
     Canis::Entity m_spawnManager;
     Canis::Entity m_timer;
-    float m_waveFrequency = 10.0f;
+    float m_waveFrequency = 10.0f; //Time between enemy spawns
     float m_timeSinceLastWave = 20.0f;
 
     void Populate()
     {
-        // {
-        //     Wave wave;
-        //     wave.delay = 5.0f;
-        //     wave.time.start = 0.0f;
-        //     wave.time.end = 10.0f;
+        //Enemies               in waves
+        //zombie_plant.anim     1, 2, 3        6
+        //sword_plant.anim         2, 3, 4
+        //bee.anim                    3, 4
+        //tangleweed.anim                4, 5, 6
+        //tumbleweed.anim                   5, 6
+        //briar_plant.anim                     6
 
-        //     {
-        //         WaveEnemy enemy;
-        //         enemy.amount = 2;
-        //         enemy.xpAmount = 50.0f;
-        //         enemy.maxHealth = 50.0f;
-        //         enemy.animPath = "assets/animations/tumbleweed.anim";
-        //         enemy.texPath = "assets/textures/enemies/beehive.png";
-        //         wave.enemies.push_back(enemy);
-        //     }
+        //fire_plant.anim
+        //turtle.anim
+        //bomb_plant.anim
 
-        //     m_waves.push_back(wave);
-        // }
-
-        // {
-        //     Wave wave;
-        //     wave.delay = 5.0f;
-        //     wave.time.start = 10.0f;
-        //     wave.time.end = 20.0f;
-
-        //     {
-        //         WaveEnemy enemy;
-        //         enemy.amount = 2;
-        //         enemy.xpAmount = 50.0f;
-        //         enemy.maxHealth = 50.0f;
-        //         enemy.animPath = "assets/animations/bomb_plant.anim";
-        //         enemy.texPath = "assets/textures/enemies/beehive.png";
-        //         wave.enemies.push_back(enemy);
-        //     }
-
-        //     m_waves.push_back(wave);
-        // }
-
+        //Wave 1
         {
             Wave wave;
-            wave.delay = 5.0f;
+            wave.delay = 7.0f; //Doesn't do anything
             wave.time.start = 0.0f;
-            wave.time.end = 180.0f;
+            wave.time.end = 30.0f;
 
             {
-                WaveEnemy enemy;
-                enemy.amount = 2;
-                enemy.xpAmount = 50.0f;
+                WaveEnemy enemy; //Zombie Plants
+                enemy.amount = 4;
+                enemy.xpAmount = 30.0f;
                 enemy.maxHealth = 25.0f;
                 enemy.seedDropChance = 10.0f;
-                enemy.animPath = "assets/animations/tumbleweed.anim";
+                enemy.speed = 30.0f;
+                enemy.maxSpeed = 50.0f;
+                enemy.damage = 8.0f;
+                enemy.animPath = "assets/animations/zombie_plant.anim";
                 enemy.texPath = "assets/textures/enemies/beehive.png";
                 wave.enemies.push_back(enemy);
             }
 
-            {
-                WaveEnemy enemy;
-                enemy.amount = 2;
-                enemy.xpAmount = 100.0f;
-                enemy.maxHealth = 30.0f;
-                enemy.seedDropChance = 10.0f;
-                enemy.animPath = "assets/animations/tangleweed.anim";
-                enemy.texPath = "assets/textures/enemies/beehive.png";
-                wave.enemies.push_back(enemy);
-            }
+            m_waves.push_back(wave);
+        }
+
+        //Wave 2
+        {
+            Wave wave;
+            wave.delay = 7.0f; //Doesn't do anything
+            wave.time.start = 30.0f;
+            wave.time.end = 60.0f;
 
             {
-                WaveEnemy enemy;
-                enemy.amount = 2;
-                enemy.xpAmount = 50.0f;
+                WaveEnemy enemy; //Zombie Plants
+                enemy.amount = 3;
+                enemy.xpAmount = 30.0f;
                 enemy.maxHealth = 25.0f;
                 enemy.seedDropChance = 10.0f;
-                enemy.animPath = "assets/animations/bomb_plant.anim";
-                enemy.texPath = "assets/textures/enemies/beehive.png";
-                wave.enemies.push_back(enemy);
-            }
-
-            {
-                WaveEnemy enemy;
-                enemy.amount = 2;
-                enemy.xpAmount = 100.0f;
-                enemy.maxHealth = 30.0f;
-                enemy.seedDropChance = 10.0f;
-                enemy.animPath = "assets/animations/fire_plant.anim";
-                enemy.texPath = "assets/textures/enemies/beehive.png";
-                wave.enemies.push_back(enemy);
-            }
-
-            {
-                WaveEnemy enemy;
-                enemy.amount = 2;
-                enemy.xpAmount = 50.0f;
-                enemy.maxHealth = 25.0f;
-                enemy.seedDropChance = 10.0f;
-                enemy.animPath = "assets/animations/bee.anim";
-                enemy.texPath = "assets/textures/enemies/beehive.png";
-                wave.enemies.push_back(enemy);
-            }
-
-            {
-                WaveEnemy enemy;
-                enemy.amount = 2;
-                enemy.xpAmount = 100.0f;
-                enemy.maxHealth = 30.0f;
-                enemy.seedDropChance = 10.0f;
-                enemy.animPath = "assets/animations/briar_plant.anim";
-                enemy.texPath = "assets/textures/enemies/beehive.png";
-                wave.enemies.push_back(enemy);
-            }
-
-            {
-                WaveEnemy enemy;
-                enemy.amount = 2;
-                enemy.xpAmount = 50.0f;
-                enemy.maxHealth = 25.0f;
-                enemy.seedDropChance = 10.0f;
+                enemy.speed = 30.0f;
+                enemy.maxSpeed = 50.0f;
+                enemy.damage = 8.0f;
                 enemy.animPath = "assets/animations/zombie_plant.anim";
                 enemy.texPath = "assets/textures/enemies/beehive.png";
                 wave.enemies.push_back(enemy);
             }
 
             {
-                WaveEnemy enemy;
+                WaveEnemy enemy; //Sword Plants
                 enemy.amount = 2;
-                enemy.xpAmount = 100.0f;
-                enemy.maxHealth = 30.0f;
+                enemy.xpAmount = 40.0f;
+                enemy.maxHealth = 35.0f;
                 enemy.seedDropChance = 10.0f;
+                enemy.speed = 30.0f;
+                enemy.maxSpeed = 50.0f;
+                enemy.damage = 10.0f;
+                enemy.animPath = "assets/animations/sword_plant.anim";
+                enemy.texPath = "assets/textures/enemies/beehive.png";
+                wave.enemies.push_back(enemy);
+            }
+
+            m_waves.push_back(wave);
+        }
+
+        //Wave 3
+        {
+            Wave wave;
+            wave.delay = 7.0f; //Doesn't do anything
+            wave.time.start = 60.0f;
+            wave.time.end = 90.0f;
+
+            {
+                WaveEnemy enemy; //Zombie Plants
+                enemy.amount = 2;
+                enemy.xpAmount = 30.0f;
+                enemy.maxHealth = 25.0f;
+                enemy.seedDropChance = 10.0f;
+                enemy.speed = 30.0f;
+                enemy.maxSpeed = 50.0f;
+                enemy.damage = 8.0f;
+                enemy.animPath = "assets/animations/zombie_plant.anim";
+                enemy.texPath = "assets/textures/enemies/beehive.png";
+                wave.enemies.push_back(enemy);
+            }
+
+            {
+                WaveEnemy enemy; //Sword Plants
+                enemy.amount = 3;
+                enemy.xpAmount = 30.0f;
+                enemy.maxHealth = 35.0f;
+                enemy.seedDropChance = 10.0f;
+                enemy.speed = 30.0f;
+                enemy.maxSpeed = 50.0f;
+                enemy.damage = 10.0f;
                 enemy.animPath = "assets/animations/sword_plant.anim";
                 enemy.texPath = "assets/textures/enemies/beehive.png";
                 wave.enemies.push_back(enemy);
             }
 
             {
-                WaveEnemy enemy;
-                enemy.amount = 1;
-                enemy.xpAmount = 200.0f;
-                enemy.maxHealth = 150.0f;
+                WaveEnemy enemy; //Bee
+                enemy.amount = 3;
+                enemy.xpAmount = 30.0f;
+                enemy.maxHealth = 20.0f;
                 enemy.seedDropChance = 10.0f;
-                enemy.animPath = "assets/animations/turtle.anim";
+                enemy.speed = 50.0f;
+                enemy.maxSpeed = 70.0f;
+                enemy.damage = 4.0f;
+                enemy.animPath = "assets/animations/bee.anim";
                 enemy.texPath = "assets/textures/enemies/beehive.png";
                 wave.enemies.push_back(enemy);
             }
 
+            m_waves.push_back(wave);
+        }
+
+        //Wave 4
+        {
+            Wave wave;
+            wave.delay = 7.0f; //Doesn't do anything
+            wave.time.start = 90.0f;
+            wave.time.end = 120.0f;
+
+            {
+                WaveEnemy enemy; //Sword Plants
+                enemy.amount = 4;
+                enemy.xpAmount = 30.0f;
+                enemy.maxHealth = 35.0f;
+                enemy.seedDropChance = 10.0f;
+                enemy.speed = 30.0f;
+                enemy.maxSpeed = 50.0f;
+                enemy.damage = 10.0f;
+                enemy.animPath = "assets/animations/sword_plant.anim";
+                enemy.texPath = "assets/textures/enemies/beehive.png";
+                wave.enemies.push_back(enemy);
+            }
+
+            {
+                WaveEnemy enemy; //Bee
+                enemy.amount = 5;
+                enemy.xpAmount = 30.0f;
+                enemy.maxHealth = 20.0f;
+                enemy.seedDropChance = 10.0f;
+                enemy.speed = 50.0f;
+                enemy.maxSpeed = 70.0f;
+                enemy.damage = 4.0f;
+                enemy.animPath = "assets/animations/bee.anim";
+                enemy.texPath = "assets/textures/enemies/beehive.png";
+                wave.enemies.push_back(enemy);
+            }
+
+            {
+                WaveEnemy enemy; //Tangleweed
+                enemy.amount = 2;
+                enemy.xpAmount = 60.0f;
+                enemy.maxHealth = 50.0f;
+                enemy.seedDropChance = 10.0f;
+                enemy.speed = 40.0f;
+                enemy.maxSpeed = 60.0f;
+                enemy.damage = 13.0f;
+                enemy.animPath = "assets/animations/tangleweed.anim";
+                enemy.texPath = "assets/textures/enemies/beehive.png";
+                wave.enemies.push_back(enemy);
+            }
+
+            m_waves.push_back(wave);
+        }
+
+        //Wave 5
+        {
+            Wave wave;
+            wave.delay = 7.0f; //Doesn't do anything
+            wave.time.start = 120.0f;
+            wave.time.end = 150.0f;
+
+            {
+                WaveEnemy enemy; //Tangleweed
+                enemy.amount = 5;
+                enemy.xpAmount = 60.0f;
+                enemy.maxHealth = 50.0f;
+                enemy.seedDropChance = 10.0f;
+                enemy.speed = 40.0f;
+                enemy.maxSpeed = 60.0f;
+                enemy.damage = 13.0f;
+                enemy.animPath = "assets/animations/tangleweed.anim";
+                enemy.texPath = "assets/textures/enemies/beehive.png";
+                wave.enemies.push_back(enemy);
+            }
+
+            {
+                WaveEnemy enemy; //Tumbleweed
+                enemy.amount = 2;
+                enemy.xpAmount = 30.0f;
+                enemy.maxHealth = 15.0f;
+                enemy.seedDropChance = 10.0f;
+                enemy.speed = 80.0f;
+                enemy.maxSpeed = 100.0f;
+                enemy.damage = 8.0f;
+                enemy.animPath = "assets/animations/tumbleweed.anim";
+                enemy.texPath = "assets/textures/enemies/beehive.png";
+                wave.enemies.push_back(enemy);
+            }
+
+            m_waves.push_back(wave);
+        }
+
+        //Wave 6
+        {
+            Wave wave;
+            wave.delay = 7.0f; //Doesn't do anything
+            wave.time.start = 150.0f;
+            wave.time.end = 180.0f;
+
+            {
+                WaveEnemy enemy; //Zombie Plants
+                enemy.amount = 6;
+                enemy.xpAmount = 30.0f;
+                enemy.maxHealth = 25.0f;
+                enemy.seedDropChance = 10.0f;
+                enemy.speed = 30.0f;
+                enemy.maxSpeed = 50.0f;
+                enemy.damage = 8.0f;
+                enemy.animPath = "assets/animations/zombie_plant.anim";
+                enemy.texPath = "assets/textures/enemies/beehive.png";
+                wave.enemies.push_back(enemy);
+            }
+
+            {
+                WaveEnemy enemy; //Tangleweed
+                enemy.amount = 4;
+                enemy.xpAmount = 60.0f;
+                enemy.maxHealth = 50.0f;
+                enemy.seedDropChance = 10.0f;
+                enemy.speed = 40.0f;
+                enemy.maxSpeed = 60.0f;
+                enemy.damage = 13.0f;
+                enemy.animPath = "assets/animations/tangleweed.anim";
+                enemy.texPath = "assets/textures/enemies/beehive.png";
+                wave.enemies.push_back(enemy);
+            }
+
+            {
+                WaveEnemy enemy; //Tumbleweed
+                enemy.amount = 2;
+                enemy.xpAmount = 30.0f;
+                enemy.maxHealth = 15.0f;
+                enemy.seedDropChance = 10.0f;
+                enemy.speed = 80.0f;
+                enemy.maxSpeed = 100.0f;
+                enemy.damage = 8.0f;
+                enemy.animPath = "assets/animations/tumbleweed.anim";
+                enemy.texPath = "assets/textures/enemies/beehive.png";
+                wave.enemies.push_back(enemy);
+            }
+
+            {
+                WaveEnemy enemy; //Briar Plant
+                enemy.amount = 2;
+                enemy.xpAmount = 100.0f;
+                enemy.maxHealth = 65.0f;
+                enemy.seedDropChance = 10.0f;
+                enemy.speed = 25.0f;
+                enemy.maxSpeed = 45.0f;
+                enemy.damage = 20.0f;
+                enemy.animPath = "assets/animations/briar_plant.anim";
+                enemy.texPath = "assets/textures/enemies/beehive.png";
+                wave.enemies.push_back(enemy);
+            }
 
             m_waves.push_back(wave);
         }
@@ -200,18 +338,6 @@ class WaveManager : public Canis::ScriptableEntity
 
     void SpawnWave()
     {
-        // int totalAmount = 0;
-        // for (WaveEnemy enemy : m_enemies)
-        // {
-        //     totalAmount += enemy.amount;
-        // }
-        // int amountForIteration = ceil(totalAmount / m_waveFrequency);
-        // for (int i = 0; i < amountForIteration; i++)
-        // {
-        //     auto e = CreateEntity();
-        //     m_spawnManager.GetComponent<EnemySpawnManager>().SpawnEnemy(e, m_enemies[i].texPath);
-        // }
-
         for (Wave wave : m_waves)
         {
             if (((Timer*)m_timer.GetComponent<Canis::ScriptComponent>().Instance)->GetTime() >= wave.time.start && ((Timer*)m_timer.GetComponent<Canis::ScriptComponent>().Instance)->GetTime() < wave.time.end)
@@ -221,7 +347,7 @@ class WaveManager : public Canis::ScriptableEntity
                     for (int i = 0; i < enemy.amount; i++)
                     {
                         currentEnemy = enemy;
-                        ((EnemySpawnManager*)m_spawnManager.GetComponent<Canis::ScriptComponent>().Instance)->SpawnEnemy(enemy.texPath, enemy.animPath, enemy.xpAmount , enemy.maxHealth);
+                        ((EnemySpawnManager*)m_spawnManager.GetComponent<Canis::ScriptComponent>().Instance)->SpawnEnemy(enemy.texPath, enemy.animPath, enemy.xpAmount , enemy.maxHealth, enemy.speed, enemy.maxSpeed, enemy.damage);
                     }
                 }
             }

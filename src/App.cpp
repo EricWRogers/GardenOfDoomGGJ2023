@@ -86,6 +86,9 @@ App::App()
 		sceneManager.decodeScriptableEntity.push_back(DecodeSplashLoader2);
 		sceneManager.decodeScriptableEntity.push_back(DecodeSeedPickup);
 		sceneManager.decodeScriptableEntity.push_back(DecodeHUDStateMachine);
+		sceneManager.decodeScriptableEntity.push_back(DecodeCharacter1);
+		sceneManager.decodeScriptableEntity.push_back(DecodeCharacter2);
+		sceneManager.decodeScriptableEntity.push_back(DecodeCharacter3);
 	}
 
 	{ // decode component

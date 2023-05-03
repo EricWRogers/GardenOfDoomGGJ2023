@@ -87,9 +87,13 @@ class BombSystem : public Canis::System
 
                 for(entt::entity hit : hits)
                 {
-                    hitEntity.entityHandle = hit;
+                    //if(!smoke.doneDamage)
+                    //{
+                        smoke.doneDamage = true;
+                        hitEntity.entityHandle = hit;
                     
-                    EnemyHealth::DamageEnemy(hitEntity.GetComponent<EnemyHealthComponent>(), smoke.damage);
+                        EnemyHealth::DamageEnemy(hitEntity.GetComponent<EnemyHealthComponent>(), smoke.damage);
+                    //}
                 }
             }
 

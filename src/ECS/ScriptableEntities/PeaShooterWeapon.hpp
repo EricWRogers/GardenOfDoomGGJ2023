@@ -17,10 +17,10 @@ class PeaShooterWeapon : public Weapon
     {
         Weapon::OnReady();
         Weapon::SetBaseStats(
-            10.0f,              //damage
-            glm::vec2(16.0f),   //weapon effect size
+            2.0f,              //damage
+            glm::vec2(10.0f),   //weapon effect size
             150.0f,             //speed
-            6.0f,               //duration
+            3.0f,               //duration
             1,                  //amount
             0.3f                //cooldown
         );

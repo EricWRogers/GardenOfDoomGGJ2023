@@ -51,10 +51,10 @@ Entities:
       radius: 16.0
       layer: 1
       mask: 6
-    Canis::ScriptComponent: PlayerManager
+    Canis::ScriptComponent: Nathanial
     Canis::TagComponent: Player
     PlayerHealthComponent:
-      maxHealth: 1000.0
+      maxHealth: 1.0
   - 3:
     Canis::TagComponent: EnemySpawnPoint
     Canis::RectTransformComponent:

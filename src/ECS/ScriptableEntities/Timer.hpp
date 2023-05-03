@@ -4,7 +4,7 @@ class Timer : public Canis::ScriptableEntity
 {
 private:
     bool enable = true;
-    const float MAXTIME = 120.0f;
+    const float MAXTIME = 180.0f;
     float time = 0.0f;
 
     bool isPlaying = false;
