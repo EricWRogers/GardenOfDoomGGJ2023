@@ -48,6 +48,8 @@ public:
 
         if (_scriptableEntity.GetInputManager().JustPressedKey(SDLK_ESCAPE) ||
             _scriptableEntity.GetInputManager().GetButton(0, Canis::ControllerButton::START)) {
+            ChangeState("HUDPauseState");
+            return;  
         }
     }
 
