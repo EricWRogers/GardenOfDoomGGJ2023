@@ -42,9 +42,11 @@ class HandOfGodSystem : public Canis::System
                 for(entt::entity hit : hits)
                 {
                     hitEntity.entityHandle = hit;
-                    if (hit != entt::tombstone && scene->entityRegistry.valid(hit))
+                    if (hit != entt::tombstone && scene->entityRegistry.valid(hit) && !hand.doneDamage)
                     {
+                        hand.doneDamage = true;
                         EnemyHealth::DamageEnemy(hitEntity.GetComponent<EnemyHealthComponent>() ,hand.damage);
+                        continue;
                     }
                 }
 

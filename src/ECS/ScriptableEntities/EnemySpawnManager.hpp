@@ -59,7 +59,7 @@ class EnemySpawnManager : public Canis::ScriptableEntity
                     m_spawnPositions.push_back(glm::vec2(x,y));
     }
 
-    void SpawnEnemy(const std::string &_texPath, const std::string &_animPath, float _xpValue, float _maxHealth)
+    void SpawnEnemy(const std::string &_texPath, const std::string &_animPath, float _xpValue, float _maxHealth, float _speed, float _maxSpeed, float _damage)
     {
         Canis::Entity _entity = CreateEntity();
 
@@ -81,8 +81,8 @@ class EnemySpawnManager : public Canis::ScriptableEntity
 
         auto& boid = _entity.AddComponent<BoidComponent>();
         boid.drag = 0.95f;
-        boid.speed = 50.0f;
-        boid.maxSpeed = 100.0f;
+        boid.speed = _speed;
+        boid.maxSpeed = _maxSpeed;
         
         auto& collider = _entity.AddComponent<Canis::CircleColliderComponent>();
         collider.layer = Canis::BIT::TWO;
@@ -96,8 +96,8 @@ class EnemySpawnManager : public Canis::ScriptableEntity
 
         auto& enemy = _entity.AddComponent<EnemyComponent>();
         enemy.attackCooldown = 1.0;
-        enemy.attackDamage = 1.0;
-        enemy.xpValue = Canis::RandomFloat(0.0f, _xpValue);
+        enemy.attackDamage = _damage;
+        enemy.xpValue = _xpValue;//Canis::RandomFloat(0.0f, _xpValue);
 
         auto& anim = _entity.AddComponent<Canis::SpriteAnimationComponent>();
         anim.animationId = GetAssetManager().LoadSpriteAnimation(_animPath);

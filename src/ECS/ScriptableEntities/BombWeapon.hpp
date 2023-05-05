@@ -18,12 +18,12 @@ public:
     {
         Weapon::OnReady();
         Weapon::SetBaseStats(
-            30.0f,            // damage
-            glm::vec2(64.0f), // weapon effect size
+            999.0f,            // damage
+            glm::vec2(150.0f), // weapon effect size
             0.0f,             // speed
-            2.0f,             // duration
+            1.0f,             // duration
             1,                // amount
-            0.8f              // cooldown
+            12.0f              // cooldown
         );
     }
 
