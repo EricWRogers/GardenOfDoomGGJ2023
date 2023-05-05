@@ -1,6 +1,4 @@
 #pragma once
-#include <string>
-#include <Canis/ScriptableEntity.hpp>
 #include "../Components/BulletComponent.hpp"
 
 class Weapon : public Canis::ScriptableEntity

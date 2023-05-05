@@ -1,12 +1,9 @@
 #pragma once
 #include <functional>
-#include <Canis/External/entt.hpp>
 #include <Canis/ECS/Systems/System.hpp>
 #include <Canis/Math.hpp>
 #include <Canis/ScriptableEntity.hpp>
 #include <Canis/ECS/Components/ScriptComponent.hpp>
-#include <Canis/Scene.hpp>
-#include <Canis/External/entt.hpp>
 #include "../Components/PlantableGroundComponent.hpp"
 #include "../ScriptableEntities/PlayerManager.hpp"
 #include <Canis/ECS/Components/Sprite2DComponent.hpp>

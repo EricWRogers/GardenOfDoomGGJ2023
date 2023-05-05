@@ -13,7 +13,6 @@
 #include "ECS/Systems/PlantableTileSystem.hpp"
 
 #include "ECS/ScriptableEntities/DebugCamera2D.hpp"
-#include "ECS/ScriptableEntities/BeachBall.hpp"
 #include "ECS/ScriptableEntities/EnemySpawnManager.hpp"
 #include "ECS/ScriptableEntities/FPSCounter.hpp"
 #include "ECS/ScriptableEntities/PlayerManager.hpp"
@@ -63,7 +62,6 @@ App::App()
 	
 	{ // decode scriptable entities
 		sceneManager.decodeScriptableEntity.push_back(DecodeDebugCamera2D);
-		sceneManager.decodeScriptableEntity.push_back(DecodeBeachBall);
 		sceneManager.decodeScriptableEntity.push_back(DecodeEnemySpawnManager);
 		sceneManager.decodeScriptableEntity.push_back(DecodePlayerManager);
 		sceneManager.decodeScriptableEntity.push_back(DecodeFPSCounter);
@@ -154,9 +152,6 @@ void App::Run()
 void App::Load()
 {
 	sceneManager.ForceLoad("main");
-
-	// start timer
-	previousTime = high_resolution_clock::now();
 }
 void App::Loop()
 {
@@ -167,7 +162,6 @@ void App::Loop()
 
 		Update();
 		Draw();
-		// Get SDL to swap our buffer
 		window.SwapBuffer();
 		LateUpdate();
 		InputUpdate();

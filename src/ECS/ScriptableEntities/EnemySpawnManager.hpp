@@ -1,4 +1,8 @@
 #pragma once
+#include <Canis/ECS/Components/Camera2DComponent.hpp>
+#include <Canis/ECS/Components/Sprite2DComponent.hpp>
+#include <Canis/ECS/Components/SpriteAnimationComponent.hpp>
+#include <Canis/ECS/Components/CircleColliderComponent.hpp>
 #include "../Components/BoidComponent.hpp"
 #include <Canis/Math.hpp>
 

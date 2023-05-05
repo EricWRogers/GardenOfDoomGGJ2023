@@ -3,6 +3,10 @@
 #include <random>
 #include <Canis/ScriptableEntity.hpp>
 #include <Canis/ECS/Components/RectTransformComponent.hpp>
+#include <Canis/ECS/Components/ColorComponent.hpp>
+#include <Canis/ECS/Components/UIImageComponent.hpp>
+#include <Canis/ECS/Components/SpriteAnimationComponent.hpp>
+#include <Canis/ECS/Components/UISliderComponent.hpp>
 #include "../Components/PlayerHealthComponent.hpp"
 #include "XP.hpp"
 
