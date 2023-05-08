@@ -160,8 +160,7 @@ void App::Loop()
 {
 	while (appState == AppState::ON)
 	{
-		deltaTime = time.startFrame();
-		sceneManager.SetDeltaTime(deltaTime);
+		sceneManager.SetDeltaTime(time.startFrame());
 
 		Update();
 		Draw();

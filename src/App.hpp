@@ -47,8 +47,6 @@ private:
 
     AppState appState = AppState::OFF;
 
-    
-
     Canis::Window window;
 
     Canis::Time time;
@@ -58,15 +56,6 @@ private:
     Canis::Camera camera = Canis::Camera(glm::vec3(0.0f, 0.15f, -0.3f),glm::vec3(0.0f, 1.0f, 0.0f),Canis::YAW+90.0f,Canis::PITCH+0.0f);
 
     Canis::AssetManager assetManager;
-
-    float lastXMousePos;
-    float lastYMousePos;
-    
-   
-
-    high_resolution_clock::time_point currentTime;
-    high_resolution_clock::time_point previousTime;
-    double deltaTime;
 
     unsigned int seed;
 };
