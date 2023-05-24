@@ -15,6 +15,8 @@ public:
 
     void OnReady()
     {
+        GetAssetManager().Get<Canis::TiledMapAsset>(GetAssetManager().LoadTiledMap("assets/tiled/testmap_v2.tmx"));
+
         int halfWidth = width/2;
         int halfHeight = height/2;
         int border = 20;

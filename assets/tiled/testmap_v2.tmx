@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="10" height="10" tilewidth="25" tileheight="25" infinite="0" nextlayerid="3" nextobjectid="1">
+ <tileset firstgid="1" name="defaulttileset" tilewidth="25" tileheight="25" tilecount="9" columns="3">
+  <image source="../textures/spritesheet.png" width="75" height="75"/>
+ </tileset>
+ <tileset firstgid="10" name="environment" tilewidth="16" tileheight="16" tilecount="8" columns="4">
+  <image source="../textures/environment/background_sprite_sheet.png" width="64" height="32"/>
+ </tileset>
+ <layer id="1" name="Tile Layer 1" width="10" height="10">
+  <data>
+   <tile gid="2147483654"/>
+   <tile gid="3"/>
+   <tile gid="3"/>
+   <tile gid="3"/>
+   <tile gid="3"/>
+   <tile gid="3"/>
+   <tile gid="3"/>
+   <tile gid="3"/>
+   <tile gid="3"/>
+   <tile gid="3"/>
+   <tile gid="3"/>
+   <tile gid="10"/>
+   <tile gid="11"/>
+   <tile gid="12"/>
+   <tile gid="13"/>
+   <tile gid="5"/>
+   <tile/>
+   <tile/>
+   <tile gid="6"/>
+   <tile gid="3"/>
+   <tile gid="3"/>
+   <tile gid="14"/>
+   <tile gid="15"/>
+   <tile gid="16"/>
+   <tile gid="17"/>
+   <tile gid="5"/>
+   <tile/>
+   <tile/>
+   <tile gid="6"/>
+   <tile gid="3"/>
+   <tile gid="3"/>
+   <tile gid="3"/>
+   <tile gid="6"/>
+   <tile gid="6"/>
+   <tile gid="9"/>
+   <tile gid="5"/>
+   <tile gid="7"/>
+   <tile gid="7"/>
+   <tile gid="6"/>
+   <tile gid="3"/>
+   <tile gid="3"/>
+   <tile gid="3"/>
+   <tile gid="6"/>
+   <tile gid="6"/>
+   <tile gid="9"/>
+   <tile gid="5"/>
+   <tile gid="10"/>
+   <tile/>
+   <tile gid="6"/>
+   <tile gid="3"/>
+   <tile gid="3"/>
+   <tile gid="3"/>
+   <tile gid="3"/>
+   <tile/>
+   <tile/>
+   <tile gid="5"/>
+   <tile gid="5"/>
+   <tile gid="5"/>
+   <tile gid="6"/>
+   <tile gid="3"/>
+   <tile gid="3"/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile gid="5"/>
+   <tile/>
+   <tile gid="1073741830"/>
+   <tile gid="6"/>
+   <tile gid="3"/>
+   <tile gid="3"/>
+   <tile/>
+   <tile gid="4"/>
+   <tile/>
+   <tile gid="4"/>
+   <tile gid="5"/>
+   <tile gid="4"/>
+   <tile/>
+   <tile gid="6"/>
+   <tile gid="3"/>
+   <tile gid="2"/>
+   <tile gid="2"/>
+   <tile gid="2"/>
+   <tile gid="2"/>
+   <tile gid="2"/>
+   <tile gid="2"/>
+   <tile gid="2"/>
+   <tile gid="2"/>
+   <tile gid="6"/>
+   <tile gid="2"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="6"/>
+   <tile gid="1"/>
+  </data>
+ </layer>
+ <layer id="2" name="layer2" width="10" height="10" visible="0">
+  <data>
+   <tile gid="8"/>
+   <tile gid="8"/>
+   <tile/>
+   <tile gid="6"/>
+   <tile gid="7"/>
+   <tile gid="7"/>
+   <tile gid="6"/>
+   <tile/>
+   <tile gid="8"/>
+   <tile gid="8"/>
+   <tile gid="8"/>
+   <tile/>
+   <tile/>
+   <tile gid="6"/>
+   <tile/>
+   <tile/>
+   <tile gid="6"/>
+   <tile/>
+   <tile/>
+   <tile gid="8"/>
+   <tile/>
+   <tile/>
+   <tile gid="5"/>
+   <tile gid="5"/>
+   <tile/>
+   <tile/>
+   <tile gid="5"/>
+   <tile gid="5"/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile gid="5"/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile gid="5"/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile gid="4"/>
+   <tile gid="4"/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile gid="4"/>
+   <tile gid="4"/>
+   <tile/>
+   <tile gid="9"/>
+   <tile gid="4"/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile gid="4"/>
+   <tile/>
+   <tile gid="3"/>
+   <tile gid="3"/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile gid="3"/>
+   <tile gid="3"/>
+   <tile gid="3"/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile gid="9"/>
+   <tile gid="9"/>
+   <tile/>
+   <tile/>
+   <tile/>
+   <tile gid="3"/>
+   <tile gid="2"/>
+   <tile gid="2"/>
+   <tile gid="2"/>
+   <tile gid="2"/>
+   <tile gid="2"/>
+   <tile gid="2"/>
+   <tile gid="2"/>
+   <tile gid="2"/>
+   <tile gid="2"/>
+   <tile gid="2"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+   <tile gid="1"/>
+  </data>
+ </layer>
+</map>
