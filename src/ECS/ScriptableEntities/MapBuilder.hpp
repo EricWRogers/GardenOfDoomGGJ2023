@@ -8,6 +8,7 @@ struct GlobalTiledIDS
 {
     unsigned int gid = 1;
     std::string tileSetName = "";
+    std::string path = "";
 };
 
 class MapBuilder : public Canis::ScriptableEntity
@@ -41,8 +42,23 @@ public:
 
         std::vector<GlobalTiledIDS> globalTiledIDS = {};
 
+        std::vector<std::string> names = loader->getMap("map")->getTilesetNames();
+
+        for (std::string s : names)
+        {
+            GlobalTiledIDS gtid;
+            gtid.gid = loader->getMap("map")->getTileset(s)->getFirstGID();
+            gtid.tileSetName = s;
+            gtid.path = "assets/"+loader->getMap("map")->getTileset(s)->getSource().erase(0,3);
+
+            globalTiledIDS.push_back(gtid);
+        }
+
         int tileWidth = loader->getMap("map")->getTileWidth();
         int tileHeight = loader->getMap("map")->getTileHeight();
+
+        bool hflip = false;
+        bool vflip = false;
 
         for (unsigned int i = 0; i < loader->getMap("map")->getWidth(); ++i)
         {
@@ -54,15 +70,20 @@ public:
                 // only render if it is an actual tile (tileID = 0 means no tile / don't render anything here)
                 if (gid > 0)
                 {
+                    hflip = false;
+                    vflip = false;
+
                     // horizonal flip
                     if ((gid & Canis::BIT::THIRTY_TWO) > 0)
                     {
+                        hflip = true;
                         gid = gid ^ Canis::BIT::THIRTY_TWO; // set bit 32 to 0
                     }
 
                     // vertical flip
                     if ((gid & Canis::BIT::THIRTY_ONE) > 0)
                     {
+                        vflip = true;
                         gid = gid ^ Canis::BIT::THIRTY_ONE; // set bit 31 to 0
                     }
 
@@ -81,16 +102,23 @@ public:
                     for (int g = 0; g < globalTiledIDS.size(); g++)
                     {
                         if (globalTiledIDS[g].gid <= gid)
+                        {
                             if (globalTiledIDS[g].gid >= globalTiledIDS[firstIdIndex].gid)
+                            {
                                 firstIdIndex = g;
+                                texture = GetAssetManager().Get<Canis::TextureAsset>(
+                                                          GetAssetManager().LoadTexture(globalTiledIDS[g].path))
+                                         ->GetTexture();
+                            }
+                        }
                     }
 
                     unsigned int id = gid - globalTiledIDS[firstIdIndex].gid + 1;
 
                     Canis::Entity tile = CreateEntity();
                     auto &tileRect = tile.AddComponent<Canis::RectTransformComponent>();
-                    tileRect.position.x = i * 32;
-                    tileRect.position.y = j * 32;
+                    tileRect.position.x = j * 32;// + (loader->getMap("map")->getWidth() * 32);
+                    tileRect.position.y = (-i * 32) + ((loader->getMap("map")->getHeight()-1) * 32);
                     tileRect.size.x = 32;
                     tileRect.size.y = 32;
                     tileRect.depth = 2.0f;
@@ -104,12 +132,12 @@ public:
                         sprite,
                         0,
                         0,
-                        rand() % 3,
-                        rand() % 3,
+                        (id - 1) % 4, // x index
+                        (id) / 4, // y index
                         16,
                         16,
-                        (0 == rand() % 2),
-                        (0 == rand() % 2));
+                        hflip,
+                        vflip);
                 }
             }
         }
